@@ -6,13 +6,15 @@
 /*   By: bena <bena@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 10:50:53 by bena              #+#    #+#             */
-/*   Updated: 2023/07/11 12:20:48 by bena             ###   ########.fr       */
+/*   Updated: 2023/07/18 22:19:01 by bena             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include "hash.h"
 
+static int			migrate_address(unsigned int address,
+						t_hashtable *old, t_hashtable *new);
 static void			flush_node(t_hashnode *node);
 static t_hashtable	*terminate_extension(t_hashtable *old, t_hashtable *new);
 
@@ -20,29 +22,42 @@ t_hashtable	*extend_hashtable(t_hashtable *hash, unsigned int size)
 {
 	t_hashtable		*newhash;
 	unsigned int	index;
-	t_hashnode		*node;
 
 	if (hash == NULL)
 		return (NULL);
 	if (size < hash->size)
 		size = hash->size;
 	newhash = init_hashtable(size);
-	index = 0;
-	while (index < hash->size)
-	{
-		while (hash->table[index] != NULL)
-		{
-			node = hash->table[index];
-			if (hashtable_addkey(node->key, node->value, newhash))
-				return (terminate_extension(hash, newhash));
-			hash->table[index] = node->next;
-			flush_node(node);
-		}
-		index++;
-	}
+	index = -1;
+	while (++index < hash->size)
+		if (migrate_address(index, hash, newhash))
+			return (terminate_extension(hash, newhash));
 	free(hash->table);
 	free(hash);
 	return (newhash);
+}
+
+static int	migrate_address(unsigned int address,
+				t_hashtable *old, t_hashtable *new)
+{
+	t_hashnode	*node;
+	t_hashnode	*next;
+
+	node = old->table[address];
+	while (node != NULL)
+	{
+		if (hashtable_addkey(node->key, node->value, new))
+			return (-1);
+		node = node->next;
+	}
+	node = old->table[address];
+	while (node != NULL)
+	{
+		next = node->next;
+		flush_node(node);
+		node = next;
+	}
+	return (0);
 }
 
 static void	flush_node(t_hashnode *node)
