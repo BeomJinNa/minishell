@@ -6,7 +6,7 @@
 /*   By: bena <bena@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 11:23:25 by bena              #+#    #+#             */
-/*   Updated: 2023/07/11 13:21:45 by bena             ###   ########.fr       */
+/*   Updated: 2023/07/18 08:13:41 by bena             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	hashtable_removekey(char *key, t_hashtable *hash)
 		return ;
 	}
 	before = node;
-	while (before->next != NULL & ft_strcmp(before->next->key, key) != 0)
+	while (before->next != NULL && ft_strcmp(before->next->key, key) != 0)
 		before = before->next;
 	node = before->next;
 	if (node != NULL)
