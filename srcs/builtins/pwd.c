@@ -1,19 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/05 21:43:28 by bena              #+#    #+#             */
-/*   Updated: 2023/07/26 23:14:53 by dowon            ###   ########.fr       */
+/*   Created: 2023/07/21 22:48:57 by dowon             #+#    #+#             */
+/*   Updated: 2023/07/21 22:56:58 by dowon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <libft.h>
+#include <unistd.h>
 
-int	main(int ac, char **av, char **ep)
+int	builtin_pwd(char **args)
 {
-	ft_printf("Test\n");
+	const char*const	buffer = getcwd(NULL, 0);
+
+	ft_putstr_fd(buffer, STDOUT_FILENO);
+	free(buffer);
 	return (0);
 }
