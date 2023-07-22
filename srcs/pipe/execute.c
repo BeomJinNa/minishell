@@ -6,7 +6,7 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 22:30:56 by dowon             #+#    #+#             */
-/*   Updated: 2023/07/21 22:42:00 by dowon            ###   ########.fr       */
+/*   Updated: 2023/07/22 12:57:47 by dowon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	execute_command(t_command command)
 	else if (ft_strncmp(command[0], "exit", 4))
 		exit(builtin_exit(command + 1));
 	else
-		execvp(command[0], command);
+		execve(command[0], command, get_env());
 }
 
 void	execute_commands(t_exec *info)

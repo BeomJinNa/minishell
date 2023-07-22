@@ -6,7 +6,7 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 23:25:53 by dowon             #+#    #+#             */
-/*   Updated: 2023/07/21 23:29:42 by dowon            ###   ########.fr       */
+/*   Updated: 2023/07/22 12:40:04 by dowon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,4 +26,7 @@ int	builtin_echo(char **args)
 		ft_putstr_fd(args[idx], STDOUT_FILENO);
 		++idx;
 	}
+	if (new_line_option)
+		ft_putchar_fd('\n', STDOUT_FILENO);
+	return (0);
 }

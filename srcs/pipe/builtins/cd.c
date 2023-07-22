@@ -6,17 +6,13 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 22:43:42 by dowon             #+#    #+#             */
-/*   Updated: 2023/07/21 23:25:40 by dowon            ###   ########.fr       */
+/*   Updated: 2023/07/22 12:38:17 by dowon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 #include <libft.h>
 #include <unistd.h>
-
-
-static int	is_absolute_path(char *path);
-static int	is_relative_path(char *path);
 
 /**
  * @brief cd with only a relative or absolute path
