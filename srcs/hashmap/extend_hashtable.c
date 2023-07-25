@@ -6,13 +6,16 @@
 /*   By: bena <bena@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 10:50:53 by bena              #+#    #+#             */
-/*   Updated: 2023/07/18 22:19:01 by bena             ###   ########.fr       */
+/*   Updated: 2023/07/25 14:36:27 by bena             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
-#include "hash.h"
+#include "s_hash.h"
 
+t_hashtable			*init_hashtable(unsigned int size);
+void				remove_hashtable(t_hashtable *hash);
+int					hashtable_addkey(char *key, char *value, t_hashtable *hash);
 static int			migrate_address(unsigned int address,
 						t_hashtable *old, t_hashtable *new);
 static void			flush_node(t_hashnode *node);

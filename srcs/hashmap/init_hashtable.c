@@ -6,12 +6,12 @@
 /*   By: bena <bena@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 08:15:08 by bena              #+#    #+#             */
-/*   Updated: 2023/07/18 08:50:53 by bena             ###   ########.fr       */
+/*   Updated: 2023/07/25 14:34:55 by bena             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
-#include "hash.h"
+#include "s_hash.h"
 
 t_hashtable	*init_hashtable(unsigned int size)
 {

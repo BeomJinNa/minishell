@@ -6,12 +6,12 @@
 /*   By: bena <bena@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 10:30:22 by bena              #+#    #+#             */
-/*   Updated: 2023/07/11 13:27:26 by bena             ###   ########.fr       */
+/*   Updated: 2023/07/25 14:35:00 by bena             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
-#include "hash.h"
+#include "s_hash.h"
 
 static void	remove_hashkey(t_hashnode *node);
 

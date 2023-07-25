@@ -1,30 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   djb2.c                                             :+:      :+:    :+:   */
+/*   hash_strcmp.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bena <bena@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/10 07:33:50 by bena              #+#    #+#             */
-/*   Updated: 2023/07/25 14:34:39 by bena             ###   ########.fr       */
+/*   Created: 2022/08/30 15:37:09 by bena              #+#    #+#             */
+/*   Updated: 2023/07/25 14:19:12 by bena             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "s_hash.h"
-
-unsigned int	djb2(const char *str, unsigned int bucket_size)
+int	hash_strcmp(char *s1, char *s2)
 {
-	const unsigned char	*ptr;
-	unsigned int		output;
+	unsigned char	*c1;
+	unsigned char	*c2;
 
-	if (str == (void *)0)
-		return (0);
-	ptr = (const unsigned char *)str;
-	output = 5381;
-	while (*ptr)
+	c1 = (unsigned char *)s1;
+	c2 = (unsigned char *)s2;
+	while (*c1 || *c2)
 	{
-		output = ((output << 5) + output) + (unsigned int)(*ptr);
-		ptr++;
+		if (*c1 != *c2)
+			return (*c1 - *c2);
+		c1++;
+		c2++;
 	}
-	return (output % bucket_size);
+	return (0);
 }

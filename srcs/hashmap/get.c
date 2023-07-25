@@ -6,13 +6,14 @@
 /*   By: bena <bena@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 10:19:53 by bena              #+#    #+#             */
-/*   Updated: 2023/07/18 21:41:00 by bena             ###   ########.fr       */
+/*   Updated: 2023/07/25 14:36:48 by bena             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "hash.h"
+#include "s_hash.h"
 
-int	ft_strcmp(char *s1, char *s2);
+unsigned int	djb2(const char *str, unsigned int bucket_size);
+int				hash_strcmp(char *s1, char *s2);
 
 char	*hashtable_get(char *key, t_hashtable *hash)
 {
@@ -20,7 +21,7 @@ char	*hashtable_get(char *key, t_hashtable *hash)
 	t_hashnode			*node;
 
 	node = hash->table[address];
-	while (node != (void *)0 && ft_strcmp(node->key, key) != 0)
+	while (node != (void *)0 && hash_strcmp(node->key, key) != 0)
 		node = node->next;
 	if (node == (void *)0)
 		return ((void *)0);

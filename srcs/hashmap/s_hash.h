@@ -1,30 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   djb2.c                                             :+:      :+:    :+:   */
+/*   s_hash.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bena <bena@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/10 07:33:50 by bena              #+#    #+#             */
-/*   Updated: 2023/07/25 14:34:39 by bena             ###   ########.fr       */
+/*   Created: 2023/07/25 14:33:46 by bena              #+#    #+#             */
+/*   Updated: 2023/07/25 14:34:23 by bena             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "s_hash.h"
+#ifndef S_HASH_H
+# define S_HASH_H
 
-unsigned int	djb2(const char *str, unsigned int bucket_size)
+typedef struct s_hashnode	t_hashnode;
+typedef struct s_hashtable	t_hashtable;
+
+struct s_hashnode
 {
-	const unsigned char	*ptr;
-	unsigned int		output;
+	char		*key;
+	char		*value;
+	t_hashnode	*next;
+};
 
-	if (str == (void *)0)
-		return (0);
-	ptr = (const unsigned char *)str;
-	output = 5381;
-	while (*ptr)
-	{
-		output = ((output << 5) + output) + (unsigned int)(*ptr);
-		ptr++;
-	}
-	return (output % bucket_size);
-}
+struct s_hashtable
+{
+	unsigned int	size;
+	t_hashnode		**table;
+};
+#endif
