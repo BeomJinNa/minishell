@@ -6,7 +6,7 @@
 /*   By: bena <bena@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 20:32:35 by bena              #+#    #+#             */
-/*   Updated: 2023/07/24 19:19:13 by bena             ###   ########.fr       */
+/*   Updated: 2023/07/25 18:29:01 by bena             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,4 +23,5 @@ void	remove_tokens(char ***array_ptr);
 void	replace_white_spaces(char *str);
 int		get_number_of_tokens(const char *str, char delimiter);
 int		are_any_syntax_errors_in_redirections(char ***board);
+int		are_any_syntax_errors_in_extensions(char ***board);
 #endif

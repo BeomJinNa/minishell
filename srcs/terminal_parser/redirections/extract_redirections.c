@@ -6,7 +6,7 @@
 /*   By: bena <bena@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 09:39:30 by bena              #+#    #+#             */
-/*   Updated: 2023/07/24 18:09:35 by bena             ###   ########.fr       */
+/*   Updated: 2023/07/25 19:47:12 by bena             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ static int	copy_node(char ***node_ptr, char **from);
 char	***extract_redirections(char *str)
 {
 	char	***output;
+	char	***ptr;
 	int		number_of_redirections;
 
 	if (str == NULL)
@@ -31,6 +32,9 @@ char	***extract_redirections(char *str)
 	output = (char ***)malloc(sizeof(char **) * (number_of_redirections + 1));
 	if (output == NULL)
 		return (NULL);
+	ptr = output;
+	while (ptr - output <= number_of_redirections)
+		*ptr++ = NULL;
 	write_redirections_board(&output, str);
 	return (output);
 }
@@ -109,5 +113,7 @@ static int	copy_node(char ***node_ptr, char **from)
 	to[0] = from[0];
 	to[1] = from[1];
 	to[2] = NULL;
+	from[0] = NULL;
+	from[1] = NULL;
 	return (0);
 }
