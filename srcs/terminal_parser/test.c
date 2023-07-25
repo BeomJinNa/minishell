@@ -6,7 +6,7 @@
 /*   By: bena <bena@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 19:24:24 by bena              #+#    #+#             */
-/*   Updated: 2023/07/24 19:24:50 by bena             ###   ########.fr       */
+/*   Updated: 2023/07/25 12:38:31 by bena             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ int	main(void)
 		else
 		{
 			redirections = extract_redirections(str);
+			printf("redirections have been extracted\n");
 			if (are_any_syntax_errors_in_redirections(redirections))
 				printf("\033[33msyntax errors exist in redirection.\033[0m\n");
 			else
@@ -43,7 +44,9 @@ int	main(void)
 				str = remove_redirections(str);
 				printf("redirection removed : %s\n", str);
 				tokens = get_tokenized_array(str, '|');
+				printf("pipe divided\n");
 				commands = convert_tokens_to_board(tokens, ' ');
+				printf("space divided\n");
 				remove_tokens(&tokens);
 				//extend_env_variables(commands, redirections)
 				remove_quotes(commands);

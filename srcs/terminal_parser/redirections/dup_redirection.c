@@ -6,7 +6,7 @@
 /*   By: bena <bena@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 11:30:29 by bena              #+#    #+#             */
-/*   Updated: 2023/07/24 17:51:55 by bena             ###   ########.fr       */
+/*   Updated: 2023/07/25 13:46:05 by bena             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,17 @@ static int	scan_string(t_brace *brace)
 	int		output;
 
 	end = brace->ptr;
-	while (*end != '\0' && *end != ' ')
+	while (*end)
+	{
+		if (*end == '\'' && brace->in_double_brace == 0)
+			brace->in_brace ^= 1;
+		else if (*end == '\"' && brace->in_brace == 0)
+			brace->in_double_brace ^= 1;
+		if (brace->in_brace == 0 && brace->in_double_brace == 0
+				&& *end == ' ')
+			break ;
 		end++;
+	}
 	output = end - brace->ptr;
 	brace->ptr = end;
 	return (output);

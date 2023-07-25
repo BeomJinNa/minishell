@@ -15,17 +15,20 @@ all :
 	make parser
 
 parser :
-	gcc -o parser -lreadline $(SOURCE)
+	gcc -g -o parser -lreadline $(SOURCE)
 
 .PHONY: clean
 clean :
 	rm -f parser
+	rm -rf parser.dSYM
 
 .PHONY: fclean
 fclean :
 	rm -f parser
+	rm -rf parser.dSYM
 
 .PHONY: re
 re :
-	make fclean
-	make all
+	rm -f parser
+	rm -rf parser.dSYM
+	gcc -g -o parser -lreadline $(SOURCE)
