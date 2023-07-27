@@ -1,20 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   extend_env_variables.c                             :+:      :+:    :+:   */ /*                                                    +:+ +:+         +:+     */
+/*   extend_env_variables.c                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
 /*   By: bena <bena@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/24 18:26:02 by bena              #+#    #+#             */
-/*   Updated: 2023/07/25 16:48:47 by bena             ###   ########.fr       */
+/*   Created: 2023/07/26 12:06:36 by bena              #+#    #+#             */
+/*   Updated: 2023/07/27 14:22:17 by bena             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 
 void		remove_board(char ****board_ptr);
-static char	*get_erased_string(char *old);
-static int	get_size_of_erased_string(char *str);
-static void	dup_erased_string(char *new, char *old);
+static char	*get_extended_string(char *old);
 
 void	extend_env_variables(char ***board)
 {
@@ -44,37 +43,14 @@ void	extend_env_variables(char ***board)
 static char	*get_extended_string(char *old)
 {
 	char	*new;
-	int		size;
+	char	**tokens;
 
-	size = get_size_of_extended_string(old);
-	new = (char *)malloc(sizeof(char) * (size + 1));
-	if (new == NULL)
+	tokens = divide_variables(old);
+	if (tokens == NULL)
 		return (NULL);
-	dup_extended_string(new, old);
+	replace_variables(&tokens);
+	if (tokens == NULL)
+		return (NULL);
+	new = merge_tokens(tokens);
 	return (new);
-}
-
-static int	get_size_of_extended_string(char *str)
-{
-	int	count;
-
-	count = 0;
-	while (*str)
-	{
-		if (*str != '\'' && *str != '\"')
-			count++;
-		str++;
-	}
-	return (count);
-}
-
-static void	dup_extended_string(char *new, char *old)
-{
-	while (*old)
-	{
-		if (*old != '\'' && *old != '\"')
-			*new++ = *old;
-		old++;
-	}
-	*new = '\0';
 }

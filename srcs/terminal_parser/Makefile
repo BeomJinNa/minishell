@@ -9,7 +9,8 @@ SOURCE =	test.c \
 			redirections/remove_redirections.c \
 			remove_quotes.c \
 			replace_white_spaces.c \
-			variable_extension/are_any_syntax_errors_in_extensions.c
+			variable_extension/are_any_syntax_errors_in_extensions.c \
+			variable_extension/variable.c
 
 .PHONY: all
 all :

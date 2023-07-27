@@ -6,14 +6,16 @@
 /*   By: bena <bena@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 18:26:02 by bena              #+#    #+#             */
-/*   Updated: 2023/07/25 18:47:09 by bena             ###   ########.fr       */
+/*   Updated: 2023/07/27 15:58:25 by bena             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+int			is_this_special_character(char c);
+int			is_this_variable_character(char c, int allow_number);
+int			is_this_valid_name(char *str, int size);
 static int	check_tokens(char **tokens);
 static int	check_syntax(char *str);
-static int	check_variable(char *str);
-static int	is_this_alphanumeric(char c);
+static int	check_variable(char **str_ptr);
 
 int	are_any_syntax_errors_in_extensions(char ***board)
 {
@@ -47,35 +49,38 @@ static int	check_syntax(char *str)
 		if (*str == '\"' && in_brace == 0)
 			in_double_brace ^= 1;
 		if (*str == '$' && in_brace == 0)
-			if (check_variable(str))
+			if (check_variable(&str))
 				return (1);
 		str++;
 	}
 	return (0);
 }
 
-static int	check_variable(char *str)
+static int	check_variable(char **str_ptr)
 {
-	if (*(++str) != '{')
-		return (0);
-	if (*(++str) == '}')
-		return (1);
-	while (is_this_alphanumeric(*str))
-		str++;
-	if (*str == '}')
-		return (0);
-	return (1);
-}
+	char	*str;
 
-static int	is_this_alphanumeric(char c)
-{
-	if ('A' <= c && c <= 'Z')
+	str = *str_ptr + 1;
+	if (*str != '{')
+	{
+		*str_ptr = str;
+		return (0);
+	}
+	str++;
+	if (is_this_variable_character(*str, 1) == 0
+		&& is_this_special_character(*str) == 0)
 		return (1);
-	if ('a' <= c && c <= 'z')
-		return (1);
-	if ('0' <= c && c <= '9')
-		return (1);
-	if (c == '_')
-		return (1);
-	return (0);
+	str++;
+	while (*str)
+	{
+		if (*str == '}' && is_this_valid_name(*str_ptr + 2, str - *str_ptr - 2))
+		{
+			*str_ptr = str;
+			return (0);
+		}
+		if (is_this_variable_character(*str, 1) == 0)
+			return (1);
+		str++;
+	}
+	return (1);
 }
