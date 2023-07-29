@@ -21,7 +21,17 @@ LIBFT	= libft/libft.a
 
 #sources=======================================================================
 
-SRCS	= #source files(*.c)
+SRCS	= srcs/main.c \
+		  srcs/hashmap/addkey.c \
+		  srcs/hashmap/djb2.c \
+		  srcs/hashmap/extend_hashtable.c \
+		  srcs/hashmap/get.c \
+		  srcs/hashmap/hash_memset.c \
+		  srcs/hashmap/hash_strcmp.c \
+		  srcs/hashmap/hash_strdup.c \
+		  srcs/hashmap/init_hashtable.c \
+		  srcs/hashmap/remove_hashtable.c \
+		  srcs/hashmap/removekey.c
 
 OBJS	= $(SRCS:.c=.o)
 
