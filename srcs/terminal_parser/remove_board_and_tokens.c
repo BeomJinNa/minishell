@@ -6,7 +6,7 @@
 /*   By: bena <bena@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 12:52:18 by bena              #+#    #+#             */
-/*   Updated: 2023/07/24 15:42:00 by bena             ###   ########.fr       */
+/*   Updated: 2023/07/29 18:14:26 by bena             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,12 @@
 
 void	remove_board(char ****board_ptr)
 {
-	char	***board;
 	char	***ptr;
 	char	**ptr_sub;
 
-	if (*board_ptr == NULL)
+	if (board_ptr == NULL || *board_ptr == NULL)
 		return ;
-	board = *board_ptr;
-	ptr = board;
+	ptr = *board_ptr;
 	while (*ptr != NULL)
 	{
 		ptr_sub = *ptr;
@@ -29,7 +27,7 @@ void	remove_board(char ****board_ptr)
 			free(*ptr_sub++);
 		free(*ptr++);
 	}
-	free(board);
+	free(*board_ptr);
 	*board_ptr = NULL;
 }
 
@@ -38,7 +36,7 @@ void	remove_tokens(char ***array_ptr)
 	char	**array;
 	char	**ptr;
 
-	if (*array_ptr == NULL)
+	if (array_ptr == NULL || *array_ptr == NULL)
 		return ;
 	array = *array_ptr;
 	ptr = array;

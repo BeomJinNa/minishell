@@ -6,12 +6,12 @@
 /*   By: bena <bena@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 09:39:30 by bena              #+#    #+#             */
-/*   Updated: 2023/07/25 19:47:12 by bena             ###   ########.fr       */
+/*   Updated: 2023/07/29 17:52:18 by bena             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
-#include "brace.h"
+#include "../brace.h"
 
 void		dup_redirection(t_brace *brace, char **node);
 void		remove_board(char ****board_ptr);

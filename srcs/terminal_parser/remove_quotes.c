@@ -6,11 +6,12 @@
 /*   By: bena <bena@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 18:26:02 by bena              #+#    #+#             */
-/*   Updated: 2023/07/25 12:32:06 by bena             ###   ########.fr       */
+/*   Updated: 2023/07/29 18:03:20 by bena             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
+#include "brace.h"
 
 void		remove_board(char ****board_ptr);
 static char	*get_erased_string(char *old);
@@ -57,12 +58,22 @@ static char	*get_erased_string(char *old)
 
 static int	get_size_of_erased_string(char *str)
 {
-	int	count;
+	int		count;
+	t_brace	brace;
 
 	count = 0;
+	init_brace(&brace, NULL);
 	while (*str)
 	{
-		if (*str != '\'' && *str != '\"')
+		if (*str == '\'' && brace.in_double_brace == 0)
+			brace.in_brace ^= 1;
+		else if (*str == '\"' && brace.in_brace == 0)
+			brace.in_double_brace ^= 1;
+		if (
+			(*str != '\'' && *str != '\"')
+			|| (*str == '\'' && brace.in_double_brace == 1)
+			|| (*str == '\"' && brace.in_brace == 1)
+		)
 			count++;
 		str++;
 	}
@@ -71,9 +82,20 @@ static int	get_size_of_erased_string(char *str)
 
 static void	dup_erased_string(char *new, char *old)
 {
+	t_brace	brace;
+
+	init_brace(&brace, NULL);
 	while (*old)
 	{
-		if (*old != '\'' && *old != '\"')
+		if (*old == '\'' && brace.in_double_brace == 0)
+			brace.in_brace ^= 1;
+		else if (*old == '\"' && brace.in_brace == 0)
+			brace.in_double_brace ^= 1;
+		if (
+			(*old != '\'' && *old != '\"')
+			|| (*old == '\'' && brace.in_double_brace == 1)
+			|| (*old == '\"' && brace.in_brace == 1)
+		)
 			*new++ = *old;
 		old++;
 	}

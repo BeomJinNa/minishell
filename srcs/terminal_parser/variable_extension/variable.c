@@ -6,7 +6,7 @@
 /*   By: bena <bena@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 15:52:41 by bena              #+#    #+#             */
-/*   Updated: 2023/07/27 16:21:27 by bena             ###   ########.fr       */
+/*   Updated: 2023/07/29 16:43:06 by bena             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,31 @@ int	is_this_valid_name(char *str, int size)
 		str++;
 	}
 	return (1);
+}
+
+int	push_to_end_of_variable(char **str_ptr)
+{
+	char	*ptr;
+	int		output;
+
+	ptr = *str_ptr + 1;
+	if (*ptr == '{')
+		while (*ptr != '}')
+			ptr++;
+	else
+	{
+		if (is_this_variable_character(*ptr, 0))
+			while (is_this_variable_character(*ptr, 1))
+				ptr++;
+		else if (is_this_special_character(*ptr)
+			|| ('0' <= *ptr && *ptr <= '9'))
+			ptr++;
+		ptr--;
+	}
+	ptr++;
+	output = ptr - *str_ptr;
+	*str_ptr = ptr;
+	return (output);
 }
 
 static int	variable_strncmp(char *s1, char *s2, int n)

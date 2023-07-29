@@ -6,12 +6,12 @@
 /*   By: bena <bena@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 15:57:57 by bena              #+#    #+#             */
-/*   Updated: 2023/07/24 18:15:56 by bena             ###   ########.fr       */
+/*   Updated: 2023/07/29 17:52:21 by bena             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
-#include "brace.h"
+#include "../brace.h"
 
 static int	get_remaining_string_length(char *str);
 static void	take_remaining_string(char *remain, char *original);

@@ -6,7 +6,7 @@
 /*   By: bena <bena@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 18:26:02 by bena              #+#    #+#             */
-/*   Updated: 2023/07/27 15:58:25 by bena             ###   ########.fr       */
+/*   Updated: 2023/07/29 18:44:31 by bena             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,22 @@ static int	check_tokens(char **tokens);
 static int	check_syntax(char *str);
 static int	check_variable(char **str_ptr);
 
-int	are_any_syntax_errors_in_extensions(char ***board)
+int	are_any_syntax_errors_in_extensions_board(char ***board)
 {
 	if (board == (void *)0)
 		return (0);
 	while (*board != (void *)0)
 		if (check_tokens(*board++))
 			return (1);
+	return (0);
+}
+
+int	are_any_syntax_errors_in_extensions_token(char **tokens)
+{
+	if (tokens == (void *)0)
+		return (0);
+	if (check_tokens(tokens))
+		return (1);
 	return (0);
 }
 

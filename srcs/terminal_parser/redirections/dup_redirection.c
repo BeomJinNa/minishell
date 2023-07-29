@@ -6,12 +6,12 @@
 /*   By: bena <bena@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 11:30:29 by bena              #+#    #+#             */
-/*   Updated: 2023/07/25 19:49:55 by bena             ###   ########.fr       */
+/*   Updated: 2023/07/29 18:35:50 by bena             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
-#include "brace.h"
+#include "../brace.h"
 
 static int	scan_operator(t_brace *brace);
 static int	scan_string(t_brace *brace);
@@ -76,8 +76,7 @@ static int	scan_string(t_brace *brace)
 			brace->in_brace ^= 1;
 		else if (*end == '\"' && brace->in_brace == 0)
 			brace->in_double_brace ^= 1;
-		if (brace->in_brace == 0 && brace->in_double_brace == 0
-				&& *end == ' ')
+		if (brace->in_brace == 0 && brace->in_double_brace == 0 && *end == ' ')
 			break ;
 		end++;
 	}
