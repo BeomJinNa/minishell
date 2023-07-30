@@ -1,19 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   count_args.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/05 21:43:28 by bena              #+#    #+#             */
-/*   Updated: 2023/07/26 23:14:53 by dowon            ###   ########.fr       */
+/*   Created: 2023/07/21 22:45:04 by dowon             #+#    #+#             */
+/*   Updated: 2023/07/21 22:46:04 by dowon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <stdlib.h>
 
-int	main(int ac, char **av, char **ep)
+size_t	count_args(char **args)
 {
-	ft_printf("Test\n");
-	return (0);
+	size_t	size;
+
+	size = 0;
+	while (args[size] != NULL)
+		++size;
+	return (size);
 }
