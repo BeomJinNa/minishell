@@ -6,7 +6,7 @@
 /*   By: bena <bena@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 20:32:35 by bena              #+#    #+#             */
-/*   Updated: 2023/07/30 20:27:20 by bena             ###   ########.fr       */
+/*   Updated: 2023/07/30 21:53:01 by bena             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 typedef struct s_command
 {
-	char	***command;
+	char	**command;
 	char	***redirections;
 }			t_command;
 
