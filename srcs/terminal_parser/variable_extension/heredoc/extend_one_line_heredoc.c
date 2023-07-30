@@ -6,7 +6,7 @@
 /*   By: bena <bena@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/29 19:30:18 by bena              #+#    #+#             */
-/*   Updated: 2023/07/29 20:01:30 by bena             ###   ########.fr       */
+/*   Updated: 2023/07/30 21:02:26 by bena             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,16 @@ char	*extend_one_line_heredoc(char *str)
 	char	**tokens;
 
 	tokens = divide_variables_heredoc(str);
-	if (tokens == NULL)
-		return (NULL);
+	if (tokens == (void *)0)
+		return ((void *)0);
 	if (are_any_syntax_errors_in_heredoc_extension(tokens))
 	{
 		remove_tokens(&tokens);
-		return (NULL);
+		return ((void *)0);
 	}
 	replace_variables(&tokens);
-	if (tokens == NULL)
-		return (NULL);
+	if (tokens == (void *)0)
+		return ((void *)0);
 	str = merge_tokens(tokens);
 	remove_tokens(&tokens);
 	return (str);
