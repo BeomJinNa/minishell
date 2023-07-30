@@ -6,48 +6,49 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 20:08:37 by dowon             #+#    #+#             */
-/*   Updated: 2023/07/26 23:24:32 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/10 16:37:34 by dowon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <fcntl.h>
 #include <stdio.h>
 #include <unistd.h>
+#include "readline/readline.h"
 #include "libft.h"
+#include "terminal_parser.h"
+#include "heredoc.h"
+#include <sys/ioctl.h>
+#include <curses.h>
+#include <term.h>
 
-static char	*remove_last_endl(char *str);
-static void	handle_sigint_heredoc(int signal);
-static int	execute_heredoc(char *filename, char *delimiter);
-void		set_exit_status(int exit_status);
+static char			*remove_last_endl(char *str);
+static void			handle_sigint_heredoc(int signal);
+static int			execute_heredoc(char *filename, char *delimiter);
+t_heredoc_status	*heredoc_status(void);
 
-int	heredoc(char *filename, int *fd, char *delimiter)
+void	signal_handler_heredoc(int signal)
 {
-	const pid_t		pid = fork();
-	int				exit_status;
-	void			(*old_sigint)(int);
-	void			(*old_sigquit)(int);
+	if (signal == SIGINT)
+	{
+		*heredoc_status() = heredoc_terminate;
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		ioctl(STDOUT_FILENO, TIOCSTI, "\n");
+	}
+}
 
-	if (pid == -1)
-	{
-		set_exit_status(1);
-		return (1);
-	}
-	else if (pid == 0)
-	{
-		signal(SIGINT, handle_sigint_heredoc);
-		signal(SIGQUIT, SIG_IGN);
-		execute_heredoc(filename, delimiter);
-		exit(0);
-	}
-	old_sigint = signal(SIGINT, SIG_IGN);
+int	heredoc(char *filename, char *delimiter)
+{
+	sig_t			old_sigint;
+	sig_t			old_sigquit;
+	int				result;
+
+	old_sigint = signal(SIGINT, signal_handler_heredoc);
 	old_sigquit = signal(SIGQUIT, SIG_IGN);
-	waitpid(pid, &exit_status, 0);
-	printf("Fin\n");
+	result = execute_heredoc(filename, delimiter);
 	signal(SIGINT, old_sigint);
 	signal(SIGQUIT, old_sigquit);
-	if (WIFEXITED(exit_status))
-		set_exit_status(WEXITSTATUS(exit_status));
-	return (WEXITSTATUS(exit_status));
+	return (result);
 }
 
 static void	handle_sigint_heredoc(int signal)
@@ -75,24 +76,29 @@ static char	*remove_last_endl(char *str)
 
 static int	execute_heredoc(char *filename, char *delimiter)
 {
-	const size_t	delimiter_size = ft_strlen(delimiter) + 1;
+	const size_t	delimiter_len = ft_strlen(delimiter);
 	char			*line;
-	const int		file_fd = open(filename, O_WRONLY | O_CREAT, 0600);
+	const int		file_fd = open(filename,
+			O_WRONLY | O_CREAT | O_TRUNC, 0600);
 
+	line = NULL;
 	if (file_fd < 0)
 	{
-		ft_putstr_fd("Failed to open file.\n", STDOUT_FILENO);
+		ft_putstr_fd("Failed to open file.\n", STDERR_FILENO);
 		return (1);
 	}
-	line = get_next_line(STDIN_FILENO);
-	while (line != NULL
-		&& ft_strncmp(filename, delimiter, delimiter_size) == 0)
+	while (1)
 	{
-		// TODO : 환경변수 치환해주기
-		ft_putstr_fd(line, file_fd);
+		line = readline("> ");
+		if (line == NULL)
+			printf("\033[1A\033[2C");
+		if (line == NULL || *heredoc_status() == heredoc_terminate
+			|| ft_strncmp(line, delimiter, delimiter_len + 1) == 0)
+			break ;
+		ft_putendl_fd(line, file_fd);
 		free(line);
-		line = get_next_line(STDIN_FILENO);
 	}
+	free(line);
 	close(file_fd);
-	return (0);
+	return (*heredoc_status() == heredoc_terminate);
 }

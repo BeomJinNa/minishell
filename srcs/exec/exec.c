@@ -6,37 +6,102 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 21:23:29 by dowon             #+#    #+#             */
-/*   Updated: 2023/07/25 21:37:01 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/06 19:26:34 by dowon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "exec.h"
-#include "pipe.h"
+#include <stdlib.h>
+#include "terminal_parser.h"
+#include "pipe/pipe.h"
 
-static size_t	count_nullterminated(void **commands);
 
-void	exec(t_redirections redirections, t_commands commands)
+#include <unistd.h>
+#include <fcntl.h>
+#include <stdio.h>
+#include <libft.h>
+#include <sys/wait.h>
+#include "pipe/pipe.h"
+#include "terminal_parser.h"
+#include "hash.h"
+#include "pipe/pipe.h"
+
+void	exec_command(char **command)
 {
-	t_exec			exec_info;
-
-	exec_info.pipes = init_pipes(count_nullterminated(commands));
-	if (exec_info.pipes == NULL)
-	{
-		set_errno(1);
-		return ;
-	}	
-	exec_info.commands = commands;
-	if (open_redirections(&exec_info, redirections))
-		return ;
-	execute_commands(&exec_info);
-	free(exec_info.pipes);
+	if (ft_strncmp(command[0], "echo", 4))
+		exit(builtin_echo(command + 1));
+	else if (ft_strncmp(command[0], "cd", 2))
+		exit(builtin_cd(command + 1));
+	else if (ft_strncmp(command[0], "pwd", 3))
+		exit(builtin_pwd(command + 1));
+	else if (ft_strncmp(command[0], "export", 5))
+		exit(builtin_export(command + 1));
+	else if (ft_strncmp(command[0], "unset", 5))
+		exit(builtin_unset(command + 1));
+	else if (ft_strncmp(command[0], "env", 3))
+		exit(builtin_env(command + 1));
+	else if (ft_strncmp(command[0], "exit", 4))
+		exit(builtin_exit(command + 1));
+	execve(get_excutable_path(get_env("PATH"), command[0]),
+		command + 1, get_all_env());
 }
 
-static size_t	count_nullterminated(void **commands)
-{
-	void**const	start = commands;
 
-	while (*commands != NULL)
-		++commands;
-	return (commands - start);
+int	execute_child(t_command command, int *pipes, int idx)
+{
+	if (open_redirections(command.redirections,
+			readpipe_at(pipes, idx), writepipe_at(pipes, idx + 1)))
+		return (-1);
+	if (dup_pipes(pipes, idx))
+		return (-1);
+	exec_command(command.command);
+	close_rw_pipes(pipes, idx);
+	return (-1);
+}
+
+void	wait_all(int size)
+{
+	int	idx;
+	int	status;
+
+	idx = 0;
+	while (idx < size)
+	{
+		wait(&status);
+		if (WIFEXITED(status))
+			if (hashtable_addkey("?", WEXITSTATUS(status), env_hash()))
+				return (-1);
+	}
+}
+
+int	execute_commands(t_command *commands, int size)
+{
+	const int	*pipes = init_pipes(size);
+	int			idx;
+	int			fork_pid;
+
+	if (pipes == NULL)
+		return (-1);
+	idx = 0;
+	while (idx < size)
+	{
+		fork_pid = fork();
+		if (fork_pid == -1)
+			return (-1);
+		if (fork_pid == 0)
+		{
+			if (execute_child(commands[idx], pipes, idx))
+			{
+				clean_pipes(pipes, size);
+				return (-1);
+			}
+		}
+		if (close_rw_pipes(pipes, idx))
+		{
+			clean_pipes(pipes, size);
+			return (-1);
+		}
+		idx++;
+	}
+	wait_all(size);
+	return (0);
 }
