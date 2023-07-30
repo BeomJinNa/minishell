@@ -22,6 +22,15 @@ LIBFT	= libft/libft.a
 #sources=======================================================================
 
 SRCS	= srcs/main.c \
+		  srcs/builtins/cd.c \
+		  srcs/builtins/count_args.c \
+		  srcs/builtins/echo.c \
+		  srcs/builtins/env.c \
+		  srcs/builtins/exit.c \
+		  srcs/builtins/export.c \
+		  srcs/builtins/pwd.c \
+		  srcs/builtins/unset.c \
+		  srcs/exec/exec.c \
 		  srcs/hashmap/addkey.c \
 		  srcs/hashmap/djb2.c \
 		  srcs/hashmap/extend_hashtable.c \
@@ -32,6 +41,14 @@ SRCS	= srcs/main.c \
 		  srcs/hashmap/init_hashtable.c \
 		  srcs/hashmap/remove_hashtable.c \
 		  srcs/hashmap/removekey.c \
+		  srcs/pipe/execute.c \
+		  srcs/pipe/get_executable_path.c \
+		  srcs/pipe/pipe.c \
+		  srcs/pipe/temp.c \
+		  srcs/redirections/close.c \
+		  srcs/redirections/heredoc.c \
+		  srcs/redirections/open_redirection.c \
+		  srcs/redirections/test.heredoc.c \
 		  srcs/terminal_parser/convert_tokens_to_board.c \
 		  srcs/terminal_parser/get_tokenized_array.c \
 		  srcs/terminal_parser/init_brace.c \
