@@ -6,7 +6,7 @@
 /*   By: bena <bena@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 07:36:09 by bena              #+#    #+#             */
-/*   Updated: 2023/07/25 14:04:00 by bena             ###   ########.fr       */
+/*   Updated: 2023/08/07 05:21:30 by bena             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,4 +36,5 @@ char			*hashtable_get(char *key, t_hashtable *hash);
 int				hashtable_addkey(char *key, char *value, t_hashtable *hash);
 void			hashtable_removekey(char *key, t_hashtable *hash);
 unsigned int	djb2(const char *str, unsigned int bucket_size);
+t_hashtable		*get_hashtable(unsigned int init);
 #endif
