@@ -6,7 +6,7 @@
 /*   By: bena <bena@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 18:26:02 by bena              #+#    #+#             */
-/*   Updated: 2023/07/29 18:03:20 by bena             ###   ########.fr       */
+/*   Updated: 2023/08/08 05:19:55 by bena             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,15 @@ static char	*get_erased_string(char *old);
 static int	get_size_of_erased_string(char *str);
 static void	dup_erased_string(char *new, char *old);
 
-void	remove_quotes(char ***board)
+int	remove_quotes_board(char ****board_ptr)
 {
 	char	***ptr;
 	char	**ptr_sub;
 	char	*str;
 
-	if (board == NULL)
+	if (board_ptr == NULL || *board_ptr == NULL)
 		return ;
-	ptr = board;
+	ptr = *board_ptr;
 	while (*ptr != NULL)
 	{
 		ptr_sub = *ptr;
@@ -34,13 +34,40 @@ void	remove_quotes(char ***board)
 		{
 			str = get_erased_string(*ptr_sub);
 			if (str == NULL)
-				return (remove_board(&board));
+			{
+				remove_board(board_ptr);
+				return (-1);
+			}
 			free(*ptr_sub);
 			*ptr_sub = str;
 			ptr_sub++;
 		}
 		ptr++;
 	}
+	return (0);
+}
+
+int	remove_quotes_tokens(char ***tokens_ptr)
+{
+	char	**ptr;
+	char	*str;
+
+	if (tokens_ptr == NULL || *tokens_ptr == NULL)
+		return ;
+	ptr = *tokens_ptr;
+	while (*ptr != NULL)
+	{
+		str = get_erased_string(*ptr);
+		if (str == NULL)
+		{
+			remove_tokens(tokens_ptr);
+			return (-1);
+		}
+		free(*ptr);
+		*ptr = str;
+		ptr++;
+	}
+	return (0);
 }
 
 static char	*get_erased_string(char *old)

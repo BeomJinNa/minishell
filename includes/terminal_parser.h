@@ -6,7 +6,7 @@
 /*   By: bena <bena@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 20:32:35 by bena              #+#    #+#             */
-/*   Updated: 2023/07/30 21:53:01 by bena             ###   ########.fr       */
+/*   Updated: 2023/08/08 05:20:30 by bena             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ char	***convert_tokens_to_board(char **array, char delimiter);
 char	***extract_redirections(char *str);
 char	*merge_tokens(char **tokens);
 char	*remove_redirections(char *str);
-void	remove_quotes(char ***board);
+int		remove_quotes_board(char ****board_ptr);
+int		remove_quotes_tokens(char ***tokens_ptr);
 void	remove_board(char ****board_ptr);
 void	remove_tokens(char ***array_ptr);
 void	replace_white_spaces(char *str);
