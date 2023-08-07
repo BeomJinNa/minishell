@@ -35,12 +35,15 @@ SRCS	= srcs/main.c \
 		  srcs/hashmap/djb2.c \
 		  srcs/hashmap/extend_hashtable.c \
 		  srcs/hashmap/get.c \
+		  srcs/hashmap/get_hashtable.c \
 		  srcs/hashmap/hash_memset.c \
 		  srcs/hashmap/hash_strcmp.c \
 		  srcs/hashmap/hash_strdup.c \
 		  srcs/hashmap/init_hashtable.c \
 		  srcs/hashmap/remove_hashtable.c \
 		  srcs/hashmap/removekey.c \
+		  srcs/main_utils/alloc_command_structs.c \
+		  srcs/main_utils/init_command_structs.c \
 		  srcs/pipe/execute.c \
 		  srcs/pipe/get_executable_path.c \
 		  srcs/pipe/pipe.c \
@@ -67,8 +70,8 @@ SRCS	= srcs/main.c \
 		  srcs/terminal_parser/variable_extension/heredoc/divide_variables_heredoc.c \
 		  srcs/terminal_parser/variable_extension/heredoc/extend_one_line_heredoc.c \
 		  srcs/terminal_parser/variable_extension/replace_variables.c \
-		  srcs/terminal_parser/variable_extension/va_strndup.c \
-		  srcs/terminal_parser/variable_extension/variable.c
+		  srcs/terminal_parser/variable_extension/variable.c \
+		  srcs/terminal_parser/variable_extension/va_strndup.c
 
 OBJS	= $(SRCS:.c=.o)
 
