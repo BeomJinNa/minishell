@@ -6,7 +6,7 @@
 /*   By: bena <bena@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/30 22:23:11 by bena              #+#    #+#             */
-/*   Updated: 2023/08/08 06:59:13 by bena             ###   ########.fr       */
+/*   Updated: 2023/08/12 11:38:08 by bena             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 
 int			get_command_structs(t_command **buffer_ptr, char *str);
 static int	initialize_settings(void);
-static int	*process_str(char *str);
+static int	process_str(char *str);
 static void	release_resources(void);
 static int	get_converted_error_number(int error, int module);
 
@@ -30,6 +30,9 @@ int	main(int ac, char **av, char **ep)
 	char	*str;
 	int		error;
 
+	(void)ac;//TEST
+	(void)av;//TEST
+	(void)ep;//TEST
 	if (initialize_settings())
 	{
 		perror("Error: ");
@@ -40,7 +43,7 @@ int	main(int ac, char **av, char **ep)
 	{
 		add_history(str);
 		replace_white_spaces(str);
-		error = process_str(&str);
+		error = process_str(str);
 		if (error)
 			perror("Error: ");
 		free(str);
@@ -62,7 +65,7 @@ static void	release_resources(void)
 	remove_hashtable(get_hashtable(0));
 }
 
-static int	*process_str(char *str)
+static int	process_str(char *str)
 {
 	t_command	*commands;
 	int			error;
