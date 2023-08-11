@@ -6,7 +6,7 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 23:25:53 by dowon             #+#    #+#             */
-/*   Updated: 2023/07/22 12:40:04 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/11 02:31:29 by dowon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,17 @@ int	builtin_echo(char **args)
 {
 	size_t			idx;
 	const size_t	argc = count_args(args);
-	const int		new_line_option = ft_strncmp(args[0], "-n", 2) == 0;
+	const int		option_no_nl = ft_strncmp(args[0], "-n", 3) == 0;
 
-	idx = new_line_option;
+	idx = option_no_nl;
 	while (idx < argc)
 	{
-		ft_putstr_fd(args[idx], STDOUT_FILENO);
+		printf("%s", args[idx]);
+		if (idx + 1 < argc)
+			printf(" ");
 		++idx;
 	}
-	if (new_line_option)
-		ft_putchar_fd('\n', STDOUT_FILENO);
+	if (!option_no_nl)
+		printf("\n");
 	return (0);
 }

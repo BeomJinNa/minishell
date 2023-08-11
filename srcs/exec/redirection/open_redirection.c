@@ -6,7 +6,7 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 22:25:17 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/06 19:40:21 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/11 05:40:49 by dowon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,10 @@ static int	handle_input_redirection(char **redirect, int *fd_rd)
 	}
 	else if (ft_strncmp(redirect[0], "<<", 3) == 0)
 	{
-		if (heredoc("/tmp/heredoc", fd_rd, redirect[1]))
+		if (heredoc("/tmp/minishell42_heredoc", redirect[1]))
+			return (-1);
+		*fd_rd = open("/tmp/minishell42_heredoc", O_RDONLY);
+		if (*fd_rd == -1)
 			return (-1);
 	}
 	else

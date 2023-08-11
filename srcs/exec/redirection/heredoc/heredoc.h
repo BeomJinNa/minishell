@@ -6,7 +6,7 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 02:13:31 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/07 02:23:18 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/11 01:45:21 by dowon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,5 +23,8 @@ typedef struct s_heredoc
 {
 	t_heredoc_status	status;
 }	t_heredoc;
+
+t_heredoc_status	*heredoc_status(void);
+int					heredoc(char *filename, char *delimiter);
 
 #endif

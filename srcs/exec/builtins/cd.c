@@ -6,7 +6,7 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 22:43:42 by dowon             #+#    #+#             */
-/*   Updated: 2023/07/22 12:38:17 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/11 01:46:27 by dowon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,12 @@ int	builtin_cd(char **args)
 
 	if (argc == 0)
 	{
-		ft_putstr_fd("cd without arguments are not supported\n", STDOUT_FILENO);
+		printf("cd without arguments are not supported\n");
 		return (1);
 	}
 	if (chdir(args[0]) == -1)
 	{
-		ft_putstr_fd(args[0], STDOUT_FILENO);
-		ft_putstr_fd(": No such file or directory\n", STDOUT_FILENO);
+		printf("%s: No such file or directory\n", args[0]);
 		return (1);
 	}
 	return (0);

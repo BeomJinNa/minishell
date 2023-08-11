@@ -6,7 +6,7 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 21:23:29 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/06 19:26:34 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/11 04:59:43 by dowon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ void	exec_command(char **command)
 		command + 1, get_all_env());
 }
 
-
 int	execute_child(t_command command, int *pipes, int idx)
 {
 	if (open_redirections(command.redirections,
@@ -56,6 +55,28 @@ int	execute_child(t_command command, int *pipes, int idx)
 	exec_command(command.command);
 	close_rw_pipes(pipes, idx);
 	return (-1);
+}
+
+int	fork_n_execute(t_command *commands, int *pipes, int idx, int size)
+{
+	const pid_t	fork_pid = fork();
+
+	if (fork_pid == -1)
+		return (-1);
+	if (fork_pid == 0)
+	{
+		if (execute_child(commands[idx], pipes, idx))
+		{
+			clean_pipes(pipes, size);
+			return (-1);
+		}
+	}
+	else if (close_rw_pipes(pipes, idx))
+	{
+		clean_pipes(pipes, size);
+		return (-1);
+	}
+	return (0);
 }
 
 void	wait_all(int size)
@@ -77,29 +98,14 @@ int	execute_commands(t_command *commands, int size)
 {
 	const int	*pipes = init_pipes(size);
 	int			idx;
-	int			fork_pid;
 
 	if (pipes == NULL)
 		return (-1);
 	idx = 0;
 	while (idx < size)
 	{
-		fork_pid = fork();
-		if (fork_pid == -1)
+		if (fork_n_execute(commands, pipes, idx, size))
 			return (-1);
-		if (fork_pid == 0)
-		{
-			if (execute_child(commands[idx], pipes, idx))
-			{
-				clean_pipes(pipes, size);
-				return (-1);
-			}
-		}
-		if (close_rw_pipes(pipes, idx))
-		{
-			clean_pipes(pipes, size);
-			return (-1);
-		}
 		idx++;
 	}
 	wait_all(size);

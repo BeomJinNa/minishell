@@ -6,7 +6,7 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 20:08:37 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/10 16:37:34 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/10 16:54:08 by dowon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,6 @@
 #include <curses.h>
 #include <term.h>
 
-static char			*remove_last_endl(char *str);
-static void			handle_sigint_heredoc(int signal);
-static int			execute_heredoc(char *filename, char *delimiter);
 t_heredoc_status	*heredoc_status(void);
 
 void	signal_handler_heredoc(int signal)
@@ -35,43 +32,6 @@ void	signal_handler_heredoc(int signal)
 		rl_replace_line("", 0);
 		ioctl(STDOUT_FILENO, TIOCSTI, "\n");
 	}
-}
-
-int	heredoc(char *filename, char *delimiter)
-{
-	sig_t			old_sigint;
-	sig_t			old_sigquit;
-	int				result;
-
-	old_sigint = signal(SIGINT, signal_handler_heredoc);
-	old_sigquit = signal(SIGQUIT, SIG_IGN);
-	result = execute_heredoc(filename, delimiter);
-	signal(SIGINT, old_sigint);
-	signal(SIGQUIT, old_sigquit);
-	return (result);
-}
-
-static void	handle_sigint_heredoc(int signal)
-{
-	if (signal == SIGINT)
-		exit(1);
-}
-
-static char	*remove_last_endl(char *str)
-{
-	char*const	start = str;
-	char		*last;
-
-	last = NULL;
-	while (*str != '\0')
-	{
-		if (*str == '\n')
-			last = str;
-		str++;
-	}
-	if (last != NULL)
-		*last = '\0';
-	return (start);
 }
 
 static int	execute_heredoc(char *filename, char *delimiter)
@@ -101,4 +61,18 @@ static int	execute_heredoc(char *filename, char *delimiter)
 	free(line);
 	close(file_fd);
 	return (*heredoc_status() == heredoc_terminate);
+}
+
+int	heredoc(char *filename, char *delimiter)
+{
+	sig_t			old_sigint;
+	sig_t			old_sigquit;
+	int				result;
+
+	old_sigint = signal(SIGINT, signal_handler_heredoc);
+	old_sigquit = signal(SIGQUIT, SIG_IGN);
+	result = execute_heredoc(filename, delimiter);
+	signal(SIGINT, old_sigint);
+	signal(SIGQUIT, old_sigquit);
+	return (result);
 }

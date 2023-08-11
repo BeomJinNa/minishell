@@ -5,8 +5,7 @@
 #include <sys/wait.h>
 #include <term.h>
 #include "libft.h"
-
-int	heredoc(char *filename, char *delimiter);
+#include "heredoc.h"
 
 int	main(void)
 {

@@ -6,7 +6,7 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/30 20:56:07 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/06 19:26:13 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/11 04:52:51 by dowon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,9 @@ typedef struct s_exec {
 int		dup_pipes(int *pipes, int idx);
 int		*readpipe_at(int *pipes, int idx);
 int		*writepipe_at(int *pipes, int idx);
-int		*init_pipes(size_t process_count);
+int		*init_pipes(int process_count);
 void	clean_pipes(int *pipes, int process_count);
+int		close_rw_pipes(int *pipes, int idx);
 char	*get_excutable_path(char *path, char *command);
 
 #endif
