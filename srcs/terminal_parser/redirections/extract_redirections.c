@@ -6,7 +6,7 @@
 /*   By: bena <bena@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 09:39:30 by bena              #+#    #+#             */
-/*   Updated: 2023/08/12 11:56:24 by bena             ###   ########.fr       */
+/*   Updated: 2023/08/12 12:45:11 by bena             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,8 @@ static void	write_redirections_board(char ****board, char *str)
 				return (remove_board(board));
 			ptr++;
 		}
-		brace.ptr++;
+		if (*brace.ptr != '\0')
+			brace.ptr++;
 	}
 	*ptr = NULL;
 }
