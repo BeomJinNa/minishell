@@ -6,7 +6,7 @@
 /*   By: bena <bena@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 20:28:13 by bena              #+#    #+#             */
-/*   Updated: 2023/08/08 06:47:48 by bena             ###   ########.fr       */
+/*   Updated: 2023/08/12 11:45:46 by bena             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	get_command_structs(t_command **buffer_ptr, char *str)
 	*buffer_ptr = (t_command *)malloc(sizeof(t_command) * size);
 	if (*buffer_ptr == NULL)
 		return (return_error(M_MALLOC_FAIL, &tokens, NULL));
-	error = alloc_commands(*buffer_ptr, size, tokens);
+	error = alloc_command_structs(*buffer_ptr, size, tokens);
 	if (error)
 		return (return_error(error, &tokens, buffer_ptr));
 	remove_tokens(&tokens);
