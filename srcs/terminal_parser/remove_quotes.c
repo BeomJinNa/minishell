@@ -6,7 +6,7 @@
 /*   By: bena <bena@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 18:26:02 by bena              #+#    #+#             */
-/*   Updated: 2023/08/08 05:19:55 by bena             ###   ########.fr       */
+/*   Updated: 2023/08/12 12:00:49 by bena             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "brace.h"
 
 void		remove_board(char ****board_ptr);
+void		remove_tokens(char ***array_ptr);
 static char	*get_erased_string(char *old);
 static int	get_size_of_erased_string(char *str);
 static void	dup_erased_string(char *new, char *old);
@@ -25,7 +26,7 @@ int	remove_quotes_board(char ****board_ptr)
 	char	*str;
 
 	if (board_ptr == NULL || *board_ptr == NULL)
-		return ;
+		return (1);
 	ptr = *board_ptr;
 	while (*ptr != NULL)
 	{
@@ -53,7 +54,7 @@ int	remove_quotes_tokens(char ***tokens_ptr)
 	char	*str;
 
 	if (tokens_ptr == NULL || *tokens_ptr == NULL)
-		return ;
+		return (1);
 	ptr = *tokens_ptr;
 	while (*ptr != NULL)
 	{

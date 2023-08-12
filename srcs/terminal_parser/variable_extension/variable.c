@@ -6,11 +6,9 @@
 /*   By: bena <bena@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 15:52:41 by bena              #+#    #+#             */
-/*   Updated: 2023/07/29 16:43:06 by bena             ###   ########.fr       */
+/*   Updated: 2023/08/12 12:03:49 by bena             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-static int	variable_strncmp(char *s1, char *s2, int n);
 
 int	is_this_special_character(char c)
 {
@@ -83,24 +81,4 @@ int	push_to_end_of_variable(char **str_ptr)
 	output = ptr - *str_ptr;
 	*str_ptr = ptr;
 	return (output);
-}
-
-static int	variable_strncmp(char *s1, char *s2, int n)
-{
-	unsigned char	*c1;
-	unsigned char	*c2;
-
-	c1 = (unsigned char *)s1;
-	c2 = (unsigned char *)s2;
-	while (n)
-	{
-		if (*c1 != *c2)
-			return (*c1 - *c2);
-		if (*c1 == 0)
-			return (0);
-		c1++;
-		c2++;
-		n--;
-	}
-	return (0);
 }

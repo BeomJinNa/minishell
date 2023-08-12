@@ -6,7 +6,7 @@
 /*   By: bena <bena@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 09:39:30 by bena              #+#    #+#             */
-/*   Updated: 2023/07/29 17:52:18 by bena             ###   ########.fr       */
+/*   Updated: 2023/08/12 11:56:24 by bena             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ char	***extract_redirections(char *str)
 
 static int	get_number_of_redirections(char *str)
 {
-	int		count;
 	t_brace	brace;
 
 	init_brace(&brace, str);

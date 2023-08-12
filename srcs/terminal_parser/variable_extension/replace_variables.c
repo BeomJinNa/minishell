@@ -6,7 +6,7 @@
 /*   By: bena <bena@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/29 16:59:58 by bena              #+#    #+#             */
-/*   Updated: 2023/07/29 17:46:43 by bena             ###   ########.fr       */
+/*   Updated: 2023/08/12 12:02:41 by bena             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ static char	*example_function(char *str)
 	char	sample[7] = "sample";
 	int		i;
 
+	(void)str;
 	output = (char *)malloc(sizeof(char) * 7);
 	if (output == NULL)
 		return (NULL);
