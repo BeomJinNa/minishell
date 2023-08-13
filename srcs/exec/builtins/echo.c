@@ -6,13 +6,14 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 23:25:53 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/11 02:31:29 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/13 16:24:42 by dowon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
-#include "builtins.h"
 #include <unistd.h>
+#include <stdio.h>
+#include "builtins.h"
 
 int	builtin_echo(char **args)
 {

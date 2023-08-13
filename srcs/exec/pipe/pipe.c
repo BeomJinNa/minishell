@@ -6,7 +6,7 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 16:29:35 by dowon             #+#    #+#             */
-/*   Updated: 2023/07/31 20:03:54 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/13 17:34:27 by dowon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@ void	clean_pipes(int *pipes, int process_count)
 	while (idx <= process_count)
 	{
 		if (pipes[2 * idx] >= 0 && pipes[2 * idx] != STDIN_FILENO)
-			close(pipes + (2 * idx));
+			close(pipes[2 * idx]);
 		if (pipes[2 * idx + 1] >= 0 && pipes[2 * idx + 1] != STDOUT_FILENO)
-			close(pipes + (2 * idx + 1));
+			close(pipes[2 * idx + 1]);
 		idx++;
 	}
 	free(pipes);

@@ -6,12 +6,14 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 02:34:42 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/11 04:41:58 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/13 16:24:31 by dowon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
-#include "libft.h"
+#include <stdio.h>
+#include <libft.h>
+#include "builtins.h"
 
 /**
  * @brief check string contains only numeric characters.
@@ -47,9 +49,9 @@ int	builtin_exit(char **args)
 		if (!is_strnum(args[0]))
 		{
 			printf("exit: %s: numeric argument required", args[0]);
-			return (1);
+			exit(255);
 		}
-		exit(ft_atoi(args) % 255);
+		exit(ft_atoi(args[0]) % 255);
 	}
 	printf("exit: too many arguments\n");
 	return (1);

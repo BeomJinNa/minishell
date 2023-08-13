@@ -6,13 +6,14 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 22:43:42 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/11 01:46:27 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/13 16:24:50 by dowon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 #include <libft.h>
 #include <unistd.h>
+#include <stdio.h>
 
 /**
  * @brief cd with only a relative or absolute path

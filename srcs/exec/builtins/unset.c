@@ -6,19 +6,20 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 04:10:06 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/11 04:31:15 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/13 16:21:23 by dowon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "libft.h"
+#include "builtins.h"
 #include "hashtable_ext.h"
+#include <stdio.h>
 
 static int	unset_variable(char *str)
 {
 	if (check_valid_identifier(str))
 	{
-		printf("unset: `%s`: not a valid identifier");
+		printf("unset: `%s`: not a valid identifier", str);
 		return (1);
 	}
 	hashtable_removekey(str, get_hashtable(0));
@@ -41,7 +42,7 @@ int	builtin_unset(char **args)
 	idx = 0;
 	while (idx < argc)
 	{
-		result |= export_variable(args[idx]);
+		result |= unset_variable(args[idx]);
 		++idx;
 	}
 	return (result);
