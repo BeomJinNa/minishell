@@ -1,6 +1,7 @@
 LIB = ft readline
-LIB_DIR = ../../libft ../../readline/lib
-HEADER_DIR = ../../includes ../../readline/include
+READLINE_DIR = /opt/homebrew/opt/readline
+LIB_DIR = ../../libft $(READLINE_DIR)/lib
+HEADER_DIR = ../../includes $(READLINE_DIR)/include
 CFILES = exec.test.c exec.c \
 builtins/cd.c builtins/count_args.c builtins/echo.c builtins/env.c builtins/exit.c builtins/export.c builtins/hashtable_ext.c builtins/pwd.c builtins/unset.c \
 pipe/dup_pipes.c pipe/get_executable_path.c pipe/pipe.c \

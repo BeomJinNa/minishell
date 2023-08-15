@@ -6,7 +6,7 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 22:25:17 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/13 17:26:48 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/14 14:08:35 by dowon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,11 +95,13 @@ int	open_redirections(char ***redirect, int *fd_rd, int *fd_wr)
 		}
 		if ((*redirect)[0][0] == '<')
 		{
+			printf("redir input\n");
 			if (handle_input_redirection(*redirect, fd_rd))
 				return (-1);
 		}
 		else if ((*redirect)[0][0] == '>')
 		{
+			printf("redir output\n");
 			if (handle_output_redirection(*redirect, fd_wr))
 				return (-1);
 		}

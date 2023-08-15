@@ -6,7 +6,7 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/30 23:08:03 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/06 19:40:04 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/14 14:18:28 by dowon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int	open_read(const char *filename, int *fd)
 		return (-1);
 	}
 	*fd = open(filename, O_RDONLY);
+	printf("open file in read mode, %d\n", *fd);
 	if (*fd == -1)
 		return (-1);
 	return (0);

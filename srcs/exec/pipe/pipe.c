@@ -6,7 +6,7 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 16:29:35 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/13 17:34:27 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/15 15:02:48 by dowon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,13 +45,13 @@ void	clean_pipes(int *pipes, int process_count)
 
 int	*init_pipes(int process_count)
 {
-	int*const	pipes = malloc(sizeof(int) * (process_count * 2 + 2));
+	int*const	pipes = malloc(sizeof(int) * ((process_count + 1) * 2));
 	int			idx;
 
 	if (pipes == NULL)
 		return (NULL);
 	idx = 0;
-	while (idx <= process_count)
+	while (idx < process_count + 1)
 	{
 		pipes[2 * idx] = -1;
 		pipes[2 * idx + 1] = -1;
@@ -67,6 +67,7 @@ int	*init_pipes(int process_count)
 			clean_pipes(pipes, process_count);
 			return (NULL);
 		}
+		printf("pipes set to (%d) : r %d w %d\n", idx , pipes[2 * idx], pipes[2 * idx + 1]);
 	}
 	return (pipes);
 }

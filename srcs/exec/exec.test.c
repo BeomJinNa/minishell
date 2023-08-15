@@ -6,11 +6,33 @@
 
 int	execute_commands(t_command *commands, int size);
 
+/*
+redirection + cmd
+
+<single command>
+cat -> read from stdin, out to stdout 
+cat < infile -> read from infile, out to stdout
+cat > outfile -> read from stdin, out to outfile
+cat < infile > outfile -> read from infile, out to outfile
+<double command>
+cat | cat -> read from stdin, out to stdout
+cat < infile | cat -> read from infile, out to stdout
+cat | cat > outfile -> read from stdin, out to outfile
+cat < infile | cat > outfile -> read from infile, out to outfile
+====
+cat < infile > outfile | cat -> read from infile, out to outfile, (read from stdin, no input / out to stdout)
+
+ex)
+> ./test_exec
+cmd: cat
+inner redirection: <
+inner redirection: infile
+*/
 int	main(void)
 {
 	t_command	command;
 	const int	cmd_size = 1;
-	const int	redir_size = 0;
+	const int	redir_size = 2;
 	int			inner_idx;
 	int			idx;
 
@@ -22,7 +44,7 @@ int	main(void)
 	idx = 0;
 	while (idx < cmd_size)
 	{
-		command.command[idx] = readline("cmd (size = 3): ");
+		command.command[idx] = readline("cmd: ");
 		++idx;
 	}
 	idx = 0;
@@ -35,7 +57,7 @@ int	main(void)
 		while (inner_idx < redir_size)
 		{
 			command.redirections[idx][inner_idx]
-				= readline("inner redirection (size = 3): ");
+				= readline("inner redirection: ");
 			++inner_idx;
 		}
 		++idx;
