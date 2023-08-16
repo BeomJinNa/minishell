@@ -6,7 +6,7 @@
 /*   By: bena <bena@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 08:15:08 by bena              #+#    #+#             */
-/*   Updated: 2023/07/25 14:35:47 by bena             ###   ########.fr       */
+/*   Updated: 2023/08/17 06:17:17 by bena             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static t_hashnode	*create_node(char *key, char *value)
 	new_node = (t_hashnode *)malloc(sizeof(t_hashnode));
 	if (new_node == NULL)
 		return (NULL);
-	hash_memset(new_node, 0, sizeof(new_node));
+	hash_memset(new_node, 0, sizeof(*new_node));
 	new_node->key = hash_strdup(key);
 	if (new_node->key == NULL)
 		return (flush_node(new_node));

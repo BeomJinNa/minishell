@@ -6,7 +6,7 @@
 /*   By: bena <bena@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 20:28:13 by bena              #+#    #+#             */
-/*   Updated: 2023/08/12 11:45:46 by bena             ###   ########.fr       */
+/*   Updated: 2023/08/18 04:22:45 by bena             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,14 @@ int	get_command_structs(t_command **buffer_ptr, char *str)
 	return (size);
 }
 
-int	flush_command_structs(int return_value, t_command *buffer, int size)
+int	flush_command_structs(int return_value, t_command **buffer_ptr, int size)
 {
-	int	index;
+	int			index;
+	t_command	*buffer;
 
+	if (buffer_ptr == NULL || *buffer_ptr == NULL)
+		return (return_value);
+	buffer = *buffer_ptr;
 	index = 0;
 	while (index < size)
 	{
@@ -51,8 +55,10 @@ int	flush_command_structs(int return_value, t_command *buffer, int size)
 			remove_tokens(&buffer[index].command);
 		if (buffer[index].redirections != NULL)
 			remove_board(&buffer[index].redirections);
+		index++;
 	}
 	free(buffer);
+	*buffer_ptr = NULL;
 	return (return_value);
 }
 

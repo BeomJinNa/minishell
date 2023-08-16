@@ -6,7 +6,7 @@
 /*   By: bena <bena@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/29 16:59:58 by bena              #+#    #+#             */
-/*   Updated: 2023/08/16 17:21:54 by bena             ###   ########.fr       */
+/*   Updated: 2023/08/18 04:26:38 by bena             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static char	*dup_replaced_string(char *key)
 
 	value = hashtable_get(key, get_hashtable(0));
 	if (value == NULL)
-		return (NULL);
+		value = "";
 	size = 0;
 	while (value[size] != '\0')
 		size++;

@@ -6,7 +6,7 @@
 /*   By: bena <bena@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 03:16:54 by bena              #+#    #+#             */
-/*   Updated: 2023/08/12 11:44:20 by bena             ###   ########.fr       */
+/*   Updated: 2023/08/17 23:53:02 by bena             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "hash.h"
 #include "e_alloc_errors.h"
 
-int			flush_command_structs(int return_value, t_command *buffer,
+int			flush_command_structs(int return_value, t_command **buffer_ptr,
 				int size);
 static int	alloc_redirections(t_command *buffer, int size, char **tokens);
 static int	check_syntax_redirections(t_command *buffer, int index, int *error);
@@ -34,13 +34,13 @@ int	alloc_command_structs(t_command *buffer, int size, char **tokens)
 		buffer[--index].command = NULL;
 	error = alloc_redirections(buffer, size, tokens);
 	if (error)
-		return (flush_command_structs(error, buffer, size));
+		return (flush_command_structs(error, &buffer, size));
 	error = alloc_commands(buffer, size, tokens);
 	if (error)
-		return (flush_command_structs(error, buffer, size));
+		return (flush_command_structs(error, &buffer, size));
 	error = remove_quotes(buffer, size);
 	if (error)
-		return (flush_command_structs(error, buffer, size));
+		return (flush_command_structs(error, &buffer, size));
 	return (M_SUCCESS);
 }
 
