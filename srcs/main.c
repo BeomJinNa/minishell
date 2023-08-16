@@ -6,7 +6,7 @@
 /*   By: bena <bena@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/30 22:23:11 by bena              #+#    #+#             */
-/*   Updated: 2023/08/12 11:38:08 by bena             ###   ########.fr       */
+/*   Updated: 2023/08/16 17:08:23 by bena             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,11 @@
 #include "main_utils/e_alloc_errors.h"
 
 int			get_command_structs(t_command **buffer_ptr, char *str);
+int			execute_commands(t_command *commands, int size);
 static int	initialize_settings(void);
 static int	process_str(char *str);
 static void	release_resources(void);
-static int	get_converted_error_number(int error, int module);
+static int	get_converted_error_number(int error_code, int module);
 
 int	main(int ac, char **av, char **ep)
 {
@@ -68,26 +69,24 @@ static void	release_resources(void)
 static int	process_str(char *str)
 {
 	t_command	*commands;
-	int			error;
+	int			size;
 
 	if (get_number_of_tokens(str, '\0') < 0)
 		return (M_ERROR_SYNTAX_QUOTE);
-	error = get_command_structs(&commands, str);
-	if (error < 0)
-		return (get_converted_error_number(error, M_MODULE_PARSER));
-	/*
-	 * Add Instructions HERE
-	 */
+	size = get_command_structs(&commands, str);
+	if (size < 0)
+		return (get_converted_error_number(size, M_MODULE_PARSER));
+	execute_commands(commands, size);
 	return (0);
 }
 
-static int	get_converted_error_number(int error, int module)
+static int	get_converted_error_number(int error_code, int module)
 {
-	if (module == M_MODULE_PARSER && error == M_MALLOC_FAIL)
+	if (module == M_MODULE_PARSER && error_code == M_MALLOC_FAIL)
 		return (M_ERROR_MALLOC_FAIL);
-	if (module == M_MODULE_PARSER && error == M_SYNTAX_ERROR_REDIRECTIONS)
+	if (module == M_MODULE_PARSER && error_code == M_SYNTAX_ERROR_REDIRECTIONS)
 		return (M_ERROR_SYNTAX_REDIRECTION);
-	if (module == M_MODULE_PARSER && error == M_SYNTAX_ERROR_ENV_VARIABLES)
+	if (module == M_MODULE_PARSER && error_code == M_SYNTAX_ERROR_ENV_VARIABLES)
 		return (M_ERROR_SYNTAX_ENV_VARIABLE);
-	return (error);
+	return (error_code);
 }

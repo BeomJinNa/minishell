@@ -4,3 +4,4 @@
 **/*.dSYM/
 *.o
 *.a
+compile_flags.txt

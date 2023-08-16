@@ -6,15 +6,17 @@
 /*   By: bena <bena@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/29 16:59:58 by bena              #+#    #+#             */
-/*   Updated: 2023/08/12 12:02:41 by bena             ###   ########.fr       */
+/*   Updated: 2023/08/16 17:21:54 by bena             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
+#include "hash.h"
 
 void		remove_tokens(char ***array_ptr);
+char		*va_strndup(const char *str, size_t max_len);
 static char	*get_string_to_replace(char *str);
-static char	*example_function(char *str);
+static char	*dup_replaced_string(char *key);
 
 void	replace_variables(char ***tokens_ptr)
 {
@@ -53,24 +55,21 @@ static char	*get_string_to_replace(char *str)
 		str++;
 		*ptr = '\0';
 	}
-	return (example_function(str));//NEED_TO_REPLACE_THIS
+	return (dup_replaced_string(str));
 }
 
-static char	*example_function(char *str)
+static char	*dup_replaced_string(char *key)
 {
 	char	*output;
-	char	sample[7] = "sample";
-	int		i;
+	char	*value;
+	size_t	size;
 
-	(void)str;
-	output = (char *)malloc(sizeof(char) * 7);
-	if (output == NULL)
+	value = hashtable_get(key, get_hashtable(0));
+	if (value == NULL)
 		return (NULL);
-	i = 0;
-	while (i <= 7)
-	{
-		output[i] = sample[i];
-		i++;
-	}
+	size = 0;
+	while (value[size] != '\0')
+		size++;
+	output = va_strndup(value, size);
 	return (output);
 }
