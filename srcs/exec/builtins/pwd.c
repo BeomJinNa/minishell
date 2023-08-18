@@ -6,7 +6,7 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 22:48:57 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/13 16:20:47 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/18 12:51:46 by dowon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	builtin_pwd(char **args)
 	(void)args;
 	if (buffer == NULL)
 		return (1);
-	printf("%s", buffer);
+	printf("%s\n", buffer);
 	free(buffer);
 	return (0);
 }
