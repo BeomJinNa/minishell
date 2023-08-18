@@ -6,7 +6,7 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 21:23:29 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/18 09:33:38 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/18 12:35:32 by dowon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 void	exec_command(char **command)
 {
 	char	*exec_path;
+
 	if (ft_strncmp(command[0], "echo", 5) == 0)
 		exit(builtin_echo(command + 1));
 	else if (ft_strncmp(command[0], "cd", 3) == 0)
@@ -40,7 +41,7 @@ void	exec_command(char **command)
 		exit(builtin_env(command + 1));
 	else if (ft_strncmp(command[0], "exit", 5) == 0)
 		exit(builtin_exit(command + 1));
-	exec_path = get_excutable_path("/Users/dowon/.brew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/share/dotnet:/usr/local/munki:~/.dotnet/tools:/Library/Apple/usr/bin:/Users/dowon/.brew/bin:/Users/dowon/Library/Python/3.8/bin:/Applications/Visual Studio Code.app/Contents/Resources/app/bin:/Users/dowon/Library/Python/3.8/bin:/Applications/Visual Studio Code.app/Contents/Resources/app/bin", command[0]);
+	exec_path = hashtable_get("PATH", get_hashtable(0));
 	if (exec_path == NULL)
 	{
 		printf("%s : command not found\n", command[0]);

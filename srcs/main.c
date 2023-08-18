@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bena <bena@student.42seoul.kr>             +#+  +:+       +#+        */
+/*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/30 22:23:11 by bena              #+#    #+#             */
-/*   Updated: 2023/08/18 04:38:57 by bena             ###   ########.fr       */
+/*   Updated: 2023/08/18 12:33:29 by dowon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <readline/history.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include "exec.h"
 #include "terminal_parser.h"
 #include "hash.h"
 #include "e_main_errors.h"
@@ -22,7 +23,6 @@
 int			get_command_structs(t_command **buffer_ptr, char *str);
 int			flush_command_structs(int return_value,
 				t_command **buffer_ptr, int size);
-int			execute_commands(t_command *commands, int size);
 static int	initialize_settings(void);
 static int	process_str(char *str);
 static void	release_resources(void);
@@ -75,7 +75,7 @@ static int	process_str(char *str)
 	size = get_command_structs(&commands, str);
 	if (size < 0)
 		return (get_converted_error_number(size, M_MODULE_PARSER));
-//	execute_commands(commands, size);
+	execute_commands(commands, size);
 	flush_command_structs(0, &commands, size);
 	return (0);
 }
