@@ -6,7 +6,7 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 02:34:42 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/13 16:24:31 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/18 13:28:00 by dowon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static int	is_strnum(char *str)
 {
 	while (*str != '\0')
 	{
-		if (ft_isdigit(*str))
+		if (!ft_isdigit(*str))
 			return (0);
 		++str;
 	}
