@@ -6,7 +6,7 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 21:23:29 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/13 18:35:34 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/18 09:33:38 by dowon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 #include "pipe/pipe.h"
 #include "builtins/builtins.h"
 #include "redirection/redirection.h"
+#include <libft.h>
 
 void	exec_command(char **command)
 {
@@ -105,6 +106,7 @@ static int	wait_all(int size)
 				return (-1);
 			if (hashtable_addkey("?", status_str, get_hashtable(0)))
 				return (-1);
+			free(status_str);
 		}
 	}
 	return (0);
@@ -114,6 +116,7 @@ int	execute_commands(t_command *commands, int size)
 {
 	int*const	pipes = init_pipes(size);
 	int			idx;
+	int			result;
 
 	if (pipes == NULL)
 		return (-1);
@@ -124,5 +127,7 @@ int	execute_commands(t_command *commands, int size)
 			return (-1);
 		idx++;
 	}
-	return (wait_all(size));
+	result = wait_all(size);
+	free(pipes);
+	return (result);
 }

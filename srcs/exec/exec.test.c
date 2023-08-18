@@ -6,6 +6,26 @@
 
 int	execute_commands(t_command *commands, int size);
 
+void	free_commands(t_command *commands, int size)
+{
+	for(int i = 0; i < size; ++i)
+	{
+		// free command
+		for (int c = 0; commands[i].command[c] != NULL; ++c)
+			free(commands[i].command[c]);
+		free(commands[i].command);
+		// free redirections
+		for (int r = 0; commands[i].redirections[r] != NULL; ++r)
+		{
+			for (int t = 0; commands[i].redirections[r][t] != NULL; ++t)
+				free(commands[i].redirections[r][t]);
+			free(commands[i].redirections[r]);
+		}
+		free(commands[i].redirections);
+	}
+	free(commands);
+}
+
 /*
 redirection + cmd
 
@@ -30,39 +50,57 @@ inner redirection: infile
 */
 int	main(void)
 {
-	t_command	command;
-	const int	cmd_size = 1;
-	const int	redir_size = 2;
-	int			inner_idx;
-	int			idx;
+	int cmd_cnt;
+	printf("cmd_cnt: ");
+	scanf("%d", &cmd_cnt);
+	t_command	*commands = malloc(sizeof(t_command) * cmd_cnt);
+	for(int i = 0; i < cmd_cnt; ++i)
+	{
+		// read command
+		char *line = readline("cmd: ");
+		commands[i].command = ft_split(line, ' ');
+		free(line);
+		int t = 0;
+		while (1)
+		{
+			printf("%s ", commands[i].command[t]);
+			if (commands[i].command[t] == NULL)
+			{
+				printf("\n");
+				break;
+			}
+			t++;
+		}
+		// read redirections
+		int	redir_cnt;
+		printf("redir cnt: ");
+		scanf("%d", &redir_cnt);
+		commands[i].redirections = malloc(sizeof(char **) * (redir_cnt + 1));
+		commands[i].redirections[redir_cnt] = NULL;
+		for (int r = 0; r < redir_cnt; ++r)
+		{
+			line = readline("inner redirection: ");
+			commands[i].redirections[r] = ft_split(line, ' ');
+			t = 0;
+			while (1)
+			{
+				printf("%s ", commands[i].redirections[r][t]);
+				if (commands[i].redirections[r][t] == NULL)
+				{
+					printf("\n");
+					break;
+				}
+				t++;
+			}
+			free(line);
+		}
+	}
 
 	get_hashtable(1);
-	command.command = malloc(sizeof(char *) * (cmd_size + 1));
-	command.command[cmd_size] = NULL;
-	command.redirections = malloc(sizeof(char **) * (cmd_size + 1));
-	command.redirections[cmd_size] = NULL;
-	idx = 0;
-	while (idx < cmd_size)
-	{
-		command.command[idx] = readline("cmd: ");
-		++idx;
-	}
-	idx = 0;
-	while (idx < cmd_size)
-	{
-		command.redirections[idx]
-			= malloc(sizeof(char *) * (redir_size + 1));
-		command.redirections[idx][redir_size] = NULL;
-		inner_idx = 0;
-		while (inner_idx < redir_size)
-		{
-			command.redirections[idx][inner_idx]
-				= readline("inner redirection: ");
-			++inner_idx;
-		}
-		++idx;
-	}
-	if (execute_commands(&command, cmd_size))
+	printf("[Execute commands]\n");
+	if (execute_commands(commands, cmd_cnt))
 		printf("Error\n");
+	free_commands(commands, cmd_cnt);
+	remove_hashtable(get_hashtable(0));
 	return (0);
 }
