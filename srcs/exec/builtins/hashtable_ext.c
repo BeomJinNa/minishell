@@ -6,52 +6,43 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 03:52:59 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/13 16:46:45 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/20 01:06:50 by dowon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "hash.h"
+#include "terminal_parser.h"
 #include <stdio.h>
+#include <libft.h>
 
-static int	check_variable(char **str_ptr)
-{
-	char	*str;
-
-	str = *str_ptr + 1;
-	if (*str != '{')
-	{
-		*str_ptr = str;
-		return (0);
-	}
-	str++;
-	if (is_this_variable_character(*str, 1) == 0
-		&& is_this_special_character(*str) == 0)
-		return (1);
-	str++;
-	while (*str)
-	{
-		if (*str == '}' && is_this_valid_name(*str_ptr + 2, str - *str_ptr - 2))
-		{
-			*str_ptr = str;
-			return (0);
-		}
-		if (is_this_variable_character(*str, 1) == 0)
-			return (1);
-		str++;
-	}
-	return (1);
-}
+int	is_this_valid_name(char *str, int size);
+int	is_this_variable_character(char c, int allow_number);
+int	is_this_special_character(char c);
 
 int	check_valid_identifier(char *str)
 {
-	// TODO : check str is valid identifier for environment variable name.
-	return (1);
+	size_t	length;
+	char	*token;
+	int		result;
+
+	if (ft_strchr(str, '=') == NULL)
+		length = ft_strlen(str);
+	else
+		length = ft_strchr(str, '=') - str;
+	token = ft_strdup(str);
+	token[length] = '\0';
+	if (token == NULL)
+		return (-1);
+	result = is_this_variable_character(*token, 0)
+		& is_this_valid_name(token, length);
+	free(token);
+	return (result);
 }
 
 void	print_hashtable(t_hashtable *hash, const char *prefix)
 {
-	t_hashnode			*iter;
-	int					idx;
+	t_hashnode		*iter;
+	unsigned int	idx;
 
 	idx = 0;
 	while (idx < hash->size)
