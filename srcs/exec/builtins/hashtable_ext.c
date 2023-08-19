@@ -13,6 +13,35 @@
 #include "hash.h"
 #include <stdio.h>
 
+static int	check_variable(char **str_ptr)
+{
+	char	*str;
+
+	str = *str_ptr + 1;
+	if (*str != '{')
+	{
+		*str_ptr = str;
+		return (0);
+	}
+	str++;
+	if (is_this_variable_character(*str, 1) == 0
+		&& is_this_special_character(*str) == 0)
+		return (1);
+	str++;
+	while (*str)
+	{
+		if (*str == '}' && is_this_valid_name(*str_ptr + 2, str - *str_ptr - 2))
+		{
+			*str_ptr = str;
+			return (0);
+		}
+		if (is_this_variable_character(*str, 1) == 0)
+			return (1);
+		str++;
+	}
+	return (1);
+}
+
 int	check_valid_identifier(char *str)
 {
 	// TODO : check str is valid identifier for environment variable name.

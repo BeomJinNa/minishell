@@ -6,7 +6,7 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 21:23:29 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/18 12:35:32 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/18 13:17:37 by dowon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,13 @@ int	fork_n_execute(t_command *commands, int *pipes, int idx, int size)
 	return (0);
 }
 
+int	execute_single(t_command command, int *pipes)
+{
+	exec_command(command.command);
+	close_rw_pipes(pipes, 0);
+	return (0);
+}
+
 static int	wait_all(int size)
 {
 	int		idx;
@@ -113,6 +120,45 @@ static int	wait_all(int size)
 	return (0);
 }
 
+int is_builtin(char **command)
+{
+	return (ft_strncmp(command[0], "echo", 5) == 0
+		|| ft_strncmp(command[0], "cd", 3) == 0
+		|| ft_strncmp(command[0], "pwd", 4) == 0
+		|| ft_strncmp(command[0], "export", 6) == 0
+		|| ft_strncmp(command[0], "unset", 5) == 0
+		|| ft_strncmp(command[0], "env", 4) == 0
+		|| ft_strncmp(command[0], "exit", 5) == 0
+	);
+}
+
+int run_builtin(char **command)
+{
+	if (ft_strncmp(command[0], "echo", 5) == 0)
+		return (builtin_echo(command + 1));
+	else if (ft_strncmp(command[0], "cd", 3) == 0)
+		return (builtin_cd(command + 1));
+	else if (ft_strncmp(command[0], "pwd", 4) == 0)
+		return (builtin_pwd(command + 1));
+	else if (ft_strncmp(command[0], "export", 6) == 0)
+		return (builtin_export(command + 1));
+	else if (ft_strncmp(command[0], "unset", 5) == 0)
+		return (builtin_unset(command + 1));
+	else if (ft_strncmp(command[0], "env", 4) == 0)
+		return (builtin_env(command + 1));
+	else if (ft_strncmp(command[0], "exit", 5) == 0)
+		return (builtin_exit(command + 1));
+	return (-1);
+}
+
+void set_exit_status(int status)
+{
+	char*const	status_str = ft_itoa(status);
+
+	hashtable_addkey("?", status_str, get_hashtable(0));
+	free(status_str);
+}
+
 int	execute_commands(t_command *commands, int size)
 {
 	int*const	pipes = init_pipes(size);
@@ -121,14 +167,20 @@ int	execute_commands(t_command *commands, int size)
 
 	if (pipes == NULL)
 		return (-1);
-	idx = 0;
-	while (idx < size)
+	if (size == 1 && is_builtin(commands[0].command))
+		result = run_builtin(commands[0].command);
+	else
 	{
-		if (fork_n_execute(commands, pipes, idx, size))
-			return (-1);
-		idx++;
+		idx = 0;
+		while (idx < size)
+		{
+			if (fork_n_execute(commands, pipes, idx, size))
+				return (-1);
+			idx++;
+		}
+		result = wait_all(size);
 	}
-	result = wait_all(size);
 	free(pipes);
+	set_exit_status(result);
 	return (result);
 }
