@@ -6,14 +6,14 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/30 22:23:11 by bena              #+#    #+#             */
-/*   Updated: 2023/08/20 22:50:23 by bena             ###   ########.fr       */
+/*   Updated: 2023/08/21 03:54:54 by dowon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <readline/readline.h>
-#include <readline/history.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <readline/readline.h>
+#include <readline/history.h>
 #include "exec.h"
 #include "terminal_parser.h"
 #include "hash.h"
@@ -95,7 +95,7 @@ static int	process_str(char *str)
 	size = get_command_structs(&commands, str);
 	if (size < 0)
 		return (get_converted_error_number(size, M_MODULE_PARSER));
-//	execute_commands(commands, size);
+	execute_commands(commands, size);
 	flush_command_structs(0, &commands, size);
 	return (0);
 }
