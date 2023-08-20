@@ -6,7 +6,7 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 21:23:29 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/20 23:44:07 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/21 02:53:26 by dowon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,9 +173,12 @@ int	execute_commands(t_command *commands, int size)
 			if (open_redirections(commands[0].redirections,
 					readpipe_at(pipes, 0), writepipe_at(pipes, 1)))
 				return (-1);
+			if (dup_pipes(pipes, 0))
+				return (-1);
+			result = run_builtin(commands[0].command);
+			close_rw_pipes(pipes, 0);
 			dup2(in, STDIN_FILENO);
 			dup2(out, STDOUT_FILENO);
-			result = run_builtin(commands[0].command);
 		}
 		else
 		{
