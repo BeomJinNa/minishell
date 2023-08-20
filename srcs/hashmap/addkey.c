@@ -6,7 +6,7 @@
 /*   By: bena <bena@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 08:15:08 by bena              #+#    #+#             */
-/*   Updated: 2023/08/17 06:17:17 by bena             ###   ########.fr       */
+/*   Updated: 2023/08/20 16:17:00 by bena             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,14 @@ static t_hashnode	*create_node(char *key, char *value)
 	new_node->key = hash_strdup(key);
 	if (new_node->key == NULL)
 		return (flush_node(new_node));
-	new_node->value = hash_strdup(value);
-	if (new_node->value == NULL)
-		return (flush_node(new_node));
+	if (value == NULL)
+		new_node->value = NULL;
+	else
+	{
+		new_node->value = hash_strdup(value);
+		if (new_node->value == NULL)
+			return (flush_node(new_node));
+	}
 	new_node->next = NULL;
 	return (new_node);
 }

@@ -6,7 +6,7 @@
 /*   By: bena <bena@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 11:23:25 by bena              #+#    #+#             */
-/*   Updated: 2023/07/25 14:37:02 by bena             ###   ########.fr       */
+/*   Updated: 2023/08/20 16:23:26 by bena             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	hashtable_removekey(char *key, t_hashtable *hash)
 	t_hashnode			*before;
 
 	node = hash->table[address];
-	if (node == NULL)
+	if (node == NULL || key == NULL)
 		return ;
 	if (hash_strcmp(node->key, key) == 0)
 	{
@@ -45,6 +45,8 @@ void	hashtable_removekey(char *key, t_hashtable *hash)
 
 static void	flush_node(t_hashnode *node)
 {
+	if (node == NULL)
+		return ;
 	if (node->key != NULL)
 		free(node->key);
 	if (node->value != NULL)
