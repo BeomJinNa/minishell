@@ -6,7 +6,7 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/30 22:23:11 by bena              #+#    #+#             */
-/*   Updated: 2023/08/20 20:11:57 by bena             ###   ########.fr       */
+/*   Updated: 2023/08/20 20:37:58 by bena             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ int	main(int argc, char **argv, char **envp)
 		i++;
 	}
 	remove_hashtable(hash);
+	system ("leaks minishell");
 	return (0);
 	//TEST END
 	/*

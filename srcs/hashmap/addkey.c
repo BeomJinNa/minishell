@@ -6,7 +6,7 @@
 /*   By: bena <bena@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 08:15:08 by bena              #+#    #+#             */
-/*   Updated: 2023/08/20 20:10:22 by bena             ###   ########.fr       */
+/*   Updated: 2023/08/20 20:31:22 by bena             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ static t_hashnode	*create_node(char *key, char *value);
 static t_hashnode	*flush_node(t_hashnode *node);
 static void			attach_node(t_hashnode *node, t_hashnode **empty_space);
 
-#include <stdio.h>//TEST
 int	hashtable_addkey(char *key, char *value, t_hashtable *hash)
 {
 	t_hashnode			*new_node;
@@ -36,7 +35,6 @@ int	hashtable_addkey(char *key, char *value, t_hashtable *hash)
 		&& hash_strcmp((*node_to_attach)->key, key) != 0)
 		node_to_attach = &(*node_to_attach)->next;
 	attach_node(new_node, node_to_attach);
-	printf("Added key %s %s, index %d\n", key, value, address);//TEST
 	return (0);
 }
 
