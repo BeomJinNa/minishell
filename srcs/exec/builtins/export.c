@@ -6,7 +6,7 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 02:36:00 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/20 01:09:03 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/21 02:57:58 by dowon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static int	export_variable(char *str)
 		++divider;
 	}
 	else
-		divider = "";
+		divider = NULL;
 	if (hashtable_addkey(str, divider, hash))
 		return (1);
 	return (0);
@@ -57,7 +57,7 @@ int	builtin_export(char **args)
 		return (1);
 	if (argc == 0)
 	{
-		print_hashtable(hash, "declare -x ");
+		print_hashtable(hash, "declare -x ", 1);
 		return (0);
 	}
 	result = 0;

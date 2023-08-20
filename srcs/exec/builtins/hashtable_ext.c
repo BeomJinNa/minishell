@@ -6,7 +6,7 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 03:52:59 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/20 01:06:50 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/21 02:57:16 by dowon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	check_valid_identifier(char *str)
 	return (result);
 }
 
-void	print_hashtable(t_hashtable *hash, const char *prefix)
+void	print_hashtable(t_hashtable *hash, const char *prefix, int include_null)
 {
 	t_hashnode		*iter;
 	unsigned int	idx;
@@ -55,7 +55,13 @@ void	print_hashtable(t_hashtable *hash, const char *prefix)
 		iter = hash->table[idx];
 		while (iter != NULL)
 		{
-			printf("%s%s=%s\n", prefix, iter->key, iter->value);
+			if (iter->key == NULL)
+			{
+				if (include_null)
+					printf("%s%s\n", prefix, iter->key);
+			}
+			else
+				printf("%s%s=%s\n", prefix, iter->key, iter->value);
 			iter = iter->next;
 		}
 		++idx;
