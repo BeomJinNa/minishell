@@ -6,7 +6,7 @@
 /*   By: bena <bena@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 18:26:02 by bena              #+#    #+#             */
-/*   Updated: 2023/07/29 19:47:06 by bena             ###   ########.fr       */
+/*   Updated: 2023/08/20 22:36:37 by bena             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,8 @@ static int	check_extension_syntax(char *str)
 		if (*str == '$' && in_brace == 0)
 			if (check_variable(&str))
 				return (1);
-		str++;
+		if (*str)
+			str++;
 	}
 	return (0);
 }
