@@ -3,7 +3,7 @@
 CC		= cc
 AR		= ar
 ARFLAGS	= crs
-CFLAGS	= -Wall -Wextra -Werror -g -fsanitize=address
+CFLAGS	= -Wno-unused -Wall -Wextra -Werror -g -fsanitize=address
 
 NAME	= minishell
 INCLUDE	= includes/
@@ -32,14 +32,12 @@ SRCS	= srcs/main.c \
 		  srcs/exec/builtins/pwd.c \
 		  srcs/exec/builtins/unset.c \
 		  srcs/exec/exec.c \
-		  srcs/exec/exec.test.c \
 		  srcs/exec/pipe/dup_pipes.c \
 		  srcs/exec/pipe/get_executable_path.c \
 		  srcs/exec/pipe/pipe.c \
 		  srcs/exec/redirection/close.c \
 		  srcs/exec/redirection/heredoc/heredoc.c \
 		  srcs/exec/redirection/heredoc/heredoc_status.c \
-		  srcs/exec/redirection/heredoc/heredoc.test.c \
 		  srcs/exec/redirection/open.c \
 		  srcs/exec/redirection/open_redirection.c \
 		  srcs/get_envp.c \
