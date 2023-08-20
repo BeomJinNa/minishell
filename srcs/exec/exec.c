@@ -6,7 +6,7 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 21:23:29 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/18 12:35:32 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/20 23:44:07 by dowon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 
 void	exec_command(char **command)
 {
-	char	*exec_path;
+	// char	*exec_path;
 
 	if (ft_strncmp(command[0], "echo", 5) == 0)
 		exit(builtin_echo(command + 1));
@@ -41,26 +41,23 @@ void	exec_command(char **command)
 		exit(builtin_env(command + 1));
 	else if (ft_strncmp(command[0], "exit", 5) == 0)
 		exit(builtin_exit(command + 1));
-	exec_path = hashtable_get("PATH", get_hashtable(0));
-	if (exec_path == NULL)
-	{
-		printf("%s : command not found\n", command[0]);
-		exit(127);
-	}
-	execve(exec_path,
-		command, NULL);
+	// exec_path = hashtable_get("PATH", get_hashtable(0));
+	// if (exec_path == NULL)
+	// {
+	// 	printf("%s : command not found\n", command[0]);
+	// 	exit(127);
+	// }
+	// execve(exec_path, command, get_hashtable_arr(get_hashtable(0)));
+	execvp(command[0], command);
 }
 
 int	execute_child(t_command command, int *pipes, int idx)
 {
-	printf("exec_child\n");
 	if (open_redirections(command.redirections,
 			readpipe_at(pipes, idx), writepipe_at(pipes, idx + 1)))
 		return (-1);
-	printf("redirections_opened\n");
 	if (dup_pipes(pipes, idx))
 		return (-1);
-	printf("pipes_duplicated\n");
 	exec_command(command.command);
 	close_rw_pipes(pipes, idx);
 	return (-1);
@@ -89,6 +86,13 @@ int	fork_n_execute(t_command *commands, int *pipes, int idx, int size)
 	return (0);
 }
 
+int	execute_single(t_command command, int *pipes)
+{
+	exec_command(command.command);
+	close_rw_pipes(pipes, 0);
+	return (0);
+}
+
 static int	wait_all(int size)
 {
 	int		idx;
@@ -113,6 +117,45 @@ static int	wait_all(int size)
 	return (0);
 }
 
+int is_builtin(char **command)
+{
+	return (ft_strncmp(command[0], "echo", 5) == 0
+		|| ft_strncmp(command[0], "cd", 3) == 0
+		|| ft_strncmp(command[0], "pwd", 4) == 0
+		|| ft_strncmp(command[0], "export", 6) == 0
+		|| ft_strncmp(command[0], "unset", 5) == 0
+		|| ft_strncmp(command[0], "env", 4) == 0
+		|| ft_strncmp(command[0], "exit", 5) == 0
+	);
+}
+
+int run_builtin(char **command)
+{
+	if (ft_strncmp(command[0], "echo", 5) == 0)
+		return (builtin_echo(command + 1));
+	else if (ft_strncmp(command[0], "cd", 3) == 0)
+		return (builtin_cd(command + 1));
+	else if (ft_strncmp(command[0], "pwd", 4) == 0)
+		return (builtin_pwd(command + 1));
+	else if (ft_strncmp(command[0], "export", 6) == 0)
+		return (builtin_export(command + 1));
+	else if (ft_strncmp(command[0], "unset", 5) == 0)
+		return (builtin_unset(command + 1));
+	else if (ft_strncmp(command[0], "env", 4) == 0)
+		return (builtin_env(command + 1));
+	else if (ft_strncmp(command[0], "exit", 5) == 0)
+		return (builtin_exit(command + 1));
+	return (-1);
+}
+
+void set_exit_status(int status)
+{
+	char*const	status_str = ft_itoa(status);
+
+	hashtable_addkey("?", status_str, get_hashtable(0));
+	free(status_str);
+}
+
 int	execute_commands(t_command *commands, int size)
 {
 	int*const	pipes = init_pipes(size);
@@ -121,14 +164,38 @@ int	execute_commands(t_command *commands, int size)
 
 	if (pipes == NULL)
 		return (-1);
-	idx = 0;
-	while (idx < size)
+	if (size == 1)
 	{
-		if (fork_n_execute(commands, pipes, idx, size))
-			return (-1);
-		idx++;
+		if (is_builtin(commands[0].command))
+		{
+			int in = dup(STDOUT_FILENO);
+			int out = dup(STDIN_FILENO);
+			if (open_redirections(commands[0].redirections,
+					readpipe_at(pipes, 0), writepipe_at(pipes, 1)))
+				return (-1);
+			dup2(in, STDIN_FILENO);
+			dup2(out, STDOUT_FILENO);
+			result = run_builtin(commands[0].command);
+		}
+		else
+		{
+			if (fork_n_execute(commands, pipes, 0, size))
+				return (-1);
+			result = wait_all(size);
+		}
 	}
-	result = wait_all(size);
+	else
+	{
+		idx = 0;
+		while (idx < size)
+		{
+			if (fork_n_execute(commands, pipes, idx, size))
+				return (-1);
+			idx++;
+		}
+		result = wait_all(size);
+	}
 	free(pipes);
+	set_exit_status(result);
 	return (result);
 }

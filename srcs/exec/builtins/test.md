@@ -1,10 +1,25 @@
 # export
 
-case#1
+## case 1) valid identifier
 ```bash
-$ export var_test
-$ env | grep var_test # 출력 X (var_test가 없음. 왜? 쉘 변수에 존재하지 않아서, 환경변수 설정 실패)
-$ var_test=123
-$ env | grep var_test
-123
+$ export val=1
+$ export empty=
+$ export none
+$ export
+declare -x val="1"
+declare -x empty=""
+declare -x none # env 명령에서 보이지 않음
+$ env
+val=1
+empty=
+```
+
+## case 2) not a valid identifier
+```bash
+$ export =
+$ export =1
+$ export ?=1
+$ export !=1
+$ export 1=1
+$ export 1a=1
 ```

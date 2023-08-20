@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   are_any_syntax_errors_in_extensions.c              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bena <bena@student.42seoul.kr>             +#+  +:+       +#+        */
+/*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 18:26:02 by bena              #+#    #+#             */
-/*   Updated: 2023/07/29 19:53:35 by bena             ###   ########.fr       */
+/*   Updated: 2023/08/19 20:03:04 by dowon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 int			is_this_special_character(char c);
 int			is_this_variable_character(char c, int allow_number);
 int			is_this_valid_name(char *str, int size);
-static int	check_extension_syntax(char *str);
+int			check_extension_syntax(char *str);
 static int	check_variable(char **str_ptr);
 
 int	are_any_syntax_errors_in_heredoc_extension(char **tokens)
@@ -26,7 +26,7 @@ int	are_any_syntax_errors_in_heredoc_extension(char **tokens)
 	return (0);
 }
 
-static int	check_extension_syntax(char *str)
+int	check_extension_syntax(char *str)
 {
 	while (*str)
 	{

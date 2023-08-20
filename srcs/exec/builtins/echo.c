@@ -6,7 +6,7 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 23:25:53 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/13 16:24:42 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/18 13:25:24 by dowon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,10 @@ int	builtin_echo(char **args)
 {
 	size_t			idx;
 	const size_t	argc = count_args(args);
-	const int		option_no_nl = ft_strncmp(args[0], "-n", 3) == 0;
+	const int		option_no_nl = !argc || ft_strncmp(args[0], "-n", 3) == 0;
 
+	if (argc == 0)
+		printf("\n");
 	idx = option_no_nl;
 	while (idx < argc)
 	{

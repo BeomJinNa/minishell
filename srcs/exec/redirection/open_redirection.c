@@ -6,7 +6,7 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 22:25:17 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/18 08:31:32 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/20 23:45:08 by dowon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,24 +86,18 @@ static int	handle_output_redirection(char **redirect, int *fd_wr)
  */
 int	open_redirections(char ***redirect, int *fd_rd, int *fd_wr)
 {
-	int idx;
+	int	idx;
 
 	idx = 0;
 	while (redirect[idx] != NULL)
 	{
-		printf("open_redirections idx : %d\n", idx);
-		printf("open_redirections : %p\n", redirect[idx]);
-		printf("redirect[idx][0] : %s\n", redirect[idx][0]);
 		if (redirect[idx][0][0] == '<')
 		{
-			printf("redir input\n");
 			if (handle_input_redirection(redirect[idx], fd_rd))
 				return (-1);
-			printf("running\n");
 		}
 		else if (redirect[idx][0][0] == '>')
 		{
-			printf("redir output\n");
 			if (handle_output_redirection(redirect[idx], fd_wr))
 				return (-1);
 		}
@@ -112,9 +106,7 @@ int	open_redirections(char ***redirect, int *fd_rd, int *fd_wr)
 			printf("[DEBUG MSG] parsing error\n");
 			return (-1);
 		}
-		printf("next\n");
 		idx++;
 	}
-	printf("exit\n");
 	return (0);
 }

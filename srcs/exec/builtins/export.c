@@ -6,7 +6,7 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 02:36:00 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/13 16:22:47 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/20 01:09:03 by dowon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,20 +17,25 @@
 
 static int	export_variable(char *str)
 {
-	char*const			divider = ft_strchr(str, '=');
+	char				*divider;
 	t_hashtable*const	hash = get_hashtable(0);
 
 	if (hash == NULL)
 		return (1);
-	if (divider == NULL)
-		return (0);
-	*divider = '\0';
-	if (check_valid_identifier(str))
+	if (!check_valid_identifier(str))
 	{
-		printf("export: `%s`: not a valid identifier", str);
+		printf("export: `%s`: not a valid identifier\n", str);
 		return (1);
 	}
-	if (hashtable_addkey(str, divider + 1, hash))
+	divider = ft_strchr(str, '=');
+	if (divider)
+	{
+		*divider = '\0';
+		++divider;
+	}
+	else
+		divider = "";
+	if (hashtable_addkey(str, divider, hash))
 		return (1);
 	return (0);
 }
