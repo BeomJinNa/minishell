@@ -6,7 +6,7 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 16:29:35 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/15 15:02:48 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/21 03:56:35 by dowon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ int	*init_pipes(int process_count)
 			clean_pipes(pipes, process_count);
 			return (NULL);
 		}
-		printf("pipes set to (%d) : r %d w %d\n", idx , pipes[2 * idx], pipes[2 * idx + 1]);
 	}
 	return (pipes);
 }
