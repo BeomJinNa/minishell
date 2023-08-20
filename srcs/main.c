@@ -6,7 +6,7 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/30 22:23:11 by bena              #+#    #+#             */
-/*   Updated: 2023/08/18 12:33:29 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/20 20:11:57 by bena             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,21 +23,40 @@
 int			get_command_structs(t_command **buffer_ptr, char *str);
 int			flush_command_structs(int return_value,
 				t_command **buffer_ptr, int size);
-static int	initialize_settings(void);
+int			convert_envp_to_hash(char *row, t_hashtable *hash);
+static int	initialize_settings(char **envp);
 static int	process_str(char *str);
 static void	release_resources(void);
 static int	get_converted_error_number(int error_code, int module);
 
-int	main(void)
+int	main(int argc, char **argv, char **envp)
 {
 	char	*str;
 	int		error;
 
-	if (initialize_settings())
+	if (initialize_settings(envp))
 	{
 		perror("Error: ");
 		return (1);
 	}
+	//TEST START
+	int i = 0;
+	t_hashnode *ptr;
+	t_hashtable *hash = get_hashtable(0);
+	while (i < 4096)
+	{
+		ptr = hash->table[i];
+		while (ptr != NULL)
+		{
+			printf("%s=%s\n", ptr->key, ptr->value);
+			ptr = ptr->next;
+		}
+		i++;
+	}
+	remove_hashtable(hash);
+	return (0);
+	//TEST END
+	/*
 	str = readline("minishell$ ");
 	while (str != NULL)
 	{
@@ -51,12 +70,30 @@ int	main(void)
 	}
 	release_resources();
 	return (0);
+	*/
 }
 
-static int	initialize_settings(void)
+static int	initialize_settings(char **envp)
 {
+	char		**ptr;
+	t_hashtable	*hash;
+	int			fail;
+
 	if (get_hashtable(4096) == NULL)
-		return (1);
+		return (-1);
+	hash = get_hashtable(0);
+	if (envp == NULL)
+		return (0);
+	fail = 0;
+	ptr = envp;
+	while (*ptr != NULL)
+		if (convert_envp_to_hash(*ptr++, hash))
+			fail = 1;
+	if (fail)
+	{
+		remove_hashtable(hash);
+		return (-1);
+	}
 	return (0);
 }
 
@@ -75,7 +112,7 @@ static int	process_str(char *str)
 	size = get_command_structs(&commands, str);
 	if (size < 0)
 		return (get_converted_error_number(size, M_MODULE_PARSER));
-	execute_commands(commands, size);
+//	execute_commands(commands, size);
 	flush_command_structs(0, &commands, size);
 	return (0);
 }
