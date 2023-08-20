@@ -6,7 +6,7 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/30 22:23:11 by bena              #+#    #+#             */
-/*   Updated: 2023/08/20 21:45:52 by bena             ###   ########.fr       */
+/*   Updated: 2023/08/20 22:12:08 by bena             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ int	main(int argc, char **argv, char **envp)
 	char	*str;
 	int		error;
 
+	(void)argc;
+	(void)argv;
 	if (initialize_settings(envp))
 	{
 		perror("Error: ");
