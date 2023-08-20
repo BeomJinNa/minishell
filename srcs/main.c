@@ -6,7 +6,7 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/30 22:23:11 by bena              #+#    #+#             */
-/*   Updated: 2023/08/20 20:37:58 by bena             ###   ########.fr       */
+/*   Updated: 2023/08/20 21:35:09 by bena             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int			get_command_structs(t_command **buffer_ptr, char *str);
 int			flush_command_structs(int return_value,
 				t_command **buffer_ptr, int size);
 int			convert_envp_to_hash(char *row, t_hashtable *hash);
+char		**get_envp(t_hashtable *hash);//TEST
 static int	initialize_settings(char **envp);
 static int	process_str(char *str);
 static void	release_resources(void);
@@ -53,7 +54,12 @@ int	main(int argc, char **argv, char **envp)
 		}
 		i++;
 	}
+	char	**list = get_envp(hash);
 	remove_hashtable(hash);
+	char	**listptr = list;
+	while (*listptr != NULL)
+		printf("%s\n", *listptr++);
+	remove_tokens(&list);
 	system ("leaks minishell");
 	return (0);
 	//TEST END
