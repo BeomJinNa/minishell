@@ -9,7 +9,6 @@ NAME	= minishell
 INCLUDE	= includes/
 
 
-
 #libraries=====================================================================
 
 LIBS	= libft
@@ -21,7 +20,9 @@ LIBFT	= libft/libft.a
 
 #sources=======================================================================
 
-SRCS	= srcs/main.c \
+SRCS	= srcs/init.c \
+		  srcs/main.c \
+		  srcs/exec/builtins/builtins.c \
 		  srcs/exec/builtins/cd.c \
 		  srcs/exec/builtins/count_args.c \
 		  srcs/exec/builtins/echo.c \

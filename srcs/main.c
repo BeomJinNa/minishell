@@ -6,10 +6,14 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/30 22:23:11 by bena              #+#    #+#             */
-/*   Updated: 2023/08/21 03:54:54 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/21 18:59:40 by dowon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <signal.h>
+#include <unistd.h>
+#include <sys/ioctl.h>
+#include <term.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <readline/readline.h>
@@ -24,7 +28,7 @@ int			get_command_structs(t_command **buffer_ptr, char *str);
 int			flush_command_structs(int return_value,
 				t_command **buffer_ptr, int size);
 int			convert_envp_to_hash(char *row, t_hashtable *hash);
-static int	initialize_settings(char **envp);
+int			initialize_settings(char **envp);
 static int	process_str(char *str);
 static void	release_resources(void);
 static int	get_converted_error_number(int error_code, int module);
@@ -32,7 +36,6 @@ static int	get_converted_error_number(int error_code, int module);
 int	main(int argc, char **argv, char **envp)
 {
 	char	*str;
-	int		error;
 
 	(void)argc;
 	(void)argv;
@@ -44,39 +47,18 @@ int	main(int argc, char **argv, char **envp)
 	str = readline("minishell$ ");
 	while (str != NULL)
 	{
-		add_history(str);
-		replace_white_spaces(str);
-		error = process_str(str);
-		if (error)
-			perror("Error: ");
+		if (str[0] != '\0')
+		{
+			add_history(str);
+			replace_white_spaces(str);
+			if (process_str(str))
+				perror("Error: ");
+		}
 		free(str);
 		str = readline("minishell$ ");
 	}
+	printf("exit\n");
 	release_resources();
-	return (0);
-}
-
-static int	initialize_settings(char **envp)
-{
-	char		**ptr;
-	t_hashtable	*hash;
-	int			fail;
-
-	if (get_hashtable(4096) == NULL)
-		return (-1);
-	hash = get_hashtable(0);
-	if (envp == NULL)
-		return (0);
-	fail = 0;
-	ptr = envp;
-	while (*ptr != NULL)
-		if (convert_envp_to_hash(*ptr++, hash))
-			fail = 1;
-	if (fail)
-	{
-		remove_hashtable(hash);
-		return (-1);
-	}
 	return (0);
 }
 
@@ -89,15 +71,16 @@ static int	process_str(char *str)
 {
 	t_command	*commands;
 	int			size;
+	int			result;
 
 	if (get_number_of_tokens(str, '\0') < 0)
 		return (M_ERROR_SYNTAX_QUOTE);
 	size = get_command_structs(&commands, str);
 	if (size < 0)
 		return (get_converted_error_number(size, M_MODULE_PARSER));
-	execute_commands(commands, size);
+	result = execute_commands(commands, size);
 	flush_command_structs(0, &commands, size);
-	return (0);
+	return (result);
 }
 
 static int	get_converted_error_number(int error_code, int module)

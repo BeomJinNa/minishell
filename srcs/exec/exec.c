@@ -6,7 +6,7 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 21:23:29 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/21 02:53:26 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/21 20:13:16 by dowon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,31 +25,21 @@
 
 void	exec_command(char **command)
 {
-	// char	*exec_path;
+	char		*exe_path;
+	char*const	path_env = hashtable_get("PATH", get_hashtable(0));
 
-	if (ft_strncmp(command[0], "echo", 5) == 0)
-		exit(builtin_echo(command + 1));
-	else if (ft_strncmp(command[0], "cd", 3) == 0)
-		exit(builtin_cd(command + 1));
-	else if (ft_strncmp(command[0], "pwd", 4) == 0)
-		exit(builtin_pwd(command + 1));
-	else if (ft_strncmp(command[0], "export", 6) == 0)
-		exit(builtin_export(command + 1));
-	else if (ft_strncmp(command[0], "unset", 5) == 0)
-		exit(builtin_unset(command + 1));
-	else if (ft_strncmp(command[0], "env", 4) == 0)
-		exit(builtin_env(command + 1));
-	else if (ft_strncmp(command[0], "exit", 5) == 0)
-		exit(builtin_exit(command + 1));
-	// exec_path = hashtable_get("PATH", get_hashtable(0));
-	// if (exec_path == NULL)
-	// {
-	// 	printf("%s : command not found\n", command[0]);
-	// 	exit(127);
-	// }
-	// execve(exec_path, command, get_hashtable_arr(get_hashtable(0)));
-	execvp(command[0], command);
+	if (is_builtin(command[0]))
+		exit(run_builtin(command));
+	if (path_env)
+		exe_path = get_excutable_path(path_env, command[0]);
+	if (path_env == NULL || exe_path == NULL)
+	{
+		printf("%s : command not found\n", command[0]);
+		exit(127);
+	}
+	execvp(exe_path, command);
 }
+// execve(exe_path, command, get_hashtable_arr(get_hashtable(0)));
 
 int	execute_child(t_command command, int *pipes, int idx)
 {
@@ -86,74 +76,49 @@ int	fork_n_execute(t_command *commands, int *pipes, int idx, int size)
 	return (0);
 }
 
-int	execute_single(t_command command, int *pipes)
-{
-	exec_command(command.command);
-	close_rw_pipes(pipes, 0);
-	return (0);
-}
-
 static int	wait_all(int size)
 {
 	int		idx;
 	int		status;
-	char	*status_str;
+	int		exit_status;
 
 	idx = 0;
 	while (idx < size)
 	{
-		wait(&status);
+		printf("child: %d end\n", wait(&status));
 		++idx;
 		if (WIFEXITED(status))
-		{
-			status_str = ft_itoa(WEXITSTATUS(status));
-			if (status_str == NULL)
-				return (-1);
-			if (hashtable_addkey("?", status_str, get_hashtable(0)))
-				return (-1);
-			free(status_str);
-		}
+			exit_status = WEXITSTATUS(status);
+		else if (WIFSIGNALED(status))
+			exit_status = WTERMSIG(status) + 128;
 	}
-	return (0);
+	return (exit_status);
 }
 
-int is_builtin(char **command)
-{
-	return (ft_strncmp(command[0], "echo", 5) == 0
-		|| ft_strncmp(command[0], "cd", 3) == 0
-		|| ft_strncmp(command[0], "pwd", 4) == 0
-		|| ft_strncmp(command[0], "export", 6) == 0
-		|| ft_strncmp(command[0], "unset", 5) == 0
-		|| ft_strncmp(command[0], "env", 4) == 0
-		|| ft_strncmp(command[0], "exit", 5) == 0
-	);
-}
-
-int run_builtin(char **command)
-{
-	if (ft_strncmp(command[0], "echo", 5) == 0)
-		return (builtin_echo(command + 1));
-	else if (ft_strncmp(command[0], "cd", 3) == 0)
-		return (builtin_cd(command + 1));
-	else if (ft_strncmp(command[0], "pwd", 4) == 0)
-		return (builtin_pwd(command + 1));
-	else if (ft_strncmp(command[0], "export", 6) == 0)
-		return (builtin_export(command + 1));
-	else if (ft_strncmp(command[0], "unset", 5) == 0)
-		return (builtin_unset(command + 1));
-	else if (ft_strncmp(command[0], "env", 4) == 0)
-		return (builtin_env(command + 1));
-	else if (ft_strncmp(command[0], "exit", 5) == 0)
-		return (builtin_exit(command + 1));
-	return (-1);
-}
-
-void set_exit_status(int status)
+void	set_exit_status(int status)
 {
 	char*const	status_str = ft_itoa(status);
 
 	hashtable_addkey("?", status_str, get_hashtable(0));
 	free(status_str);
+}
+
+int	run_single_builtin(t_command *commands, int *pipes)
+{
+	const int	in = dup(STDOUT_FILENO);
+	const int	out = dup(STDIN_FILENO);
+	int			result;
+
+	if (open_redirections(commands[0].redirections,
+			readpipe_at(pipes, 0), writepipe_at(pipes, 1)))
+		return (-1);
+	if (dup_pipes(pipes, 0))
+		return (-1);
+	result = run_builtin(commands[0].command);
+	close_rw_pipes(pipes, 0);
+	dup2(in, STDIN_FILENO);
+	dup2(out, STDOUT_FILENO);
+	return (result);
 }
 
 int	execute_commands(t_command *commands, int size)
@@ -164,29 +129,8 @@ int	execute_commands(t_command *commands, int size)
 
 	if (pipes == NULL)
 		return (-1);
-	if (size == 1)
-	{
-		if (is_builtin(commands[0].command))
-		{
-			int in = dup(STDOUT_FILENO);
-			int out = dup(STDIN_FILENO);
-			if (open_redirections(commands[0].redirections,
-					readpipe_at(pipes, 0), writepipe_at(pipes, 1)))
-				return (-1);
-			if (dup_pipes(pipes, 0))
-				return (-1);
-			result = run_builtin(commands[0].command);
-			close_rw_pipes(pipes, 0);
-			dup2(in, STDIN_FILENO);
-			dup2(out, STDOUT_FILENO);
-		}
-		else
-		{
-			if (fork_n_execute(commands, pipes, 0, size))
-				return (-1);
-			result = wait_all(size);
-		}
-	}
+	if (size == 1 && is_builtin(commands[0].command[0]))
+		result = run_single_builtin(commands, pipes);
 	else
 	{
 		idx = 0;
