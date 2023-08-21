@@ -6,17 +6,12 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 01:08:13 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/20 23:45:56 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/21 20:33:03 by dowon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include "pipe.h"
-
-
-#include <stdio.h>
-#include <string.h>
-#include <errno.h>
 
 int	dup_rw_pipes(int *pipes, int idx)
 {

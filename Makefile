@@ -33,6 +33,8 @@ SRCS	= srcs/init.c \
 		  srcs/exec/builtins/pwd.c \
 		  srcs/exec/builtins/unset.c \
 		  srcs/exec/exec.c \
+		  srcs/exec/exec_child.c \
+		  srcs/exec/exec_single_builtin.c \
 		  srcs/exec/pipe/dup_pipes.c \
 		  srcs/exec/pipe/get_executable_path.c \
 		  srcs/exec/pipe/pipe.c \
