@@ -6,7 +6,7 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/30 22:23:11 by bena              #+#    #+#             */
-/*   Updated: 2023/08/21 18:59:40 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/22 18:40:21 by bena             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	if (initialize_settings(envp))
 	{
-		perror("Error: ");
+		perror(NULL);
 		return (1);
 	}
 	str = readline("minishell$ ");
@@ -52,7 +52,7 @@ int	main(int argc, char **argv, char **envp)
 			add_history(str);
 			replace_white_spaces(str);
 			if (process_str(str))
-				perror("Error: ");
+				perror(NULL);
 		}
 		free(str);
 		str = readline("minishell$ ");
