@@ -7,3 +7,14 @@
 compile_flags.txt
 minishell
 readline/
+readline-8.2/.configured
+readline-8.2/Makefile
+readline-8.2/config.h
+readline-8.2/config.log
+readline-8.2/config.status
+readline-8.2/doc/Makefile
+readline-8.2/examples/Makefile
+readline-8.2/history.pc
+readline-8.2/readline.pc
+readline-8.2/shlib/
+readline-8.2/stamp-h
