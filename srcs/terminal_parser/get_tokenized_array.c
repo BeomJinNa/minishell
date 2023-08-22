@@ -6,7 +6,7 @@
 /*   By: bena <bena@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 16:41:12 by bena              #+#    #+#             */
-/*   Updated: 2023/07/29 19:12:12 by bena             ###   ########.fr       */
+/*   Updated: 2023/08/22 18:28:51 by bena             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ int	get_number_of_tokens(const char *str, char c)
 	int	output;
 	int	token_size;
 
+	if (*str == '\0')
+		return (1);
 	output = 0;
 	while (*str)
 	{
