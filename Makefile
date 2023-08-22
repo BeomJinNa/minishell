@@ -1,22 +1,23 @@
 #parameters====================================================================
 
-CC		= cc
-AR		= ar
-ARFLAGS	= crs
-CFLAGS	= -Wno-unused -Wall -Wextra -Werror -g -fsanitize=address
+CC			= cc
 
-NAME	= minishell
-INCLUDE	= includes/
+COMMONFLAGS	= -fsanitize=address
+CFLAGS		= $(COMMONFLAGS) -Wno-unused -Wall -Wextra -Werror -g
+LDFLAGS		= $(COMMONFLAGS) \
+			  $(foreach lib, $(TARGET_LIBDIR), -L$(lib)) \
+			  $(foreach arch, $(TARGET_ARCH), -l$(arch))
 
+NAME		= minishell
+INCLUDE		= includes/ readline/include/
 
 #libraries=====================================================================
 
-LIBS	= libft
-ARCH	= ft
+LIBDIR		= libft/ readline/lib/
+ARCH		= ft readline history
 
-LIBFT	= libft/libft.a
-
-
+LIBFT		= libft/libft.a
+READLINE	= readline-8.2/.configured
 
 #sources=======================================================================
 
@@ -81,34 +82,43 @@ SRCS	= srcs/init.c \
 
 OBJS	= $(SRCS:.c=.o)
 
+#targets=======================================================================
 
-
-TARGET_OBJS = $(OBJS)
-TARGET_LIB = $(LIBFT)
-TARGET_LIBS = $(LIBS)
+TARGET_LIB = $(LIBFT) $(READLINE)
+TARGET_LIBDIR = $(LIBDIR)
 TARGET_ARCH = $(ARCH)
+TARGET_OBJS = $(OBJS)
 
 #rules=========================================================================
 
 .PHONY: all
-all :
+all : $(TARGET_LIB)
 	make $(NAME)
 
-$(NAME) : $(TARGET_LIB) $(TARGET_OBJS)
-	$(CC) -o $@ $(TARGET_OBJS) $(foreach lib, $(TARGET_LIBS), -L$(lib)) $(foreach arch, $(TARGET_ARCH), -l$(arch)) -lreadline -fsanitize=address
+$(NAME) : $(TARGET_OBJS)
+	$(CC) -o $@ $(TARGET_OBJS) $(LDFLAGS)
 
 
 $(LIBFT) :
 	make -C libft
 
+$(READLINE) :
+	cd readline-8.2 && ./configure --prefix=$(PWD)/readline/
+	touch readline-8.2/.configured
+	make -C readline-8.2
+	make install -C readline-8.2
+
 #const options=================================================================
 
 %.o : %.c
-	$(CC) $(CFLAGS) -I$(INCLUDE) -c $< -o $@
+	$(CC) $(CFLAGS) -c $< -o $@ $(foreach include, $(INCLUDE), -I$(include))
 
 .PHONY: clean
 clean :
-	$(foreach lib, $(LIBS), make fclean -C $(lib);)
+	make fclean -C libft
+	make distclean -C readline-8.2
+	rm -f readline-8.2/.configured
+	rm -rf readline/
 	rm -f $(OBJS)
 
 .PHONY: fclean
