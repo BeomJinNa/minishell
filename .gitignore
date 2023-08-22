@@ -6,3 +6,4 @@
 *.a
 compile_flags.txt
 minishell
+readline/
