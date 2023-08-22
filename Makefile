@@ -21,8 +21,7 @@ READLINE	= readline-8.2/.configured
 
 #sources=======================================================================
 
-SRCS	= srcs/init.c \
-		  srcs/main.c \
+SRCS	= srcs/main.c \
 		  srcs/exec/builtins/builtins.c \
 		  srcs/exec/builtins/cd.c \
 		  srcs/exec/builtins/count_args.c \
@@ -56,6 +55,7 @@ SRCS	= srcs/init.c \
 		  srcs/hashmap/init_hashtable.c \
 		  srcs/hashmap/remove_hashtable.c \
 		  srcs/hashmap/removekey.c \
+		  srcs/init.c \
 		  srcs/main_utils/alloc_command_structs.c \
 		  srcs/main_utils/convert_envp_to_hash.c \
 		  srcs/main_utils/init_command_structs.c \
@@ -77,8 +77,8 @@ SRCS	= srcs/init.c \
 		  srcs/terminal_parser/variable_extension/heredoc/divide_variables_heredoc.c \
 		  srcs/terminal_parser/variable_extension/heredoc/extend_one_line_heredoc.c \
 		  srcs/terminal_parser/variable_extension/replace_variables.c \
-		  srcs/terminal_parser/variable_extension/variable.c \
-		  srcs/terminal_parser/variable_extension/va_strndup.c
+		  srcs/terminal_parser/variable_extension/va_strndup.c \
+		  srcs/terminal_parser/variable_extension/variable.c
 
 OBJS	= $(SRCS:.c=.o)
 
@@ -118,12 +118,12 @@ clean :
 	make fclean -C libft
 	make distclean -C readline-8.2
 	rm -f readline-8.2/.configured
-	rm -rf readline/
 	rm -f $(OBJS)
 
 .PHONY: fclean
 fclean :
 	make clean
+	rm -rf readline/
 	rm -f $(NAME)
 
 .PHONY: re

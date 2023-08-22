@@ -6,13 +6,14 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 18:51:52 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/22 16:35:02 by bena             ###   ########.fr       */
+/*   Updated: 2023/08/22 17:28:42 by bena             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <term.h>
 #include <unistd.h>
 #include <signal.h>
+#include <stdio.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 #include "hash.h"
