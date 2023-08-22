@@ -6,7 +6,7 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 18:51:52 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/21 20:15:53 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/22 13:07:54 by bena             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,21 +60,20 @@ static int	initialize_environment(char **envp)
 {
 	char			**ptr;
 	t_hashtable		*hash;
-	int				fail;
 
 	hash = get_hashtable(4096);
 	if (hash == NULL)
 		return (-1);
 	if (envp == NULL)
 		return (0);
-	fail = 0;
 	ptr = envp;
-	while (*ptr != NULL && !fail)
-		fail |= (convert_envp_to_hash(*ptr++, hash) != 0);
-	if (fail)
+	while (*ptr != NULL)
 	{
-		remove_hashtable(hash);
-		return (-1);
+		if (convert_envp_to_hash(*ptr++, hash) != 0)
+		{
+			remove_hashtable(hash);
+			return (-1);
+		}
 	}
 	hashtable_addkey("?", "0", hash);
 	return (0);
