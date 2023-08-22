@@ -6,7 +6,7 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 20:24:11 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/21 20:28:18 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/22 18:36:56 by dowon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 
 static int	execute_child(t_command command, int *pipes, int idx);
 static void	exec_command(char **command);
+char		**get_envp(t_hashtable *hash);
 
 int	fork_n_execute(t_command *commands, int *pipes, int idx, int size)
 {
@@ -34,7 +35,7 @@ int	fork_n_execute(t_command *commands, int *pipes, int idx, int size)
 		if (execute_child(commands[idx], pipes, idx))
 		{
 			clean_pipes(pipes, size);
-			return (-1);
+			exit(1);
 		}
 	}
 	else if (close_rw_pipes(pipes, idx))
@@ -59,9 +60,8 @@ static void	exec_command(char **command)
 		printf("%s : command not found\n", command[0]);
 		exit(127);
 	}
-	execvp(exe_path, command);
+	execve(exe_path, command, get_envp(get_hashtable(0)));
 }
-// execve(exe_path, command, get_hashtable_arr(get_hashtable(0)));
 
 static int	execute_child(t_command command, int *pipes, int idx)
 {
@@ -70,6 +70,8 @@ static int	execute_child(t_command command, int *pipes, int idx)
 		return (-1);
 	if (dup_pipes(pipes, idx))
 		return (-1);
+	if (command.command[0][0] == '\0')
+		exit(0);
 	exec_command(command.command);
 	close_rw_pipes(pipes, idx);
 	return (-1);

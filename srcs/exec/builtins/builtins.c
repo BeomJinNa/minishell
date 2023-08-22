@@ -6,7 +6,7 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 19:29:58 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/21 19:35:12 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/22 17:35:34 by dowon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,15 @@
 
 int	is_builtin(char *command)
 {
-	return (ft_strncmp(command, "echo", 5) == 0
-		|| ft_strncmp(command, "cd", 3) == 0
-		|| ft_strncmp(command, "pwd", 4) == 0
-		|| ft_strncmp(command, "export", 6) == 0
-		|| ft_strncmp(command, "unset", 5) == 0
-		|| ft_strncmp(command, "env", 4) == 0
-		|| ft_strncmp(command, "exit", 5) == 0
+	return (
+		command
+		&& (ft_strncmp(command, "echo", 5) == 0
+			|| ft_strncmp(command, "cd", 3) == 0
+			|| ft_strncmp(command, "pwd", 4) == 0
+			|| ft_strncmp(command, "export", 6) == 0
+			|| ft_strncmp(command, "unset", 5) == 0
+			|| ft_strncmp(command, "env", 4) == 0
+			|| ft_strncmp(command, "exit", 5) == 0)
 	);
 }
 
