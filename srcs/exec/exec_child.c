@@ -6,17 +6,20 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 20:24:11 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/22 18:36:56 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/22 21:04:52 by dowon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
+#include <errno.h>
 #include <unistd.h>
 #include "terminal_parser.h"
 #include "redirection/redirection.h"
 #include "builtins/builtins.h"
 #include "hash.h"
+#include "libft.h"
 #include "pipe/pipe.h"
 
 static int	execute_child(t_command command, int *pipes, int idx);
@@ -46,21 +49,41 @@ int	fork_n_execute(t_command *commands, int *pipes, int idx, int size)
 	return (0);
 }
 
+static int	is_path_included(char *str)
+{
+	return (
+		ft_strncmp(str, "/", 1) == 0
+		|| ft_strncmp(str, "./", 2) == 0
+		|| ft_strncmp(str, "../", 3) == 0
+	);
+}
+
 static void	exec_command(char **command)
 {
+	int			result;
 	char		*exe_path;
 	char*const	path_env = hashtable_get("PATH", get_hashtable(0));
 
 	if (is_builtin(command[0]))
-		exit(run_builtin(command));
-	if (path_env)
-		exe_path = get_excutable_path(path_env, command[0]);
-	if (path_env == NULL || exe_path == NULL)
+		result = run_builtin(command);
+	else
 	{
-		printf("%s : command not found\n", command[0]);
-		exit(127);
+		exe_path = NULL;
+		if (is_path_included(command[0]))
+			exe_path = command[0];
+		else if (path_env)
+			exe_path = get_excutable_path(path_env, command[0]);
+		result = execve(exe_path, command, get_envp(get_hashtable(0)));
+		if (errno == EACCES)
+			result = 126;
+		else if (errno == ENOENT)
+			result = 127;
+		else
+			result = 127;
 	}
-	execve(exe_path, command, get_envp(get_hashtable(0)));
+	if (result)
+		perror(NULL);
+	exit(result);
 }
 
 static int	execute_child(t_command command, int *pipes, int idx)
