@@ -3,20 +3,31 @@
 CC			= cc
 
 COMMONFLAGS	= -fsanitize=address
+
 CFLAGS		= $(COMMONFLAGS) -Wno-unused -Wall -Wextra -Werror -g
+
 LDFLAGS		= $(COMMONFLAGS) \
 			  $(foreach lib, $(TARGET_LIBDIR), -L$(lib)) \
 			  $(foreach arch, $(TARGET_ARCH), -l$(arch))
 
 NAME		= minishell
-INCLUDE		= includes/ readline/include/
+
+INCLUDE		= includes/ \
+			  readline/ \
+			  include/
 
 #libraries=====================================================================
 
-LIBDIR		= libft/ readline/lib/
-ARCH		= ft readline history #ncurses (WSL2 환경인 경우 활성화)
+LIBDIR		= libft/ \
+			  readline/lib/
+
+ARCH		= ft \
+			  readline \
+			  history
+			  #ncurses (WSL2 인 경우 활성화)
 
 LIBFT		= libft/libft.a
+
 READLINE	= readline-8.2/.configured
 
 #sources=======================================================================

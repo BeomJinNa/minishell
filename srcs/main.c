@@ -6,7 +6,7 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/30 22:23:11 by bena              #+#    #+#             */
-/*   Updated: 2023/08/23 18:08:52 by bena             ###   ########.fr       */
+/*   Updated: 2023/08/23 18:23:39 by bena             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,11 +91,11 @@ static int	get_converted_error_number(int error_code, int module)
 {
 	//If error_code == -1, call perror(NULL) in main function
 
-	if (module == M_MODULE_PARSER && error_code == M_MALLOC_FAIL)
+	if (module == M_MODULE_PARSER && error_code == -1)
 		return (M_ERROR_MALLOC_FAIL);
-	else if (module == M_MODULE_PARSER && error_code == M_SYNTAX_ERROR_REDIRECTIONS)
+	else if (module == M_MODULE_PARSER && error_code == -2)
 		return (M_ERROR_SYNTAX_REDIRECTION);
-	else if (module == M_MODULE_PARSER && error_code == M_SYNTAX_ERROR_ENV_VARIABLES)
+	else if (module == M_MODULE_PARSER && error_code == -3)
 		return (M_ERROR_SYNTAX_ENV_VARIABLE);
 //	else if (module == M_MODULE_PIPE && error_code == ERROR_CODE_IN_execute_commands)
 //		return (converted_error_code);
@@ -108,7 +108,7 @@ static void	print_error(int error_code)
 		perror(NULL);
 	else if (error_code == M_ERROR_MALLOC_FAIL)
 		write(2, "Malloc failed.\n", 15);
-	else if (error_code == M_SYNTAX_ERROR_REDIRECTIONS)
+	else if (error_code == M_ERROR_SYNTAX_REDIRECTION)
 		write(2, "Syntax error near redirections.\n", 32);
 	else if (error_code == M_ERROR_SYNTAX_ENV_VARIABLE)
 		write(2, "Syntax error near env variables.\n", 33);
