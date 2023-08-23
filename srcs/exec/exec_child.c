@@ -6,7 +6,7 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 20:24:11 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/22 21:04:52 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/23 19:33:24 by dowon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ static void	exec_command(char **command)
 {
 	int			result;
 	char		*exe_path;
+	char		**envp;
 	char*const	path_env = hashtable_get("PATH", get_hashtable(0));
 
 	if (is_builtin(command[0]))
@@ -73,11 +74,12 @@ static void	exec_command(char **command)
 			exe_path = command[0];
 		else if (path_env)
 			exe_path = get_excutable_path(path_env, command[0]);
-		result = execve(exe_path, command, get_envp(get_hashtable(0)));
+		envp = get_envp(get_hashtable(0));
+		result = execve(exe_path, command, envp);
+		remove_tokens(&envp);
+		free(exe_path);
 		if (errno == EACCES)
 			result = 126;
-		else if (errno == ENOENT)
-			result = 127;
 		else
 			result = 127;
 	}
