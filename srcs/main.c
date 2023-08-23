@@ -6,7 +6,7 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/30 22:23:11 by bena              #+#    #+#             */
-/*   Updated: 2023/08/22 18:40:21 by bena             ###   ########.fr       */
+/*   Updated: 2023/08/23 18:08:52 by bena             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,12 @@ int			initialize_settings(char **envp);
 static int	process_str(char *str);
 static void	release_resources(void);
 static int	get_converted_error_number(int error_code, int module);
+static void	print_error(int error_code);
 
 int	main(int argc, char **argv, char **envp)
 {
 	char	*str;
+	int		error;
 
 	(void)argc;
 	(void)argv;
@@ -51,8 +53,9 @@ int	main(int argc, char **argv, char **envp)
 		{
 			add_history(str);
 			replace_white_spaces(str);
-			if (process_str(str))
-				perror(NULL);
+			error = process_str(str);
+			if (error)
+				print_error(error);
 		}
 		free(str);
 		str = readline("minishell$ ");
@@ -79,17 +82,36 @@ static int	process_str(char *str)
 	if (size < 0)
 		return (get_converted_error_number(size, M_MODULE_PARSER));
 	result = execute_commands(commands, size);
+	result = get_converted_error_number(result, M_MODULE_PIPE);
 	flush_command_structs(0, &commands, size);
 	return (result);
 }
 
 static int	get_converted_error_number(int error_code, int module)
 {
+	//If error_code == -1, call perror(NULL) in main function
+
 	if (module == M_MODULE_PARSER && error_code == M_MALLOC_FAIL)
 		return (M_ERROR_MALLOC_FAIL);
-	if (module == M_MODULE_PARSER && error_code == M_SYNTAX_ERROR_REDIRECTIONS)
+	else if (module == M_MODULE_PARSER && error_code == M_SYNTAX_ERROR_REDIRECTIONS)
 		return (M_ERROR_SYNTAX_REDIRECTION);
-	if (module == M_MODULE_PARSER && error_code == M_SYNTAX_ERROR_ENV_VARIABLES)
+	else if (module == M_MODULE_PARSER && error_code == M_SYNTAX_ERROR_ENV_VARIABLES)
 		return (M_ERROR_SYNTAX_ENV_VARIABLE);
+//	else if (module == M_MODULE_PIPE && error_code == ERROR_CODE_IN_execute_commands)
+//		return (converted_error_code);
 	return (error_code);
+}
+
+static void	print_error(int error_code)
+{
+	if (error_code == M_CALL_PERROR)
+		perror(NULL);
+	else if (error_code == M_ERROR_MALLOC_FAIL)
+		write(2, "Malloc failed.\n", 15);
+	else if (error_code == M_SYNTAX_ERROR_REDIRECTIONS)
+		write(2, "Syntax error near redirections.\n", 32);
+	else if (error_code == M_ERROR_SYNTAX_ENV_VARIABLE)
+		write(2, "Syntax error near env variables.\n", 33);
+	else if (error_code == M_ERROR_SYNTAX_QUOTE)
+		write(2, "Syntax error near quotes.\n", 26);
 }

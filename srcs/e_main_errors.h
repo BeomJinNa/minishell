@@ -6,7 +6,7 @@
 /*   By: bena <bena@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 06:40:06 by bena              #+#    #+#             */
-/*   Updated: 2023/08/08 06:57:39 by bena             ###   ########.fr       */
+/*   Updated: 2023/08/23 18:03:31 by bena             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 enum e_main_errors
 {
 	M_MODULE_PARSER = 1,
+	M_MODULE_PIPE = 2,
+	M_CALL_PERROR = -2,
 	M_ERROR_MALLOC_FAIL = -100,
 	M_ERROR_SYNTAX_REDIRECTION = -101,
 	M_ERROR_SYNTAX_ENV_VARIABLE = -102,
