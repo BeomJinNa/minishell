@@ -33,6 +33,7 @@ READLINE	= readline-8.2/.configured
 #sources=======================================================================
 
 SRCS	= srcs/main.c \
+		  srcs/cmp.c \
 		  srcs/exec/builtins/builtins.c \
 		  srcs/exec/builtins/cd.c \
 		  srcs/exec/builtins/count_args.c \
@@ -70,6 +71,7 @@ SRCS	= srcs/main.c \
 		  srcs/main_utils/alloc_command_structs.c \
 		  srcs/main_utils/convert_envp_to_hash.c \
 		  srcs/main_utils/init_command_structs.c \
+		  srcs/sort_memory.c \
 		  srcs/terminal_parser/convert_tokens_to_board.c \
 		  srcs/terminal_parser/get_tokenized_array.c \
 		  srcs/terminal_parser/init_brace.c \
@@ -88,8 +90,8 @@ SRCS	= srcs/main.c \
 		  srcs/terminal_parser/variable_extension/heredoc/divide_variables_heredoc.c \
 		  srcs/terminal_parser/variable_extension/heredoc/extend_one_line_heredoc.c \
 		  srcs/terminal_parser/variable_extension/replace_variables.c \
-		  srcs/terminal_parser/variable_extension/va_strndup.c \
-		  srcs/terminal_parser/variable_extension/variable.c
+		  srcs/terminal_parser/variable_extension/variable.c \
+		  srcs/terminal_parser/variable_extension/va_strndup.c
 
 OBJS	= $(SRCS:.c=.o)
 
