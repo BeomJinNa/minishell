@@ -6,7 +6,7 @@
 /*   By: bena <bena@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/20 20:50:23 by bena              #+#    #+#             */
-/*   Updated: 2023/08/20 21:41:57 by bena             ###   ########.fr       */
+/*   Updated: 2023/08/23 20:56:25 by bena             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 #include "hash.h"
 
 void		remove_tokens(char ***array_ptr);
+void		sort_memory(void *start, int elem_byte, int size,
+				int cmp(void *, void *));
+int			compare_token(void *a, void *b);
 static int	get_the_number_of_keys(t_hashtable *hash);
 static int	get_size_of_address(t_hashnode *node);
 static int	fill_list_from_hashtable(char **list, t_hashtable *hash);
@@ -32,6 +35,8 @@ char	**get_envp(t_hashtable *hash)
 		return (NULL);
 	if (fill_list_from_hashtable(output, hash))
 		remove_tokens(&output);
+	if (output != NULL)
+		sort_memory(output, sizeof(char *), size, compare_token);
 	return (output);
 }
 

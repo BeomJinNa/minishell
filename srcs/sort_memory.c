@@ -6,7 +6,7 @@
 /*   By: bena <bena@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 02:36:34 by bena              #+#    #+#             */
-/*   Updated: 2023/08/23 20:35:42 by bena             ###   ########.fr       */
+/*   Updated: 2023/08/23 20:48:50 by bena             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ static void	swap(void *a, void *b, int elem_byte)
 	{
 		temp = *((char *)a + i);
 		*((char *)a + i) = *((char *)b + i);
-		*(char *)b = temp;
+		*((char *)b + i) = temp;
 		i++;
 	}
 }
