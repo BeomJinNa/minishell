@@ -56,6 +56,7 @@ SRCS	= srcs/main.c \
 		  srcs/exec/redirection/open.c \
 		  srcs/exec/redirection/open_redirection.c \
 		  srcs/get_envp.c \
+		  srcs/get_keys.c \
 		  srcs/hashmap/addkey.c \
 		  srcs/hashmap/djb2.c \
 		  srcs/hashmap/extend_hashtable.c \
@@ -128,16 +129,16 @@ $(READLINE) :
 
 .PHONY: clean
 clean :
+	rm -f $(OBJS)
+	rm -f readline-8.2/.configured
 	make fclean -C libft
 	make distclean -C readline-8.2
-	rm -f readline-8.2/.configured
-	rm -f $(OBJS)
 
 .PHONY: fclean
 fclean :
-	make clean
-	rm -rf readline/
 	rm -f $(NAME)
+	rm -rf readline/
+	make clean
 
 .PHONY: re
 re :
