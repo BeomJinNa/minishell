@@ -6,11 +6,11 @@
 /*   By: bena <bena@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 03:16:54 by bena              #+#    #+#             */
-/*   Updated: 2023/08/17 23:53:02 by bena             ###   ########.fr       */
+/*   Updated: 2023/08/23 16:48:54 by bena             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
+#include <stddef.h>
 #include "terminal_parser.h"
 #include "hash.h"
 #include "e_alloc_errors.h"
@@ -24,14 +24,8 @@ static int	remove_quotes(t_command *buffer, int size);
 
 int	alloc_command_structs(t_command *buffer, int size, char **tokens)
 {
-	int	index;
 	int	error;
 
-	index = 0;
-	while (index < size)
-		buffer[index++].redirections = NULL;
-	while (index > 0)
-		buffer[--index].command = NULL;
 	error = alloc_redirections(buffer, size, tokens);
 	if (error)
 		return (flush_command_structs(error, &buffer, size));

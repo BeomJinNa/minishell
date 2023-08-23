@@ -14,7 +14,7 @@ INCLUDE		= includes/ readline/include/
 #libraries=====================================================================
 
 LIBDIR		= libft/ readline/lib/
-ARCH		= ft readline history
+ARCH		= ft readline history #ncurses (WSL2 환경인 경우 활성화)
 
 LIBFT		= libft/libft.a
 READLINE	= readline-8.2/.configured

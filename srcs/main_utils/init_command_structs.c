@@ -6,11 +6,11 @@
 /*   By: bena <bena@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 20:28:13 by bena              #+#    #+#             */
-/*   Updated: 2023/08/18 04:22:45 by bena             ###   ########.fr       */
+/*   Updated: 2023/08/23 17:38:54 by bena             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
+#include "libft.h"
 #include "terminal_parser.h"
 #include "e_alloc_errors.h"
 
@@ -33,9 +33,10 @@ int	get_command_structs(t_command **buffer_ptr, char *str)
 	*buffer_ptr = (t_command *)malloc(sizeof(t_command) * size);
 	if (*buffer_ptr == NULL)
 		return (return_error(M_MALLOC_FAIL, &tokens, NULL));
+	ft_memset(*buffer_ptr, 0, sizeof(t_command) * size);
 	error = alloc_command_structs(*buffer_ptr, size, tokens);
 	if (error)
-		return (return_error(error, &tokens, buffer_ptr));
+		return (return_error(error, &tokens, NULL));
 	remove_tokens(&tokens);
 	return (size);
 }
