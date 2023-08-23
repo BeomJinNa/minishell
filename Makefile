@@ -13,8 +13,7 @@ LDFLAGS		= $(COMMONFLAGS) \
 NAME		= minishell
 
 INCLUDE		= includes/ \
-			  readline/ \
-			  include/
+			  readline/include/
 
 #libraries=====================================================================
 

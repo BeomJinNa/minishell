@@ -6,7 +6,7 @@
 /*   By: bena <bena@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/20 20:50:23 by bena              #+#    #+#             */
-/*   Updated: 2023/08/23 21:52:01 by bena             ###   ########.fr       */
+/*   Updated: 2023/08/24 03:43:26 by bena             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int	get_the_number_of_keys(t_hashtable *hash, int ignore_null);
 static int	get_size_of_address(t_hashnode *node, int ignore_null);
 static int	fill_list_from_hashtable(char **list,
 				t_hashtable *hash, int ignore_null);
-static char	*get_str_from_node(t_hashnode *node, int ignore_null);
+static char	*get_str_from_node(t_hashnode *node);
 
 char	**get_keys(t_hashtable *hash, int ignore_null)
 {
@@ -60,7 +60,7 @@ static int	get_size_of_address(t_hashnode *node, int ignore_null)
 	output = 0;
 	while (node != NULL)
 	{
-		if (ignore_null == 0 && node->value != NULL)
+		if (ignore_null == 0 || node->value != NULL)
 			output++;
 		node = node->next;
 	}
@@ -83,7 +83,7 @@ static int	fill_list_from_hashtable(char **list,
 		{
 			if (ptr->value != NULL || ignore_null == 0)
 			{
-				*list = get_str_from_node(ptr, ignore_null);
+				*list = get_str_from_node(ptr);
 				if (*list == NULL)
 					return (-1);
 				list++;
@@ -96,7 +96,7 @@ static int	fill_list_from_hashtable(char **list,
 	return (0);
 }
 
-static char	*get_str_from_node(t_hashnode *node, int ignore_null)
+static char	*get_str_from_node(t_hashnode *node)
 {
 	char	*output;
 	char	*to;
