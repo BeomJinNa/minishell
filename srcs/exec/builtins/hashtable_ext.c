@@ -6,7 +6,7 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 03:52:59 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/21 02:57:16 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/23 19:22:56 by dowon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,22 +47,21 @@ void	print_hashtable(t_hashtable *hash, const char *prefix, int include_null)
 	idx = 0;
 	while (idx < hash->size)
 	{
-		if (hash->table[idx] == NULL)
+		if (hash->table[idx] != NULL)
 		{
-			++idx;
-			continue ;
-		}
-		iter = hash->table[idx];
-		while (iter != NULL)
-		{
-			if (iter->key == NULL)
+			iter = hash->table[idx];
+			while (iter != NULL)
 			{
-				if (include_null)
-					printf("%s%s\n", prefix, iter->key);
+				if (iter->key == NULL)
+				{
+					if (include_null)
+						printf("%s%s\n", prefix, iter->key);
+				}
+				else if (!is_this_special_character(iter->key[0])
+					&& is_this_valid_name(iter->key, ft_strlen(iter->key)))
+					printf("%s%s=\"%s\"\n", prefix, iter->key, iter->value);
+				iter = iter->next;
 			}
-			else
-				printf("%s%s=%s\n", prefix, iter->key, iter->value);
-			iter = iter->next;
 		}
 		++idx;
 	}
