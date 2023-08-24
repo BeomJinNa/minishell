@@ -6,7 +6,7 @@
 /*   By: bena <bena@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 16:41:12 by bena              #+#    #+#             */
-/*   Updated: 2023/08/22 18:28:51 by bena             ###   ########.fr       */
+/*   Updated: 2023/08/24 19:26:54 by bena             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ int	get_number_of_tokens(const char *str, char c)
 		if (token_size < 0)
 			return (-1);
 	}
+	if (output == 0)
+		return (1);
 	return (output);
 }
 
