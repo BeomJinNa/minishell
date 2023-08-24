@@ -6,7 +6,7 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 20:24:11 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/24 21:17:06 by bena             ###   ########.fr       */
+/*   Updated: 2023/08/24 21:55:47 by dowon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ int	fork_n_execute(t_command *commands, int *pipes, int idx, int size)
 		return (-1);
 	if (fork_pid == 0)
 	{
+		signal(SIGINT, SIG_DFL);
+		signal(SIGKILL, SIG_DFL);
 		if (execute_child(commands[idx], pipes, idx))
 		{
 			clean_pipes(pipes, size);
