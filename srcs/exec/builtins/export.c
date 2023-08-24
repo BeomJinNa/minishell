@@ -6,7 +6,7 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 02:36:00 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/24 19:44:55 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/24 21:16:10 by bena             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,6 @@ static int	export_variable(char *str)
 	return (0);
 }
 
-/**
- * @brief builtin_export
- * 
- * @param args 
- * @return int 
- */
 int	builtin_export(char **args)
 {
 	const size_t		argc = count_args(args);

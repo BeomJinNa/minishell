@@ -6,7 +6,7 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 20:24:11 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/24 21:10:47 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/24 21:17:06 by bena             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@
 #include "hash.h"
 #include "libft.h"
 #include "pipe/pipe.h"
-#include <signal.h>
 
 static int	execute_child(t_command command, int *pipes, int idx);
 static void	exec_command(char **command);

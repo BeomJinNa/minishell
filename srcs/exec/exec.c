@@ -6,7 +6,7 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 21:23:29 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/24 21:05:02 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/24 21:17:02 by bena             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@
 #include <terminal_parser.h>
 #include "pipe/pipe.h"
 #include "builtins/builtins.h"
-#include "redirection/redirection.h"
 #include <libft.h>
 
 int	fork_n_execute(t_command *commands, int *pipes, int idx, int size);

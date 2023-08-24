@@ -6,7 +6,7 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 22:25:17 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/24 20:47:03 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/24 21:39:40 by bena             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,8 @@
 #include <sys/wait.h>
 #include <libft.h>
 #include "redirection.h"
-#include "../pipe/pipe.h"
+#include "heredoc/heredoc.h"
 
-/**
- * @brief success : new fd set to fd_rd, return 0 <>
- * @brief fail : fd set to -1, return -1
- * 
- * @param redirect 
- * @param fd_rd 
- * @return int 
- */
 static int	handle_input_redirection(char **redirect, int *fd_rd)
 {
 	if (close_in(fd_rd))
@@ -48,14 +40,6 @@ static int	handle_input_redirection(char **redirect, int *fd_rd)
 	return (0);
 }
 
-/**
- * @brief success : new fd set to fd_rd, return 0 <>
- * @brief fail : fd set to -1, return -1
- * 
- * @param redirect 
- * @param fd_wr 
- * @return int 
- */
 static int	handle_output_redirection(char **redirect, int *fd_wr)
 {
 	if (close_out(fd_wr))
@@ -75,15 +59,6 @@ static int	handle_output_redirection(char **redirect, int *fd_wr)
 	return (0);
 }
 
-/**
- * @brief open redirections or execute heredoc
- * and set last fd to info.
- * Default : info->in_file = STDIN_FILENO
- * Default : info->out_file = STDOUT_FILENO
- * 
- * @param info 
- * @param redirections 
- */
 int	open_redirections(char ***redirect, int *fd_rd, int *fd_wr)
 {
 	int	idx;

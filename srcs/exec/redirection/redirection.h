@@ -6,13 +6,12 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 19:26:58 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/11 04:44:25 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/24 21:20:09 by bena             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef REDIRECTION_H
 # define REDIRECTION_H
-# include "heredoc/heredoc.h"
 
 int	close_in(int *fd);
 int	close_out(int *fd);

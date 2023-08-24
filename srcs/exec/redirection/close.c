@@ -6,13 +6,12 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 17:05:53 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/06 19:35:34 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/24 21:17:15 by bena             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <fcntl.h>
 #include <unistd.h>
-#include <stdio.h>
 
 int	close_in(int *fd)
 {

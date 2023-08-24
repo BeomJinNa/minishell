@@ -6,13 +6,12 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 04:10:06 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/21 20:34:02 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/24 21:16:58 by bena             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include "builtins.h"
-#include "hashtable_ext.h"
+#include "hash.h"
 #include <stdio.h>
 
 static int	unset_variable(char *str)

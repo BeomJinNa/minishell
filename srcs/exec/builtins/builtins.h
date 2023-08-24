@@ -6,13 +6,13 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/30 21:36:53 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/21 19:35:17 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/24 21:19:49 by bena             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BUILTINS_H
 # define BUILTINS_H
-# include <stdlib.h>
+# include <stddef.h>
 
 int			run_builtin(char **command);
 int			is_builtin(char *command);

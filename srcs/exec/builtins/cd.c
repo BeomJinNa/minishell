@@ -6,7 +6,7 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 22:43:42 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/13 16:24:50 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/24 21:15:53 by bena             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,6 @@
 #include <unistd.h>
 #include <stdio.h>
 
-/**
- * @brief cd with only a relative or absolute path
- * 
- * @param args 
- * @return int success: 0, error: 1
- */
 int	builtin_cd(char **args)
 {
 	const size_t	argc = count_args(args);

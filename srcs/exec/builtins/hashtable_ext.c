@@ -6,12 +6,11 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 03:52:59 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/24 20:31:12 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/24 21:16:14 by bena             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "hash.h"
-#include "terminal_parser.h"
 #include <stdio.h>
 #include <libft.h>
 

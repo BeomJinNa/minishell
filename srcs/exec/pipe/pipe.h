@@ -6,12 +6,13 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/30 20:56:07 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/21 20:32:44 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/24 21:20:03 by bena             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PIPE_H
 # define PIPE_H
+# include <stddef.h>
 
 typedef enum e_pipe_fd
 {

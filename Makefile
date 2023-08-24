@@ -30,7 +30,8 @@ READLINE	= readline-8.2/.configured
 
 #sources=======================================================================
 
-SRCS	= srcs/cmp.c \
+SRCS	= srcs/main.c \
+		  srcs/cmp.c \
 		  srcs/exec/builtins/builtins.c \
 		  srcs/exec/builtins/cd.c \
 		  srcs/exec/builtins/count_args.c \
@@ -66,7 +67,6 @@ SRCS	= srcs/cmp.c \
 		  srcs/hashmap/remove_hashtable.c \
 		  srcs/hashmap/removekey.c \
 		  srcs/init.c \
-		  srcs/main.c \
 		  srcs/main_utils/alloc_command_structs.c \
 		  srcs/main_utils/convert_envp_to_hash.c \
 		  srcs/main_utils/init_command_structs.c \
@@ -142,4 +142,8 @@ fclean :
 .PHONY: re
 re :
 	make fclean
+	make all
+
+.PHONY: bonus
+bonus :
 	make all
