@@ -6,7 +6,7 @@
 /*   By: bena <bena@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/29 16:59:58 by bena              #+#    #+#             */
-/*   Updated: 2023/08/18 04:26:38 by bena             ###   ########.fr       */
+/*   Updated: 2023/08/25 03:45:51 by bena             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static char	*get_string_to_replace(char *str)
 	char	*ptr;
 
 	ptr = str;
-	while (*ptr)
+	while (*ptr && *ptr != '}')
 		ptr++;
 	if (*str == '{')
 	{
