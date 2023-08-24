@@ -6,7 +6,7 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/30 22:23:11 by bena              #+#    #+#             */
-/*   Updated: 2023/08/24 16:08:43 by bena             ###   ########.fr       */
+/*   Updated: 2023/08/24 20:07:34 by dowon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ static int	process_str(char *str);
 static void	release_resources(void);
 static int	get_converted_error_number(int error_code, int module);
 static void	print_error(int error_code);
+char	**get_envp(t_hashtable *hash, int ignore_null);
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -46,6 +47,7 @@ int	main(int argc, char **argv, char **envp)
 		perror(NULL);
 		return (1);
 	}
+	get_envp(get_hashtable(0), 1);
 	str = readline("minishell$ ");
 	while (str != NULL)
 	{

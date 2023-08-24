@@ -6,7 +6,7 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 02:36:00 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/24 14:54:38 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/24 19:44:55 by dowon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 #include <stdio.h>
 #include "builtins.h"
 #include "hashtable_ext.h"
+
+char	**get_keys(t_hashtable *hash, int ignore_null);
 
 static int	export_variable(char *str)
 {
@@ -57,7 +59,7 @@ int	builtin_export(char **args)
 		return (1);
 	if (argc == 0)
 	{
-		print_hashtable(hash, "declare -x ", "\"", 1);
+		print_hashtable(hash, get_keys(hash, 0), "declare -x ", "\"");
 		return (0);
 	}
 	result = 0;

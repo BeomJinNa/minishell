@@ -6,7 +6,7 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 20:24:11 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/23 19:33:24 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/24 19:36:42 by dowon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,11 @@
 #include "hash.h"
 #include "libft.h"
 #include "pipe/pipe.h"
+#include <signal.h>
 
 static int	execute_child(t_command command, int *pipes, int idx);
 static void	exec_command(char **command);
-char		**get_envp(t_hashtable *hash);
+char		**get_envp(t_hashtable *hash, int ignore_null);
 
 int	fork_n_execute(t_command *commands, int *pipes, int idx, int size)
 {
@@ -74,7 +75,7 @@ static void	exec_command(char **command)
 			exe_path = command[0];
 		else if (path_env)
 			exe_path = get_excutable_path(path_env, command[0]);
-		envp = get_envp(get_hashtable(0));
+		envp = get_envp(get_hashtable(0), 1);
 		result = execve(exe_path, command, envp);
 		remove_tokens(&envp);
 		free(exe_path);

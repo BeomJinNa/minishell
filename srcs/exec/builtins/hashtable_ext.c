@@ -6,7 +6,7 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 03:52:59 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/24 14:53:26 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/24 20:31:12 by dowon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,32 +39,31 @@ int	check_valid_identifier(char *str)
 	return (result);
 }
 
-void	print_hashtable(t_hashtable *hash, const char *prefix,
-	const char *wrapper, int include_null)
+void	print_hashtable(t_hashtable	*hash, char **keys,
+	const char *prefix, const char *wrapper)
 {
-	t_hashnode		*iter;
-	unsigned int	idx;
+	char			*value;
+	size_t			idx;	
 
 	idx = 0;
-	while (idx < hash->size)
+	if (hash == NULL || keys == NULL)
+		return ;
+	while (keys[idx] != NULL)
 	{
-		if (hash->table[idx] != NULL)
+		if (*keys[idx] == '\0')
 		{
-			iter = hash->table[idx];
-			while (iter != NULL)
-			{
-				if (iter->key == NULL)
-				{
-					if (include_null)
-						printf("%s%s\n", prefix, iter->key);
-				}
-				else if (!is_this_special_character(iter->key[0])
-					&& is_this_valid_name(iter->key, ft_strlen(iter->key)))
-					printf("%s%s=%s%s%s\n", prefix, iter->key,
-						wrapper, iter->value, wrapper);
-				iter = iter->next;
-			}
+			++idx;
+			continue ;
 		}
+		value = hashtable_get(keys[idx], hash);
+		if (value == NULL)
+		{
+			printf("%s%s\n", prefix, keys[idx]);
+		}
+		else if (!is_this_special_character(*keys[idx])
+			&& is_this_valid_name(keys[idx], ft_strlen(keys[idx])))
+			printf("%s%s=%s%s%s\n", prefix, keys[idx],
+				wrapper, value, wrapper);
 		++idx;
 	}
 }
