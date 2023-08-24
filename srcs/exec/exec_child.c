@@ -6,7 +6,7 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 20:24:11 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/24 19:36:42 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/24 20:50:44 by dowon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ int	fork_n_execute(t_command *commands, int *pipes, int idx, int size)
 		return (-1);
 	if (fork_pid == 0)
 	{
-		printf("child : %d\n", getpid());
 		if (execute_child(commands[idx], pipes, idx))
 		{
 			clean_pipes(pipes, size);
@@ -75,8 +74,7 @@ static void	exec_command(char **command)
 			exe_path = command[0];
 		else if (path_env)
 			exe_path = get_excutable_path(path_env, command[0]);
-		envp = get_envp(get_hashtable(0), 1);
-		result = execve(exe_path, command, envp);
+		result = execve(exe_path, command, get_envp(get_hashtable(0), 1));
 		remove_tokens(&envp);
 		free(exe_path);
 		if (errno == EACCES)

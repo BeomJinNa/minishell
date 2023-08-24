@@ -6,7 +6,7 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 21:23:29 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/22 18:27:57 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/24 20:44:50 by dowon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static int	wait_all(int size)
 	idx = 0;
 	while (idx < size)
 	{
-		printf("child: %d end\n", wait(&status));
+		wait(&status);
 		++idx;
 		if (WIFEXITED(status))
 			exit_status = WEXITSTATUS(status);
