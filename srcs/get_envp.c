@@ -6,7 +6,7 @@
 /*   By: bena <bena@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/20 20:50:23 by bena              #+#    #+#             */
-/*   Updated: 2023/08/24 03:43:15 by bena             ###   ########.fr       */
+/*   Updated: 2023/08/24 20:13:46 by bena             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ static char	*get_str_from_node(t_hashnode *node)
 		from = node->value;
 		while (*from)
 			*to++ = *from++;
-		*to = '\0';
 	}
+	*to = '\0';
 	return (output);
 }
