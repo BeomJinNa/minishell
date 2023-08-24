@@ -6,7 +6,7 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/30 22:23:11 by bena              #+#    #+#             */
-/*   Updated: 2023/08/23 18:23:39 by bena             ###   ########.fr       */
+/*   Updated: 2023/08/24 16:08:43 by bena             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,8 @@ static int	get_converted_error_number(int error_code, int module)
 		return (M_ERROR_SYNTAX_REDIRECTION);
 	else if (module == M_MODULE_PARSER && error_code == -3)
 		return (M_ERROR_SYNTAX_ENV_VARIABLE);
+	else if (module == M_MODULE_PARSER && error_code == -4)
+		return (M_ERROR_SYNTAX_PIPE);
 //	else if (module == M_MODULE_PIPE && error_code == ERROR_CODE_IN_execute_commands)
 //		return (converted_error_code);
 	return (error_code);
@@ -114,4 +116,6 @@ static void	print_error(int error_code)
 		write(2, "Syntax error near env variables.\n", 33);
 	else if (error_code == M_ERROR_SYNTAX_QUOTE)
 		write(2, "Syntax error near quotes.\n", 26);
+	else if (error_code == M_ERROR_SYNTAX_PIPE)
+		write(2, "Syntax error near '|'.\n", 23);
 }
