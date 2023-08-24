@@ -72,6 +72,7 @@ SRCS	= srcs/main.c \
 		  srcs/main_utils/convert_envp_to_hash.c \
 		  srcs/main_utils/init_command_structs.c \
 		  srcs/sort_memory.c \
+		  srcs/terminal_parser/are_any_syntax_errors_in_pipe.c \
 		  srcs/terminal_parser/convert_tokens_to_board.c \
 		  srcs/terminal_parser/get_tokenized_array.c \
 		  srcs/terminal_parser/init_brace.c \

@@ -6,7 +6,7 @@
 /*   By: bena <bena@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 20:28:13 by bena              #+#    #+#             */
-/*   Updated: 2023/08/23 17:46:12 by bena             ###   ########.fr       */
+/*   Updated: 2023/08/24 16:07:18 by bena             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "terminal_parser.h"
 #include "e_alloc_errors.h"
 
+int			are_any_syntax_errors_in_pipe(const char *str);
 int			alloc_command_structs(t_command *buffer, int size, char **tokens);
 static int	return_error(int error, char ***tokens_ptr);
 
@@ -24,6 +25,8 @@ int	get_command_structs(t_command **buffer_ptr, char *str)
 	int		error;
 
 	*buffer_ptr = NULL;
+	if (are_any_syntax_errors_in_pipe(str))
+		return (M_SYNTAX_ERROR_PIPE);
 	tokens = get_tokenized_array(str, '|');
 	if (tokens == NULL)
 		return (M_MALLOC_FAIL);
