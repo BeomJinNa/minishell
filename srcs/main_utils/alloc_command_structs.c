@@ -6,13 +6,12 @@
 /*   By: bena <bena@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 03:16:54 by bena              #+#    #+#             */
-/*   Updated: 2023/08/23 16:48:54 by bena             ###   ########.fr       */
+/*   Updated: 2023/08/24 20:57:22 by bena             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stddef.h>
 #include "terminal_parser.h"
-#include "hash.h"
 #include "e_alloc_errors.h"
 
 int			flush_command_structs(int return_value, t_command **buffer_ptr,

@@ -6,11 +6,10 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/30 22:23:11 by bena              #+#    #+#             */
-/*   Updated: 2023/08/24 20:07:34 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/24 20:52:28 by bena             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <signal.h>
 #include <unistd.h>
 #include <sys/ioctl.h>
 #include <term.h>
@@ -22,24 +21,19 @@
 #include "terminal_parser.h"
 #include "hash.h"
 #include "e_main_errors.h"
-#include "main_utils/e_alloc_errors.h"
 
 int			get_command_structs(t_command **buffer_ptr, char *str);
 int			flush_command_structs(int return_value,
 				t_command **buffer_ptr, int size);
 int			convert_envp_to_hash(char *row, t_hashtable *hash);
 int			initialize_settings(char **envp);
+static void	shell_loop(void);
 static int	process_str(char *str);
-static void	release_resources(void);
 static int	get_converted_error_number(int error_code, int module);
 static void	print_error(int error_code);
-char	**get_envp(t_hashtable *hash, int ignore_null);
 
 int	main(int argc, char **argv, char **envp)
 {
-	char	*str;
-	int		error;
-
 	(void)argc;
 	(void)argv;
 	if (initialize_settings(envp))
@@ -47,7 +41,17 @@ int	main(int argc, char **argv, char **envp)
 		perror(NULL);
 		return (1);
 	}
-	get_envp(get_hashtable(0), 1);
+	shell_loop();
+	printf("exit\n");
+	remove_hashtable(get_hashtable(0));
+	return (0);
+}
+
+static void	shell_loop(void)
+{
+	char	*str;
+	int		error;
+
 	str = readline("minishell$ ");
 	while (str != NULL)
 	{
@@ -62,14 +66,6 @@ int	main(int argc, char **argv, char **envp)
 		free(str);
 		str = readline("minishell$ ");
 	}
-	printf("exit\n");
-	release_resources();
-	return (0);
-}
-
-static void	release_resources(void)
-{
-	remove_hashtable(get_hashtable(0));
 }
 
 static int	process_str(char *str)
@@ -91,8 +87,6 @@ static int	process_str(char *str)
 
 static int	get_converted_error_number(int error_code, int module)
 {
-	//If error_code == -1, call perror(NULL) in main function
-
 	if (module == M_MODULE_PARSER && error_code == -1)
 		return (M_ERROR_MALLOC_FAIL);
 	else if (module == M_MODULE_PARSER && error_code == -2)
@@ -101,8 +95,6 @@ static int	get_converted_error_number(int error_code, int module)
 		return (M_ERROR_SYNTAX_ENV_VARIABLE);
 	else if (module == M_MODULE_PARSER && error_code == -4)
 		return (M_ERROR_SYNTAX_PIPE);
-//	else if (module == M_MODULE_PIPE && error_code == ERROR_CODE_IN_execute_commands)
-//		return (converted_error_code);
 	return (error_code);
 }
 
