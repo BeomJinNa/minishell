@@ -6,7 +6,7 @@
 /*   By: bena <bena@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 16:41:12 by bena              #+#    #+#             */
-/*   Updated: 2023/08/24 16:30:31 by bena             ###   ########.fr       */
+/*   Updated: 2023/08/24 17:21:31 by bena             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ static int	check_character_sequence(const char **str, char c)
 	int			flag;
 
 	ptr = *str;
+	while (*ptr == ' ')
+		ptr++;
 	if (*ptr == c)
 		return (1);
 	flag = 0;
@@ -55,7 +57,7 @@ static int	check_str(const char *ptr, char c, int *flag)
 				return (1);
 			if (*ptr == c)
 				*flag = 1;
-			else
+			else if (*ptr != ' ')
 				*flag = 0;
 		}
 		ptr++;
