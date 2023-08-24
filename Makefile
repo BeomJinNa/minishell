@@ -30,8 +30,17 @@ READLINE	= readline-8.2/.configured
 
 #sources=======================================================================
 
-SRCS	= srcs/main.c \
-		  srcs/cmp.c \
+SRCS	= srcs/cmp.c \
+		  srcs/exec/builtins/builtins.c \
+		  srcs/exec/builtins/cd.c \
+		  srcs/exec/builtins/count_args.c \
+		  srcs/exec/builtins/echo.c \
+		  srcs/exec/builtins/env.c \
+		  srcs/exec/builtins/exit.c \
+		  srcs/exec/builtins/export.c \
+		  srcs/exec/builtins/hashtable_ext.c \
+		  srcs/exec/builtins/pwd.c \
+		  srcs/exec/builtins/unset.c \
 		  srcs/exec/exec.c \
 		  srcs/exec/exec_child.c \
 		  srcs/exec/exec_single_builtin.c \
@@ -57,6 +66,7 @@ SRCS	= srcs/main.c \
 		  srcs/hashmap/remove_hashtable.c \
 		  srcs/hashmap/removekey.c \
 		  srcs/init.c \
+		  srcs/main.c \
 		  srcs/main_utils/alloc_command_structs.c \
 		  srcs/main_utils/convert_envp_to_hash.c \
 		  srcs/main_utils/init_command_structs.c \

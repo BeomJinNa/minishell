@@ -6,7 +6,7 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 22:25:17 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/20 23:45:08 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/24 20:47:03 by dowon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,11 +100,6 @@ int	open_redirections(char ***redirect, int *fd_rd, int *fd_wr)
 		{
 			if (handle_output_redirection(redirect[idx], fd_wr))
 				return (-1);
-		}
-		else
-		{
-			printf("[DEBUG MSG] parsing error\n");
-			return (-1);
 		}
 		idx++;
 	}
