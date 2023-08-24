@@ -2,9 +2,9 @@
 
 CC			= cc
 
-COMMONFLAGS	= -fsanitize=address
+COMMONFLAGS	=
 
-CFLAGS		= $(COMMONFLAGS) -Wno-unused -Wall -Wextra -Werror -g
+CFLAGS		= $(COMMONFLAGS) -Wall -Wextra -Werror
 
 LDFLAGS		= $(COMMONFLAGS) \
 			  $(foreach lib, $(TARGET_LIBDIR), -L$(lib)) \
@@ -23,7 +23,6 @@ LIBDIR		= libft/ \
 ARCH		= ft \
 			  readline \
 			  history
-			  #ncurses (WSL2 인 경우 활성화)
 
 LIBFT		= libft/libft.a
 
@@ -33,16 +32,6 @@ READLINE	= readline-8.2/.configured
 
 SRCS	= srcs/main.c \
 		  srcs/cmp.c \
-		  srcs/exec/builtins/builtins.c \
-		  srcs/exec/builtins/cd.c \
-		  srcs/exec/builtins/count_args.c \
-		  srcs/exec/builtins/echo.c \
-		  srcs/exec/builtins/env.c \
-		  srcs/exec/builtins/exit.c \
-		  srcs/exec/builtins/export.c \
-		  srcs/exec/builtins/hashtable_ext.c \
-		  srcs/exec/builtins/pwd.c \
-		  srcs/exec/builtins/unset.c \
 		  srcs/exec/exec.c \
 		  srcs/exec/exec_child.c \
 		  srcs/exec/exec_single_builtin.c \
@@ -91,8 +80,8 @@ SRCS	= srcs/main.c \
 		  srcs/terminal_parser/variable_extension/heredoc/divide_variables_heredoc.c \
 		  srcs/terminal_parser/variable_extension/heredoc/extend_one_line_heredoc.c \
 		  srcs/terminal_parser/variable_extension/replace_variables.c \
-		  srcs/terminal_parser/variable_extension/variable.c \
-		  srcs/terminal_parser/variable_extension/va_strndup.c
+		  srcs/terminal_parser/variable_extension/va_strndup.c \
+		  srcs/terminal_parser/variable_extension/variable.c
 
 OBJS	= $(SRCS:.c=.o)
 
