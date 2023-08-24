@@ -6,7 +6,7 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 20:24:11 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/24 21:55:47 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/25 03:55:26 by bena             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include <string.h>
 #include <errno.h>
 #include <unistd.h>
+#include <signal.h>
 #include "terminal_parser.h"
 #include "redirection/redirection.h"
 #include "builtins/builtins.h"
