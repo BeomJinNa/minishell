@@ -6,7 +6,7 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 20:08:37 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/24 21:18:07 by bena             ###   ########.fr       */
+/*   Updated: 2023/08/25 18:36:28 by dowon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 #include <term.h>
 #include <signal.h>
 #include <libft.h>
+#include "terminal_parser.h"
 
 t_heredoc_status	*heredoc_status(void);
 
@@ -35,19 +36,12 @@ void	signal_handler_heredoc(int signal)
 	}
 }
 
-static int	execute_heredoc(char *filename, char *delimiter)
+static void	read_n_put_heredoc(char *delimiter, int file_fd)
 {
-	const size_t	delimiter_len = ft_strlen(delimiter);
 	char			*line;
-	const int		file_fd = open(filename,
-			O_WRONLY | O_CREAT | O_TRUNC, 0600);
+	char			*output;
+	const size_t	delimiter_len = ft_strlen(delimiter);
 
-	line = NULL;
-	if (file_fd < 0)
-	{
-		ft_putstr_fd("Failed to open file.\n", STDERR_FILENO);
-		return (1);
-	}
 	while (1)
 	{
 		line = readline("> ");
@@ -56,10 +50,26 @@ static int	execute_heredoc(char *filename, char *delimiter)
 		if (line == NULL || *heredoc_status() == heredoc_terminate
 			|| ft_strncmp(line, delimiter, delimiter_len + 1) == 0)
 			break ;
-		ft_putendl_fd(line, file_fd);
+		output = extend_one_line_heredoc(line);
 		free(line);
+		ft_putendl_fd(output, file_fd);
+		free(output);
 	}
-	free(line);
+	if (line != NULL)
+		free(line);
+}
+
+static int	execute_heredoc(char *filename, char *delimiter)
+{
+	const int		file_fd = open(filename,
+			O_WRONLY | O_CREAT | O_TRUNC, 0600);
+
+	if (file_fd < 0)
+	{
+		ft_putstr_fd("Failed to open file.\n", STDERR_FILENO);
+		return (1);
+	}
+	read_n_put_heredoc(delimiter, file_fd);
 	close(file_fd);
 	return (*heredoc_status() == heredoc_terminate);
 }
