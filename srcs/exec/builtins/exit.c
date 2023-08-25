@@ -6,7 +6,7 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 02:34:42 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/24 21:16:06 by bena             ###   ########.fr       */
+/*   Updated: 2023/08/25 18:16:20 by dowon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,50 @@
 #include <libft.h>
 #include "builtins.h"
 
-static int	is_strnum(char *str)
+static int	validate_arg(char *str)
 {
-	while (*str != '\0')
+	const int	is_op = str[0] == '-' || str[0] == '+';
+	int			idx;
+
+	idx = is_op;
+	if (str[idx] == '\0')
+		return (-1);
+	while (str[idx] != '\0')
 	{
-		if (!ft_isdigit(*str))
-			return (0);
-		++str;
+		if (str[idx] < '0' || '9' < str[idx])
+			return (-1);
+		idx++;
 	}
-	return (1);
+	return (0);
+}
+
+static size_t	get_op_len(char *str)
+{
+	char*const	start = str;
+
+	while (*str == '-' || *str == '+')
+		str++;
+	return (str - start);
+}
+
+static void	cut_int(char *str)
+{
+	const size_t	op_len = get_op_len(str);
+	const size_t	num_len = ft_strlen(str) - op_len;
+	size_t			idx;
+	size_t			add;
+
+	if (num_len <= 8)
+		return ;
+	add = op_len + num_len - 8;
+	idx = op_len;
+	while (idx < op_len + 8)
+	{
+		str[idx] = str[add];
+		idx++;
+		add++;
+	}
+	str[idx] = '\0';
 }
 
 int	builtin_exit(char **args)
@@ -34,12 +69,13 @@ int	builtin_exit(char **args)
 		exit(0);
 	if (argc == 1)
 	{
-		if (!is_strnum(args[0]))
+		if (validate_arg(args[0]))
 		{
 			printf("exit: %s: numeric argument required", args[0]);
 			exit(255);
 		}
-		exit(ft_atoi(args[0]) % 255);
+		cut_int(args[0]);
+		exit(ft_atoi(args[0]) % 256);
 	}
 	printf("exit: too many arguments\n");
 	return (1);
