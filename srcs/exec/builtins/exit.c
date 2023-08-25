@@ -6,7 +6,7 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 02:34:42 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/25 18:16:20 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/25 18:22:33 by dowon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int	builtin_exit(char **args)
 	{
 		if (validate_arg(args[0]))
 		{
-			printf("exit: %s: numeric argument required", args[0]);
+			printf("exit: %s: numeric argument required\n", args[0]);
 			exit(255);
 		}
 		cut_int(args[0]);
