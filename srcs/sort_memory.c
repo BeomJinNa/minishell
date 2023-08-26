@@ -6,13 +6,15 @@
 /*   By: bena <bena@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 02:36:34 by bena              #+#    #+#             */
-/*   Updated: 2023/08/23 20:48:50 by bena             ###   ########.fr       */
+/*   Updated: 2023/08/26 20:43:13 by bena             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stddef.h>
+
 static void	finish_sort(void *start, int elem_byte, int size,
 				int cmp(void *, void *));
-static void	swap(void *a, void *b, int elem_byte);
+static void	swap(void *a, void *b, int elem_byte, void **pivot_ptr);
 static void	*select_pivot(void *start, int elem_byte, int size,
 				int cmp(void *, void *));
 
@@ -36,7 +38,7 @@ void	sort_memory(void *start, int elem_byte, int size,
 		while (right > start && cmp(right, pivot) >= 0)
 			right = (void *)((char *)right - elem_byte);
 		if (left < right)
-			swap(left, right, elem_byte);
+			swap(left, right, elem_byte, &pivot);
 	}
 	if (left == right)
 		left = (void *)((char *)left + elem_byte);
@@ -56,21 +58,21 @@ static void	finish_sort(void *start, int elem_byte, int size,
 	if (size == 2)
 	{
 		if (cmp(start, end) > 0)
-			return (swap(start, end, elem_byte));
+			return (swap(start, end, elem_byte, NULL));
 		else
 			return ;
 	}
 	if (cmp(start, (void *)((char *)start + elem_byte)) > 0)
-		swap(start, (void *)((char *)start + elem_byte), elem_byte);
+		swap(start, (void *)((char *)start + elem_byte), elem_byte, NULL);
 	if (cmp(start, (void *)((char *)start + elem_byte * 2)) > 0)
-		swap(start, (void *)((char *)start + elem_byte * 2), elem_byte);
+		swap(start, (void *)((char *)start + elem_byte * 2), elem_byte, NULL);
 	if (cmp((void *)((char *)start + elem_byte),
 		(void *)((char *)start + elem_byte * 2)) > 0)
 		swap((void *)((char *)start + elem_byte),
-			(void *)((char *)start + elem_byte * 2), elem_byte);
+			(void *)((char *)start + elem_byte * 2), elem_byte, NULL);
 }
 
-static void	swap(void *a, void *b, int elem_byte)
+static void	swap(void *a, void *b, int elem_byte, void **pivot_ptr)
 {
 	char	temp;
 	int		i;
@@ -83,6 +85,13 @@ static void	swap(void *a, void *b, int elem_byte)
 		*((char *)b + i) = temp;
 		i++;
 	}
+	if (pivot_ptr != NULL)
+	{
+		if (*pivot_ptr == a)
+			*pivot_ptr = b;
+		else if (*pivot_ptr == b)
+			*pivot_ptr = a;
+	}
 }
 
 static void	*select_pivot(void *start, int elem_byte, int size,
@@ -94,10 +103,10 @@ static void	*select_pivot(void *start, int elem_byte, int size,
 	temp[1] = (void *)((char *)start + (size / 2) * elem_byte);
 	temp[2] = (void *)((char *)start + (size - 1) * elem_byte);
 	if (cmp(temp[0], temp[1]) > 0)
-		swap(temp[0], temp[1], elem_byte);
+		swap(temp[0], temp[1], elem_byte, NULL);
 	if (cmp(temp[0], temp[2]) > 0)
-		swap(temp[0], temp[2], elem_byte);
+		swap(temp[0], temp[2], elem_byte, NULL);
 	if (cmp(temp[1], temp[2]) > 0)
-		swap(temp[1], temp[2], elem_byte);
+		swap(temp[1], temp[2], elem_byte, NULL);
 	return (temp[1]);
 }
