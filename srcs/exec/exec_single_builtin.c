@@ -6,7 +6,7 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 20:29:44 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/21 20:31:34 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/29 15:39:42 by dowon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,7 @@ int	run_single_builtin(t_command *commands, int *pipes)
 	close_rw_pipes(pipes, 0);
 	dup2(in, STDIN_FILENO);
 	dup2(out, STDOUT_FILENO);
+	close(in);
+	close(out);
 	return (result);
 }
