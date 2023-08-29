@@ -6,13 +6,14 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 02:34:42 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/29 14:49:38 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/29 14:57:00 by dowon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <stdio.h>
 #include "libft.h"
+#include "hash.h"
 #include "builtins.h"
 
 static int	validate_arg(char *str)
@@ -64,9 +65,16 @@ static void	cut_int(char *str)
 int	builtin_exit(char **args)
 {
 	const size_t	argc = count_args(args);
+	char			*result_str;
+	int				result;
 
 	if (argc == 0)
-		exit(0);
+	{
+		result_str = hashtable_get("?", get_hashtable(0));
+		result = ft_atoi(result_str);
+		free(result_str);
+		exit(result);
+	}
 	if (argc == 1)
 	{
 		if (validate_arg(args[0]))
