@@ -6,7 +6,7 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 02:34:42 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/29 14:57:00 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/29 20:05:28 by dowon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ int	builtin_exit(char **args)
 	{
 		result_str = hashtable_get("?", get_hashtable(0));
 		result = ft_atoi(result_str);
-		free(result_str);
 		exit(result);
 	}
 	if (argc == 1)
