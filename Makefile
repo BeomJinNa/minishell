@@ -44,6 +44,7 @@ SRCS	= srcs/main.c \
 		  srcs/exec/builtins/unset.c \
 		  srcs/exec/exec.c \
 		  srcs/exec/exec_child.c \
+		  srcs/exec/wait_child.c \
 		  srcs/exec/exec_single_builtin.c \
 		  srcs/exec/pipe/dup_pipes.c \
 		  srcs/exec/pipe/get_executable_path.c \

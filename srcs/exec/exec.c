@@ -6,7 +6,7 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 21:23:29 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/29 19:20:48 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/29 20:08:31 by dowon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,34 +22,12 @@
 #include "builtins/builtins.h"
 #include <signal.h>
 
-int	fork_n_execute(t_command *commands, int *pipes, int idx, int size);
-int	run_single_builtin(t_command *commands, int *pipes);
+int		fork_n_execute(t_command *commands, int *pipes, int idx, int size);
+int		run_single_builtin(t_command *commands, int *pipes);
+void	reset_terminial(void);
+int		fork_n_execute_loop(t_command *commands, int *pipes, int size);
 
-static int	wait_all(int size, int last_pid)
-{
-	int		idx;
-	int		status;
-	int		exit_status;
-	pid_t	pid;
-
-	idx = 0;
-	exit_status = -1;
-	while (idx < size)
-	{
-		pid = wait(&status);
-		if (pid == last_pid)
-		{
-			if (WIFEXITED(status))
-				exit_status = WEXITSTATUS(status);
-			else if (WIFSIGNALED(status))
-				exit_status = WTERMSIG(status) + 128;
-		}
-		++idx;
-	}
-	return (exit_status);
-}
-
-void	set_exit_status(int status)
+static void	set_exit_status(int status)
 {
 	char	*status_str;
 
@@ -63,7 +41,7 @@ void	set_exit_status(int status)
 	}
 }
 
-int	on_execute_fail(sig_t old_sigint, sig_t old_sigquit, int *pipes)
+static int	on_execute_fail(sig_t old_sigint, sig_t old_sigquit, int *pipes)
 {
 	if (pipes != NULL)
 		free(pipes);
@@ -73,19 +51,10 @@ int	on_execute_fail(sig_t old_sigint, sig_t old_sigquit, int *pipes)
 	return (-1);
 }
 
-int	fork_n_execute_loop(t_command *commands, int *pipes, int size)
+static void	sigint_nl(int signo)
 {
-	int	idx;
-	int	last_pid;
-
-	idx = -1;
-	while (++idx < size)
-	{
-		last_pid = fork_n_execute(commands, pipes, idx, size);
-		if (last_pid < 0)
-			return (-1);
-	}
-	return (wait_all(size, last_pid));
+	if (signo == SIGINT)
+		printf("\n");
 }
 
 int	execute_commands(t_command *commands, int size)
@@ -94,8 +63,9 @@ int	execute_commands(t_command *commands, int size)
 	int			result;
 	sig_t		signals[2];
 
-	signals[0] = signal(SIGINT, SIG_IGN);
+	signals[0] = signal(SIGINT, sigint_nl);
 	signals[1] = signal(SIGQUIT, SIG_IGN);
+	reset_terminial();
 	if (pipes == NULL)
 		return (on_execute_fail(signals[0], signals[1], pipes));
 	if (size == 1 && is_builtin(commands[0].command[0]))

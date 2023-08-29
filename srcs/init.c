@@ -6,7 +6,7 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 18:51:52 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/23 15:41:41 by bena             ###   ########.fr       */
+/*   Updated: 2023/08/29 19:59:55 by dowon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,18 @@ static int	initialize_terminial(void)
 	if (tcsetattr(STDIN_FILENO, TCSANOW, &term))
 		return (-1);
 	return (0);
+}
+
+void	reset_terminial(void)
+{
+	struct termios	term;
+
+	if (tcgetattr(STDIN_FILENO, &term))
+		return ;
+	term.c_lflag |= ECHOCTL;
+	if (tcsetattr(STDIN_FILENO, TCSANOW, &term))
+		return ;
+	return ;
 }
 
 static int	initialize_environment(char **envp)

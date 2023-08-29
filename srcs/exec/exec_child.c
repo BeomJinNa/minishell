@@ -6,7 +6,7 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 20:24:11 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/29 16:27:09 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/29 20:08:08 by dowon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,10 @@
 static int	execute_child(t_command command, int *pipes, int idx);
 static void	exec_command(char **command);
 char		**get_envp(t_hashtable *hash, int ignore_null);
+void		reset_terminial(void);
+int			wait_all(int size, int last_pid);
 
-int	fork_n_execute(t_command *commands, int *pipes, int idx, int size)
+static int	fork_n_execute(t_command *commands, int *pipes, int idx, int size)
 {
 	const pid_t	fork_pid = fork();
 
@@ -37,6 +39,7 @@ int	fork_n_execute(t_command *commands, int *pipes, int idx, int size)
 	{
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
+		reset_terminial();
 		if (execute_child(commands[idx], pipes, idx))
 		{
 			clean_pipes(pipes, size);
@@ -101,4 +104,19 @@ static int	execute_child(t_command command, int *pipes, int idx)
 	exec_command(command.command);
 	close_rw_pipes(pipes, idx);
 	return (-1);
+}
+
+int	fork_n_execute_loop(t_command *commands, int *pipes, int size)
+{
+	int	idx;
+	int	last_pid;
+
+	idx = -1;
+	while (++idx < size)
+	{
+		last_pid = fork_n_execute(commands, pipes, idx, size);
+		if (last_pid < 0)
+			return (-1);
+	}
+	return (wait_all(size, last_pid));
 }
