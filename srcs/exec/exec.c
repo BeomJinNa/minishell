@@ -6,7 +6,7 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 21:23:29 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/29 19:02:20 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/29 19:20:48 by dowon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,8 @@ int	fork_n_execute_loop(t_command *commands, int *pipes, int size)
 	while (++idx < size)
 	{
 		last_pid = fork_n_execute(commands, pipes, idx, size);
-		return (-1);
+		if (last_pid < 0)
+			return (-1);
 	}
 	return (wait_all(size, last_pid));
 }
@@ -90,9 +91,7 @@ int	fork_n_execute_loop(t_command *commands, int *pipes, int size)
 int	execute_commands(t_command *commands, int size)
 {
 	int*const	pipes = init_pipes(size);
-	int			idx;
 	int			result;
-	int			last_pid;
 	sig_t		signals[2];
 
 	signals[0] = signal(SIGINT, SIG_IGN);
