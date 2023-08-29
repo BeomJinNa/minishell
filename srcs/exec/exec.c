@@ -6,7 +6,7 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 21:23:29 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/24 22:03:10 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/29 14:50:32 by dowon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,12 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <stdio.h>
-#include <libft.h>
+#include "libft.h"
 #include <sys/wait.h>
 #include <hash.h>
 #include <terminal_parser.h>
 #include "pipe/pipe.h"
 #include "builtins/builtins.h"
-#include <libft.h>
 #include <signal.h>
 
 int	fork_n_execute(t_command *commands, int *pipes, int idx, int size);

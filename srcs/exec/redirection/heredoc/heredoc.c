@@ -6,7 +6,7 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 20:08:37 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/25 18:36:28 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/29 14:49:58 by dowon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 #include <sys/ioctl.h>
 #include <term.h>
 #include <signal.h>
-#include <libft.h>
+#include "libft.h"
 #include "terminal_parser.h"
 
 t_heredoc_status	*heredoc_status(void);

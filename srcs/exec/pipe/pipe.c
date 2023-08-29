@@ -6,14 +6,14 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 16:29:35 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/21 03:56:35 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/29 14:49:58 by dowon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <fcntl.h>
 #include <stdio.h>
-#include <libft.h>
+#include "libft.h"
 #include <sys/wait.h>
 #include "pipe.h"
 

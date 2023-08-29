@@ -6,7 +6,7 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 22:25:17 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/24 21:39:40 by bena             ###   ########.fr       */
+/*   Updated: 2023/08/29 14:49:58 by dowon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <sys/wait.h>
-#include <libft.h>
+#include "libft.h"
 #include "redirection.h"
 #include "heredoc/heredoc.h"
 

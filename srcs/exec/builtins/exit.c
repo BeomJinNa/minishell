@@ -6,13 +6,13 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 02:34:42 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/25 18:22:33 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/29 14:49:38 by dowon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <stdio.h>
-#include <libft.h>
+#include "libft.h"
 #include "builtins.h"
 
 static int	validate_arg(char *str)

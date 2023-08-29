@@ -6,13 +6,13 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 03:52:59 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/24 21:16:14 by bena             ###   ########.fr       */
+/*   Updated: 2023/08/29 14:49:58 by dowon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "hash.h"
 #include <stdio.h>
-#include <libft.h>
+#include "libft.h"
 
 int	is_this_valid_name(char *str, int size);
 int	is_this_variable_character(char c, int allow_number);
