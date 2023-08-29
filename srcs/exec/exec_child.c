@@ -6,7 +6,7 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 20:24:11 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/29 14:59:37 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/29 16:27:09 by dowon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,12 @@ int	fork_n_execute(t_command *commands, int *pipes, int idx, int size)
 			exit(1);
 		}
 	}
-	else if (close_rw_pipes(pipes, idx))
+	if (close_rw_pipes(pipes, idx))
 	{
 		clean_pipes(pipes, size);
-		return (-1);
+		return (1);
 	}
-	return (0);
+	return (fork_pid);
 }
 
 static int	is_path_included(char *str)
