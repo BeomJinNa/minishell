@@ -6,7 +6,7 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 22:43:42 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/29 16:37:33 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/29 19:12:51 by dowon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,18 @@
 #include "libft.h"
 #include <unistd.h>
 #include <stdio.h>
+
+static void	set_pwd(void)
+{
+	char	*pwd;
+
+	pwd = getcwd(NULL, 0);
+	if (pwd != NULL)
+	{
+		hashtable_addkey("PWD", pwd, get_hashtable(0));
+		free(pwd);
+	}
+}
 
 int	builtin_cd(char **args)
 {
@@ -32,16 +44,6 @@ int	builtin_cd(char **args)
 		printf("%s: No such file or directory\n", args[0]);
 		return (1);
 	}
-	if (buffer != NULL)
-	{
-		hashtable_addkey("OLDPWD", buffer, get_hashtable(0));
-		free(buffer);
-	}
-	buffer = getcwd(NULL, 0);
-	if (buffer != NULL)
-	{
-		hashtable_addkey("PWD", buffer, get_hashtable(0));
-		free(buffer);
-	}
+	set_pwd();
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 21:23:29 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/29 16:29:39 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/29 19:02:20 by dowon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,20 @@ int	on_execute_fail(sig_t old_sigint, sig_t old_sigquit, int *pipes)
 	return (-1);
 }
 
+int	fork_n_execute_loop(t_command *commands, int *pipes, int size)
+{
+	int	idx;
+	int	last_pid;
+
+	idx = -1;
+	while (++idx < size)
+	{
+		last_pid = fork_n_execute(commands, pipes, idx, size);
+		return (-1);
+	}
+	return (wait_all(size, last_pid));
+}
+
 int	execute_commands(t_command *commands, int size)
 {
 	int*const	pipes = init_pipes(size);
@@ -89,14 +103,9 @@ int	execute_commands(t_command *commands, int size)
 		result = run_single_builtin(commands, pipes);
 	else
 	{
-		idx = -1;
-		while (++idx < size)
-		{
-			last_pid = fork_n_execute(commands, pipes, idx, size);
-			if (last_pid < 0)
-				return (on_execute_fail(signals[0], signals[1], pipes));
-		}
-		result = wait_all(size, last_pid);
+		result = fork_n_execute_loop(commands, pipes, size);
+		if (result < 0)
+			return (on_execute_fail(signals[0], signals[1], pipes));
 	}
 	free(pipes);
 	set_exit_status(result);
