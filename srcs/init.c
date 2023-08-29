@@ -6,7 +6,7 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 18:51:52 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/29 19:59:55 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/29 20:28:51 by bena             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,5 +89,6 @@ static int	initialize_environment(char **envp)
 		}
 	}
 	hashtable_addkey("?", "0", hash);
+	hashtable_removekey("OLDPWD", hash);
 	return (0);
 }
