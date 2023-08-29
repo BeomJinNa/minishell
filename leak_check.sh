@@ -6,6 +6,6 @@ if [ $# -ne 1 ]; then
 fi   
 
 while [ true ]; do
-	leaks $1
+	leaks $1 | grep "total leaked bytes."
 	sleep 1
 done
