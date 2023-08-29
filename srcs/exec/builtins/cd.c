@@ -6,7 +6,7 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 22:43:42 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/29 19:12:51 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/29 20:24:33 by dowon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,11 @@ int	builtin_cd(char **args)
 	{
 		printf("%s: No such file or directory\n", args[0]);
 		return (1);
+	}
+	if (buffer != NULL)
+	{
+		hashtable_addkey("OLDPWD", buffer, get_hashtable(0));
+		free(buffer);
 	}
 	set_pwd();
 	return (0);
