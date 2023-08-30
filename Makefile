@@ -2,7 +2,7 @@
 
 CC			= cc
 
-COMMONFLAGS	=
+COMMONFLAGS	= -g
 
 CFLAGS		= $(COMMONFLAGS) -Wall -Wextra -Werror
 
@@ -51,6 +51,8 @@ SRCS	= srcs/main.c \
 		  srcs/exec/pipe/pipe.c \
 		  srcs/exec/redirection/close.c \
 		  srcs/exec/redirection/heredoc/heredoc.c \
+		  srcs/exec/redirection/heredoc/heredoc_env.c \
+		  srcs/exec/redirection/heredoc/heredoc_preprocess.c \
 		  srcs/exec/redirection/heredoc/heredoc_status.c \
 		  srcs/exec/redirection/open.c \
 		  srcs/exec/redirection/open_redirection.c \
@@ -126,6 +128,10 @@ $(READLINE) :
 
 %.o : %.c
 	$(CC) $(CFLAGS) -c $< -o $@ $(foreach include, $(INCLUDE), -I$(include))
+
+.PHONY: oclean
+oclean:
+	rm -f $(OBJS)
 
 .PHONY: clean
 clean :
