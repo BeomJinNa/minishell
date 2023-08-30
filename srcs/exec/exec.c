@@ -6,7 +6,7 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 21:23:29 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/30 22:45:40 by bena             ###   ########.fr       */
+/*   Updated: 2023/08/30 23:04:15 by dowon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,19 @@ static void	set_exit_status(int status)
 	}
 }
 
-static int	on_execute_fail(sig_t old_sigint, sig_t old_sigquit, int *pipes)
+static int	on_execute_fail(sig_t old_sigint, sig_t old_sigquit,
+	int *pipes, int reset_terminal)
 {
 	if (pipes != NULL)
 		free(pipes);
 	set_exit_status(1);
-	signal(SIGINT, old_sigint);
-	signal(SIGQUIT, old_sigquit);
+	if (reset_terminal)
+		disable_echoctl();
+	if (old_sigint != NULL)
+		signal(SIGINT, old_sigint);
+	if (old_sigquit != NULL)
+		signal(SIGQUIT, old_sigquit);
+	clean_heredoc();
 	return (-1);
 }
 
@@ -67,30 +73,21 @@ int	execute_commands(t_command *commands, int size)
 	sig_t		signals[2];
 
 	if (preprocess_heredoc(commands, size))
-	{
-		set_exit_status(1);
-		clean_pipes(pipes, size);
-		clean_heredoc();
-		return (1);
-	}
+		return (on_execute_fail(NULL, NULL, pipes, 0));
 	signals[0] = signal(SIGINT, sigint_nl);
 	signals[1] = signal(SIGQUIT, SIG_IGN);
 	enable_echoctl();
 	if (pipes == NULL)
-		return (on_execute_fail(signals[0], signals[1], pipes));
+		return (on_execute_fail(signals[0], signals[1], pipes, 1));
 	if (size == 1 && is_builtin(commands[0].command[0]))
 		result = run_single_builtin(commands, pipes);
 	else
 	{
 		result = fork_n_execute_loop(commands, pipes, size);
 		if (result < 0)
-			return (on_execute_fail(signals[0], signals[1], pipes));
+			return (on_execute_fail(signals[0], signals[1], pipes, 1));
 	}
-	free(pipes);
-	clean_heredoc();
 	set_exit_status(result);
-	disable_echoctl();
-	signal(SIGINT, signals[0]);
-	signal(SIGQUIT, signals[1]);
+	on_execute_fail(signals[0], signals[1], pipes, 1);
 	return (result);
 }
