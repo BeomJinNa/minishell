@@ -6,11 +6,10 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 15:56:59 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/30 16:41:22 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/30 22:52:03 by bena             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
 #include <unistd.h>
 #include <sys/file.h>
 #include "libft.h"
@@ -21,7 +20,7 @@ void	heredoc_cnt_increase(void);
 void	heredoc_cnt_decrease(void);
 int		heredoc_cnt_get(void);
 
-static char *generate_heredoc_filename(void)
+static char	*generate_heredoc_filename(void)
 {
 	char	*filename;
 	char	*num_str;
@@ -94,13 +93,6 @@ static int	preprocess(char **redir)
 	return (0);
 }
 
-/*
-	redir = { // char ***
-		{ "<", "infile" }, // char **
-		{ "<<", "heredoc" },
-		NULL
-	}
-*/
 int	preprocess_heredoc(t_command *commands, int size)
 {
 	int		idx;

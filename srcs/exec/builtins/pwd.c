@@ -6,15 +6,15 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 22:48:57 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/30 22:05:39 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/30 22:45:15 by bena             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include "hash.h"
 #include <unistd.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <sys/errno.h>
+#include "hash.h"
 
 int	builtin_pwd(char **args)
 {

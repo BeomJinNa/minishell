@@ -6,12 +6,12 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 03:52:59 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/29 14:49:58 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/30 22:45:01 by bena             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "hash.h"
 #include <stdio.h>
+#include "hash.h"
 #include "libft.h"
 
 int	is_this_valid_name(char *str, int size);
@@ -42,7 +42,7 @@ void	print_hashtable(t_hashtable	*hash, char **keys,
 	const char *prefix, const char *wrapper)
 {
 	char			*value;
-	size_t			idx;	
+	size_t			idx;
 
 	idx = 0;
 	if (hash == NULL || keys == NULL)

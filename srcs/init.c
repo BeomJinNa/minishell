@@ -6,7 +6,7 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 18:51:52 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/30 22:31:41 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/30 22:49:50 by bena             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "readline/readline.h"
-#include "readline/history.h"
 #include "hash.h"
 
 static int	initialize_environment(char **envp);

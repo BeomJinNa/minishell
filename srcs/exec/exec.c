@@ -6,23 +6,22 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 21:23:29 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/30 22:32:24 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/30 22:45:40 by bena             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
 #include <unistd.h>
 #include <fcntl.h>
 #include <stdio.h>
-#include "libft.h"
 #include <sys/wait.h>
 #include <hash.h>
 #include <terminal_parser.h>
+#include <signal.h>
+#include <term.h>
+#include "libft.h"
 #include "pipe/pipe.h"
 #include "builtins/builtins.h"
 #include "redirection/heredoc/heredoc.h"
-#include <signal.h>
-#include <term.h>
 
 int		fork_n_execute(t_command *commands, int *pipes, int idx, int size);
 int		run_single_builtin(t_command *commands, int *pipes);

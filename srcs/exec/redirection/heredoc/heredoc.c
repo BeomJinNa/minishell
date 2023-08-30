@@ -6,7 +6,7 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 20:08:37 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/30 22:40:52 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/30 22:48:03 by bena             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #include <stdio.h>
 #include <unistd.h>
 #include "readline/readline.h"
-#include "readline/history.h"
 #include "libft.h"
 #include "heredoc.h"
 #include <sys/ioctl.h>

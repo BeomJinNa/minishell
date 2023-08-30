@@ -2,7 +2,7 @@
 
 CC			= cc
 
-COMMONFLAGS	= -g
+COMMONFLAGS	=
 
 CFLAGS		= $(COMMONFLAGS) -Wall -Wextra -Werror
 
@@ -32,7 +32,6 @@ READLINE	= readline-8.2/.configured
 
 SRCS	= srcs/main.c \
 		  srcs/cmp.c \
-		  srcs/terminal.c \
 		  srcs/exec/builtins/builtins.c \
 		  srcs/exec/builtins/cd.c \
 		  srcs/exec/builtins/count_args.c \
@@ -45,7 +44,6 @@ SRCS	= srcs/main.c \
 		  srcs/exec/builtins/unset.c \
 		  srcs/exec/exec.c \
 		  srcs/exec/exec_child.c \
-		  srcs/exec/wait_child.c \
 		  srcs/exec/exec_single_builtin.c \
 		  srcs/exec/pipe/dup_pipes.c \
 		  srcs/exec/pipe/get_executable_path.c \
@@ -57,6 +55,7 @@ SRCS	= srcs/main.c \
 		  srcs/exec/redirection/heredoc/heredoc_status.c \
 		  srcs/exec/redirection/open.c \
 		  srcs/exec/redirection/open_redirection.c \
+		  srcs/exec/wait_child.c \
 		  srcs/get_envp.c \
 		  srcs/get_keys.c \
 		  srcs/hashmap/addkey.c \
@@ -71,10 +70,12 @@ SRCS	= srcs/main.c \
 		  srcs/hashmap/remove_hashtable.c \
 		  srcs/hashmap/removekey.c \
 		  srcs/init.c \
+		  srcs/is_str_long_long_format.c \
 		  srcs/main_utils/alloc_command_structs.c \
 		  srcs/main_utils/convert_envp_to_hash.c \
 		  srcs/main_utils/init_command_structs.c \
 		  srcs/sort_memory.c \
+		  srcs/terminal.c \
 		  srcs/terminal_parser/are_any_syntax_errors_in_pipe.c \
 		  srcs/terminal_parser/convert_tokens_to_board.c \
 		  srcs/terminal_parser/get_tokenized_array.c \
