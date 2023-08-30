@@ -6,7 +6,7 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 21:23:29 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/30 19:41:38 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/30 20:31:51 by dowon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,8 @@ int	execute_commands(t_command *commands, int size)
 	if (preprocess_heredoc(commands, size))
 	{
 		set_exit_status(1);
-		close_rw_pipes(pipes, 0);
+		clean_pipes(pipes, size);
+		clean_heredoc();
 		return (1);
 	}
 	signals[0] = signal(SIGINT, sigint_nl);

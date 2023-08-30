@@ -6,7 +6,7 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 22:43:42 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/29 20:24:33 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/30 20:17:48 by dowon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ int	builtin_cd(char **args)
 	if (chdir(args[0]) == -1)
 	{
 		printf("%s: No such file or directory\n", args[0]);
+		if (buffer)
+			free(buffer);
 		return (1);
 	}
 	if (buffer != NULL)
