@@ -6,7 +6,7 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 21:23:29 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/30 23:04:15 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/30 23:12:17 by dowon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int	execute_commands(t_command *commands, int size)
 		if (result < 0)
 			return (on_execute_fail(signals[0], signals[1], pipes, 1));
 	}
-	set_exit_status(result);
 	on_execute_fail(signals[0], signals[1], pipes, 1);
+	set_exit_status(result);
 	return (result);
 }
