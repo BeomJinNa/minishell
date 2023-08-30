@@ -6,7 +6,7 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 20:24:11 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/30 21:42:36 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/30 22:24:15 by dowon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 static int	execute_child(t_command command, int *pipes, int idx, int size);
 static void	exec_command(char **command);
 char		**get_envp(t_hashtable *hash, int ignore_null);
-void		reset_terminial(void);
+void		enable_echoctl(void);
 int			wait_all(int size, int last_pid);
 
 static int	fork_n_execute(t_command *commands, int *pipes, int idx, int size)
@@ -39,7 +39,7 @@ static int	fork_n_execute(t_command *commands, int *pipes, int idx, int size)
 	{
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
-		reset_terminial();
+		enable_echoctl();
 		if (execute_child(commands[idx], pipes, idx, size))
 		{
 			clean_pipes(pipes, size);

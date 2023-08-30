@@ -32,6 +32,7 @@ READLINE	= readline-8.2/.configured
 
 SRCS	= srcs/main.c \
 		  srcs/cmp.c \
+		  srcs/terminal.c \
 		  srcs/exec/builtins/builtins.c \
 		  srcs/exec/builtins/cd.c \
 		  srcs/exec/builtins/count_args.c \

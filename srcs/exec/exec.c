@@ -6,7 +6,7 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 21:23:29 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/30 20:31:51 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/30 22:32:24 by dowon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,14 @@
 #include "builtins/builtins.h"
 #include "redirection/heredoc/heredoc.h"
 #include <signal.h>
+#include <term.h>
 
 int		fork_n_execute(t_command *commands, int *pipes, int idx, int size);
 int		run_single_builtin(t_command *commands, int *pipes);
-void	reset_terminial(void);
 int		fork_n_execute_loop(t_command *commands, int *pipes, int size);
 int		heredoc(char *filename, char *delimiter);
+void	disable_echoctl(void);
+void	enable_echoctl(void);
 
 static void	set_exit_status(int status)
 {
@@ -74,7 +76,7 @@ int	execute_commands(t_command *commands, int size)
 	}
 	signals[0] = signal(SIGINT, sigint_nl);
 	signals[1] = signal(SIGQUIT, SIG_IGN);
-	reset_terminial();
+	enable_echoctl();
 	if (pipes == NULL)
 		return (on_execute_fail(signals[0], signals[1], pipes));
 	if (size == 1 && is_builtin(commands[0].command[0]))
@@ -88,6 +90,7 @@ int	execute_commands(t_command *commands, int size)
 	free(pipes);
 	clean_heredoc();
 	set_exit_status(result);
+	disable_echoctl();
 	signal(SIGINT, signals[0]);
 	signal(SIGQUIT, signals[1]);
 	return (result);

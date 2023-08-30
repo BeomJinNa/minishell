@@ -6,7 +6,7 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 22:43:42 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/30 20:17:48 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/30 21:50:42 by dowon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ static void	set_pwd(void)
 	pwd = getcwd(NULL, 0);
 	if (pwd != NULL)
 	{
+		hashtable_addkey("?pwd", pwd, get_hashtable(0));
 		hashtable_addkey("PWD", pwd, get_hashtable(0));
 		free(pwd);
 	}

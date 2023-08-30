@@ -6,7 +6,7 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 18:51:52 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/30 15:54:55 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/30 22:31:41 by dowon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <unistd.h>
 #include <signal.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include "readline/readline.h"
 #include "readline/history.h"
 #include "hash.h"
@@ -22,6 +23,7 @@ static int	initialize_environment(char **envp);
 static int	initialize_terminial(void);
 static void	signal_handler(int signo);
 int			convert_envp_to_hash(char *row, t_hashtable *hash);
+void		disable_echoctl(void);
 
 int	initialize_settings(char **envp)
 {
@@ -45,28 +47,32 @@ static void	signal_handler(int signo)
 
 static int	initialize_terminial(void)
 {
-	struct termios	term;
-
 	signal(SIGINT, signal_handler);
 	signal(SIGQUIT, SIG_IGN);
-	if (tcgetattr(STDIN_FILENO, &term))
-		return (-1);
-	term.c_lflag &= ~ECHOCTL;
-	if (tcsetattr(STDIN_FILENO, TCSANOW, &term))
-		return (-1);
+	disable_echoctl();
 	return (0);
 }
 
-void	reset_terminial(void)
+static void	set_secret_envs(void)
 {
-	struct termios	term;
+	char*const			directory = getcwd(NULL, 0);
+	t_hashtable*const	hash = get_hashtable(0);
 
-	if (tcgetattr(STDIN_FILENO, &term))
-		return ;
-	term.c_lflag |= ECHOCTL;
-	if (tcsetattr(STDIN_FILENO, TCSANOW, &term))
-		return ;
-	return ;
+	hashtable_addkey("?", "0", hash);
+	hashtable_removekey("OLDPWD", hash);
+	hashtable_addkey("?heredoc_cnt", "0", hash);
+	if (directory == NULL)
+	{
+		if (hashtable_get("PWD", hash) == NULL)
+			hashtable_addkey("?pwd", "", hash);
+		else
+			hashtable_addkey("?pwd", hashtable_get("PWD", hash), hash);
+	}
+	else
+	{
+		hashtable_addkey("?pwd", directory, hash);
+		free(directory);
+	}
 }
 
 static int	initialize_environment(char **envp)
@@ -88,8 +94,6 @@ static int	initialize_environment(char **envp)
 			return (-1);
 		}
 	}
-	hashtable_addkey("?", "0", hash);
-	hashtable_removekey("OLDPWD", hash);
-	hashtable_addkey("?heredoc_cnt", "0", hash);
+	set_secret_envs();
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/30 22:23:11 by bena              #+#    #+#             */
-/*   Updated: 2023/08/30 20:29:37 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/30 22:28:56 by dowon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,12 @@ static void	print_error(int error_code);
 
 int	main(int argc, char **argv, char **envp)
 {
-	int	exit_status;
+	int				exit_status;
+	struct termios	term;
 
 	(void)argc;
 	(void)argv;
+	tcgetattr(STDIN_FILENO, &term);
 	if (initialize_settings(envp))
 	{
 		perror(NULL);
@@ -48,13 +50,14 @@ int	main(int argc, char **argv, char **envp)
 	printf("exit\n");
 	exit_status = ft_atoi(hashtable_get("?", get_hashtable(0)));
 	remove_hashtable(get_hashtable(0));
+	tcsetattr(STDIN_FILENO, TCSANOW, &term);
 	return (exit_status);
 }
 
 static void	shell_loop(void)
 {
-	char	*str;
-	int		error;
+	char			*str;
+	int				error;
 
 	str = readline("minishell$ ");
 	while (str != NULL)

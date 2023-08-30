@@ -1,35 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   terminal.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/21 22:48:57 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/30 22:05:39 by dowon            ###   ########.fr       */
+/*   Created: 2023/08/30 22:30:56 by dowon             #+#    #+#             */
+/*   Updated: 2023/08/30 22:33:33 by dowon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include "hash.h"
+#include <term.h>
 #include <unistd.h>
-#include <stdio.h>
-#include <sys/errno.h>
 
-int	builtin_pwd(char **args)
+void	enable_echoctl(void)
 {
-	char	*buffer;
+	struct termios	term;
 
-	(void)args;
-	buffer = getcwd(NULL, 0);
-	if (errno && errno != ENOENT)
-	{
-		if (buffer != NULL)
-			free(buffer);
-		return (1);
-	}
-	if (buffer != NULL)
-		free(buffer);
-	printf("%s\n", hashtable_get("?pwd", get_hashtable(0)));
-	return (0);
+	tcgetattr(STDIN_FILENO, &term);
+	term.c_lflag |= ECHOCTL;
+	tcsetattr(STDIN_FILENO, TCSANOW, &term);
+}
+
+void	disable_echoctl(void)
+{
+	struct termios	term;
+
+	tcgetattr(STDIN_FILENO, &term);
+	term.c_lflag &= ~ECHOCTL;
+	tcsetattr(STDIN_FILENO, TCSANOW, &term);
 }
