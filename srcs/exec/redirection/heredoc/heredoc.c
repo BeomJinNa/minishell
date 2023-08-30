@@ -6,7 +6,7 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 20:08:37 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/30 13:46:00 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/30 19:56:18 by dowon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ int	heredoc(char *filename, char *delimiter)
 
 	old_sigint = signal(SIGINT, signal_handler_heredoc);
 	old_sigquit = signal(SIGQUIT, SIG_IGN);
+	*heredoc_status() = heredoc_ok;
 	result = execute_heredoc(filename, delimiter);
 	signal(SIGINT, old_sigint);
 	signal(SIGQUIT, old_sigquit);
