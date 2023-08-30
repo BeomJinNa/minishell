@@ -6,7 +6,7 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 20:08:37 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/29 14:49:58 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/30 13:46:00 by dowon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,10 @@ static void	read_n_put_heredoc(char *delimiter, int file_fd)
 
 	while (1)
 	{
+		printf("\033[s");
 		line = readline("> ");
 		if (line == NULL)
-			printf("\033[1A\033[2C");
+			printf("\033[u");
 		if (line == NULL || *heredoc_status() == heredoc_terminate
 			|| ft_strncmp(line, delimiter, delimiter_len + 1) == 0)
 			break ;
