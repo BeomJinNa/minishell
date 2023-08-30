@@ -6,7 +6,7 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 21:23:29 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/29 20:08:31 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/30 19:41:38 by dowon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,14 @@
 #include <terminal_parser.h>
 #include "pipe/pipe.h"
 #include "builtins/builtins.h"
+#include "redirection/heredoc/heredoc.h"
 #include <signal.h>
 
 int		fork_n_execute(t_command *commands, int *pipes, int idx, int size);
 int		run_single_builtin(t_command *commands, int *pipes);
 void	reset_terminial(void);
 int		fork_n_execute_loop(t_command *commands, int *pipes, int size);
+int		heredoc(char *filename, char *delimiter);
 
 static void	set_exit_status(int status)
 {
@@ -63,6 +65,12 @@ int	execute_commands(t_command *commands, int size)
 	int			result;
 	sig_t		signals[2];
 
+	if (preprocess_heredoc(commands, size))
+	{
+		set_exit_status(1);
+		close_rw_pipes(pipes, 0);
+		return (1);
+	}
 	signals[0] = signal(SIGINT, sigint_nl);
 	signals[1] = signal(SIGQUIT, SIG_IGN);
 	reset_terminial();
@@ -77,6 +85,7 @@ int	execute_commands(t_command *commands, int size)
 			return (on_execute_fail(signals[0], signals[1], pipes));
 	}
 	free(pipes);
+	clean_heredoc();
 	set_exit_status(result);
 	signal(SIGINT, signals[0]);
 	signal(SIGQUIT, signals[1]);

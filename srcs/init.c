@@ -6,7 +6,7 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 18:51:52 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/29 20:28:51 by bena             ###   ########.fr       */
+/*   Updated: 2023/08/30 15:54:55 by dowon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,5 +90,6 @@ static int	initialize_environment(char **envp)
 	}
 	hashtable_addkey("?", "0", hash);
 	hashtable_removekey("OLDPWD", hash);
+	hashtable_addkey("?heredoc_cnt", "0", hash);
 	return (0);
 }
