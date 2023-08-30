@@ -6,7 +6,7 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/30 22:23:11 by bena              #+#    #+#             */
-/*   Updated: 2023/08/24 20:52:28 by bena             ###   ########.fr       */
+/*   Updated: 2023/08/30 20:29:37 by dowon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 #include "terminal_parser.h"
 #include "hash.h"
 #include "e_main_errors.h"
+#include "libft.h"
 
 int			get_command_structs(t_command **buffer_ptr, char *str);
 int			flush_command_structs(int return_value,
@@ -34,6 +35,8 @@ static void	print_error(int error_code);
 
 int	main(int argc, char **argv, char **envp)
 {
+	int	exit_status;
+
 	(void)argc;
 	(void)argv;
 	if (initialize_settings(envp))
@@ -43,8 +46,9 @@ int	main(int argc, char **argv, char **envp)
 	}
 	shell_loop();
 	printf("exit\n");
+	exit_status = ft_atoi(hashtable_get("?", get_hashtable(0)));
 	remove_hashtable(get_hashtable(0));
-	return (0);
+	return (exit_status);
 }
 
 static void	shell_loop(void)
