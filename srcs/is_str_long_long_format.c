@@ -6,7 +6,7 @@
 /*   By: bena <bena@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 05:47:21 by bena              #+#    #+#             */
-/*   Updated: 2023/08/29 05:59:00 by bena             ###   ########.fr       */
+/*   Updated: 2023/08/30 23:06:06 by bena             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ static int	is_value_over_long_long_range(const char *str);
 
 int	is_str_long_long_format(const char *str)
 {
-	const char	*ptr;
 	int			digits;
 
 	if (does_str_have_wrong_character(str))
