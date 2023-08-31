@@ -31,6 +31,7 @@ READLINE	= readline-8.2/.configured
 #sources=======================================================================
 
 SRCS	= srcs/main.c \
+		  srcs/add_shlvl.c \
 		  srcs/cmp.c \
 		  srcs/exec/builtins/builtins.c \
 		  srcs/exec/builtins/cd.c \
@@ -70,6 +71,7 @@ SRCS	= srcs/main.c \
 		  srcs/hashmap/remove_hashtable.c \
 		  srcs/hashmap/removekey.c \
 		  srcs/init.c \
+		  srcs/is_str_int_format.c \
 		  srcs/is_str_long_long_format.c \
 		  srcs/main_utils/alloc_command_structs.c \
 		  srcs/main_utils/convert_envp_to_hash.c \

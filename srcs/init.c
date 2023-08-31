@@ -6,7 +6,7 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 18:51:52 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/30 22:49:50 by bena             ###   ########.fr       */
+/*   Updated: 2023/08/31 17:19:48 by bena             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ static int	initialize_terminial(void);
 static void	signal_handler(int signo);
 int			convert_envp_to_hash(char *row, t_hashtable *hash);
 void		disable_echoctl(void);
+int			add_shlvl(t_hashtable *hash);
 
 int	initialize_settings(char **envp)
 {
@@ -94,5 +95,6 @@ static int	initialize_environment(char **envp)
 		}
 	}
 	set_secret_envs();
+	add_shlvl(hash);
 	return (0);
 }
