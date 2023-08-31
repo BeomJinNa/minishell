@@ -6,7 +6,7 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 03:52:59 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/30 22:45:01 by bena             ###   ########.fr       */
+/*   Updated: 2023/08/31 18:02:05 by dowon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ int	check_valid_identifier(char *str)
 	else
 		length = ft_strchr(str, '=') - str;
 	token = ft_strdup(str);
-	token[length] = '\0';
 	if (token == NULL)
 		return (-1);
+	token[length] = '\0';
 	result = is_this_variable_character(*token, 0)
 		& is_this_valid_name(token, length);
 	free(token);

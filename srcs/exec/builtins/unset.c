@@ -6,7 +6,7 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 04:10:06 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/30 22:45:19 by bena             ###   ########.fr       */
+/*   Updated: 2023/08/31 18:01:58 by dowon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 static int	unset_variable(char *str)
 {
-	if (check_valid_identifier(str))
+	if (!check_valid_identifier(str))
 	{
 		printf("unset: `%s`: not a valid identifier", str);
 		return (1);
