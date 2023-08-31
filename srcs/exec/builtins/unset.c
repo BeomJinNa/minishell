@@ -6,7 +6,7 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 04:10:06 by dowon             #+#    #+#             */
-/*   Updated: 2023/08/31 18:01:58 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/31 18:02:52 by dowon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static int	unset_variable(char *str)
 {
 	if (!check_valid_identifier(str))
 	{
-		printf("unset: `%s`: not a valid identifier", str);
+		printf("unset: `%s`: not a valid identifier\n", str);
 		return (1);
 	}
 	hashtable_removekey(str, get_hashtable(0));
