@@ -6,7 +6,7 @@
 /*   By: dowon <dowon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/30 22:23:11 by bena              #+#    #+#             */
-/*   Updated: 2023/08/30 22:28:56 by dowon            ###   ########.fr       */
+/*   Updated: 2023/08/31 18:32:48 by bena             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,8 @@ static int	get_converted_error_number(int error_code, int module)
 
 static void	print_error(int error_code)
 {
+	t_hashtable *const	hash = get_hashtable(0);
+
 	if (error_code == M_CALL_PERROR)
 		perror(NULL);
 	else if (error_code == M_ERROR_MALLOC_FAIL)
@@ -119,4 +121,9 @@ static void	print_error(int error_code)
 		write(2, "Syntax error near quotes.\n", 26);
 	else if (error_code == M_ERROR_SYNTAX_PIPE)
 		write(2, "Syntax error near '|'.\n", 23);
+	if (error_code == M_ERROR_SYNTAX_REDIRECTION
+		|| error_code == M_ERROR_SYNTAX_ENV_VARIABLE
+		|| error_code == M_ERROR_SYNTAX_QUOTE
+		|| error_code == M_ERROR_SYNTAX_PIPE)
+		hashtable_addkey("?", "258", hash);
 }
